@@ -7,6 +7,8 @@ part 'home_model.freezed.dart';
 class HomeModel with _$HomeModel {
   factory HomeModel.loading() = HomeModelLoading;
   factory HomeModel.data({
+    required int activeCollection,
+    required int activeExercise,
     required List<HomeModelCollection> collections,
   }) = HomeModelData;
   factory HomeModel.error({

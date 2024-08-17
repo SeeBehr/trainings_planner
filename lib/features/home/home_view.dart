@@ -10,14 +10,11 @@ class HomeView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: BlocBuilder<HomeController, HomeModel>(
-        buildWhen: (previous, current) =>
-            previous.runtimeType != current.runtimeType,
         builder: (context, state) => state.map(
           loading: (_) => const Center(
             child: CircularProgressIndicator(),
           ),
-          data: (collections) =>
-              HomeViewData(collections: collections.collections),
+          data: (collections) => HomeViewData(collections: collections),
           error: (error) => Center(
             child: Text(error.toString()),
           ),
