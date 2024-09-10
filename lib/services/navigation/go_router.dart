@@ -13,9 +13,9 @@ class GoRouterNavigationService implements NavigationService {
   void goBack() => _router.canPop() ? _router.pop() : null;
 
   @override
-  void openExercise({required String id}) {
-    debugPrint('openExercise: $id');
-    _router.push('/editExercise/$id');
+  void openExercise() {
+    debugPrint('openExercise');
+    _router.push('/editExercise');
   }
 }
 
@@ -27,15 +27,13 @@ final goRouter = GoRouter(
       builder: (context, state) => const HomeView(),
     ),
     GoRoute(
-      path: '/editExercise/:id',
+      path: '/editExercise',
       builder: (context, state) {
-        final id = state.pathParameters['id'];
         debugPrint('openExercise: id');
         return BlocProvider<EditExerciseController>(
           create: (_) => EditExerciseController(
             navigationService: context.read<NavigationService>(),
             dataRepository: context.read<DataRepository>(),
-            id: id,
           ),
           child: const EditExerciseView(),
         );

@@ -17,63 +17,69 @@ final _privateConstructorUsedError = UnsupportedError(
 /// @nodoc
 mixin _$EditExerciseModel {
   @optionalTypeArgs
-  TResult when<TResult extends Object?>(
-    TResult Function(
+  TResult when<TResult extends Object?>({
+    required TResult Function(
             String id,
             String name,
-            String description,
+            String? description,
             List<String> material,
             String? image,
             int difficulty,
             bool inTraining)
-        $default, {
+        data,
+    required TResult Function() loading,
     required TResult Function() empty,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
-  TResult? whenOrNull<TResult extends Object?>(
+  TResult? whenOrNull<TResult extends Object?>({
     TResult? Function(
             String id,
             String name,
-            String description,
+            String? description,
             List<String> material,
             String? image,
             int difficulty,
             bool inTraining)?
-        $default, {
+        data,
+    TResult? Function()? loading,
     TResult? Function()? empty,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
-  TResult maybeWhen<TResult extends Object?>(
+  TResult maybeWhen<TResult extends Object?>({
     TResult Function(
             String id,
             String name,
-            String description,
+            String? description,
             List<String> material,
             String? image,
             int difficulty,
             bool inTraining)?
-        $default, {
+        data,
+    TResult Function()? loading,
     TResult Function()? empty,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
-  TResult map<TResult extends Object?>(
-    TResult Function(_EditExerciseModel value) $default, {
+  TResult map<TResult extends Object?>({
+    required TResult Function(_EditExerciseModelData value) data,
+    required TResult Function(_EditExerciseModelLoading value) loading,
     required TResult Function(_EditExerciseModelEmpty value) empty,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
-  TResult? mapOrNull<TResult extends Object?>(
-    TResult? Function(_EditExerciseModel value)? $default, {
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(_EditExerciseModelData value)? data,
+    TResult? Function(_EditExerciseModelLoading value)? loading,
     TResult? Function(_EditExerciseModelEmpty value)? empty,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
-  TResult maybeMap<TResult extends Object?>(
-    TResult Function(_EditExerciseModel value)? $default, {
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(_EditExerciseModelData value)? data,
+    TResult Function(_EditExerciseModelLoading value)? loading,
     TResult Function(_EditExerciseModelEmpty value)? empty,
     required TResult orElse(),
   }) =>
@@ -99,15 +105,16 @@ class _$EditExerciseModelCopyWithImpl<$Res, $Val extends EditExerciseModel>
 }
 
 /// @nodoc
-abstract class _$$EditExerciseModelImplCopyWith<$Res> {
-  factory _$$EditExerciseModelImplCopyWith(_$EditExerciseModelImpl value,
-          $Res Function(_$EditExerciseModelImpl) then) =
-      __$$EditExerciseModelImplCopyWithImpl<$Res>;
+abstract class _$$EditExerciseModelDataImplCopyWith<$Res> {
+  factory _$$EditExerciseModelDataImplCopyWith(
+          _$EditExerciseModelDataImpl value,
+          $Res Function(_$EditExerciseModelDataImpl) then) =
+      __$$EditExerciseModelDataImplCopyWithImpl<$Res>;
   @useResult
   $Res call(
       {String id,
       String name,
-      String description,
+      String? description,
       List<String> material,
       String? image,
       int difficulty,
@@ -115,11 +122,11 @@ abstract class _$$EditExerciseModelImplCopyWith<$Res> {
 }
 
 /// @nodoc
-class __$$EditExerciseModelImplCopyWithImpl<$Res>
-    extends _$EditExerciseModelCopyWithImpl<$Res, _$EditExerciseModelImpl>
-    implements _$$EditExerciseModelImplCopyWith<$Res> {
-  __$$EditExerciseModelImplCopyWithImpl(_$EditExerciseModelImpl _value,
-      $Res Function(_$EditExerciseModelImpl) _then)
+class __$$EditExerciseModelDataImplCopyWithImpl<$Res>
+    extends _$EditExerciseModelCopyWithImpl<$Res, _$EditExerciseModelDataImpl>
+    implements _$$EditExerciseModelDataImplCopyWith<$Res> {
+  __$$EditExerciseModelDataImplCopyWithImpl(_$EditExerciseModelDataImpl _value,
+      $Res Function(_$EditExerciseModelDataImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -127,13 +134,13 @@ class __$$EditExerciseModelImplCopyWithImpl<$Res>
   $Res call({
     Object? id = null,
     Object? name = null,
-    Object? description = null,
+    Object? description = freezed,
     Object? material = null,
     Object? image = freezed,
     Object? difficulty = null,
     Object? inTraining = null,
   }) {
-    return _then(_$EditExerciseModelImpl(
+    return _then(_$EditExerciseModelDataImpl(
       id: null == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
@@ -142,10 +149,10 @@ class __$$EditExerciseModelImplCopyWithImpl<$Res>
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
               as String,
-      description: null == description
+      description: freezed == description
           ? _value.description
           : description // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
       material: null == material
           ? _value._material
           : material // ignore: cast_nullable_to_non_nullable
@@ -168,8 +175,8 @@ class __$$EditExerciseModelImplCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$EditExerciseModelImpl implements _EditExerciseModel {
-  _$EditExerciseModelImpl(
+class _$EditExerciseModelDataImpl implements _EditExerciseModelData {
+  _$EditExerciseModelDataImpl(
       {required this.id,
       required this.name,
       required this.description,
@@ -184,7 +191,7 @@ class _$EditExerciseModelImpl implements _EditExerciseModel {
   @override
   final String name;
   @override
-  final String description;
+  final String? description;
   final List<String> _material;
   @override
   List<String> get material {
@@ -202,14 +209,14 @@ class _$EditExerciseModelImpl implements _EditExerciseModel {
 
   @override
   String toString() {
-    return 'EditExerciseModel(id: $id, name: $name, description: $description, material: $material, image: $image, difficulty: $difficulty, inTraining: $inTraining)';
+    return 'EditExerciseModel.data(id: $id, name: $name, description: $description, material: $material, image: $image, difficulty: $difficulty, inTraining: $inTraining)';
   }
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$EditExerciseModelImpl &&
+            other is _$EditExerciseModelDataImpl &&
             (identical(other.id, id) || other.id == id) &&
             (identical(other.name, name) || other.name == name) &&
             (identical(other.description, description) ||
@@ -236,63 +243,65 @@ class _$EditExerciseModelImpl implements _EditExerciseModel {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$EditExerciseModelImplCopyWith<_$EditExerciseModelImpl> get copyWith =>
-      __$$EditExerciseModelImplCopyWithImpl<_$EditExerciseModelImpl>(
-          this, _$identity);
+  _$$EditExerciseModelDataImplCopyWith<_$EditExerciseModelDataImpl>
+      get copyWith => __$$EditExerciseModelDataImplCopyWithImpl<
+          _$EditExerciseModelDataImpl>(this, _$identity);
 
   @override
   @optionalTypeArgs
-  TResult when<TResult extends Object?>(
-    TResult Function(
+  TResult when<TResult extends Object?>({
+    required TResult Function(
             String id,
             String name,
-            String description,
+            String? description,
             List<String> material,
             String? image,
             int difficulty,
             bool inTraining)
-        $default, {
+        data,
+    required TResult Function() loading,
     required TResult Function() empty,
   }) {
-    return $default(
-        id, name, description, material, image, difficulty, inTraining);
+    return data(id, name, description, material, image, difficulty, inTraining);
   }
 
   @override
   @optionalTypeArgs
-  TResult? whenOrNull<TResult extends Object?>(
+  TResult? whenOrNull<TResult extends Object?>({
     TResult? Function(
             String id,
             String name,
-            String description,
+            String? description,
             List<String> material,
             String? image,
             int difficulty,
             bool inTraining)?
-        $default, {
+        data,
+    TResult? Function()? loading,
     TResult? Function()? empty,
   }) {
-    return $default?.call(
+    return data?.call(
         id, name, description, material, image, difficulty, inTraining);
   }
 
   @override
   @optionalTypeArgs
-  TResult maybeWhen<TResult extends Object?>(
+  TResult maybeWhen<TResult extends Object?>({
     TResult Function(
             String id,
             String name,
-            String description,
+            String? description,
             List<String> material,
             String? image,
             int difficulty,
             bool inTraining)?
-        $default, {
+        data,
+    TResult Function()? loading,
     TResult Function()? empty,
     required TResult orElse(),
   }) {
-    if ($default != null) {
-      return $default(
+    if (data != null) {
+      return data(
           id, name, description, material, image, difficulty, inTraining);
     }
     return orElse();
@@ -300,56 +309,195 @@ class _$EditExerciseModelImpl implements _EditExerciseModel {
 
   @override
   @optionalTypeArgs
-  TResult map<TResult extends Object?>(
-    TResult Function(_EditExerciseModel value) $default, {
+  TResult map<TResult extends Object?>({
+    required TResult Function(_EditExerciseModelData value) data,
+    required TResult Function(_EditExerciseModelLoading value) loading,
     required TResult Function(_EditExerciseModelEmpty value) empty,
   }) {
-    return $default(this);
+    return data(this);
   }
 
   @override
   @optionalTypeArgs
-  TResult? mapOrNull<TResult extends Object?>(
-    TResult? Function(_EditExerciseModel value)? $default, {
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(_EditExerciseModelData value)? data,
+    TResult? Function(_EditExerciseModelLoading value)? loading,
     TResult? Function(_EditExerciseModelEmpty value)? empty,
   }) {
-    return $default?.call(this);
+    return data?.call(this);
   }
 
   @override
   @optionalTypeArgs
-  TResult maybeMap<TResult extends Object?>(
-    TResult Function(_EditExerciseModel value)? $default, {
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(_EditExerciseModelData value)? data,
+    TResult Function(_EditExerciseModelLoading value)? loading,
     TResult Function(_EditExerciseModelEmpty value)? empty,
     required TResult orElse(),
   }) {
-    if ($default != null) {
-      return $default(this);
+    if (data != null) {
+      return data(this);
     }
     return orElse();
   }
 }
 
-abstract class _EditExerciseModel implements EditExerciseModel {
-  factory _EditExerciseModel(
+abstract class _EditExerciseModelData implements EditExerciseModel {
+  factory _EditExerciseModelData(
       {required final String id,
       required final String name,
-      required final String description,
+      required final String? description,
       required final List<String> material,
       required final String? image,
       required final int difficulty,
-      required final bool inTraining}) = _$EditExerciseModelImpl;
+      required final bool inTraining}) = _$EditExerciseModelDataImpl;
 
   String get id;
   String get name;
-  String get description;
+  String? get description;
   List<String> get material;
   String? get image;
   int get difficulty;
   bool get inTraining;
   @JsonKey(ignore: true)
-  _$$EditExerciseModelImplCopyWith<_$EditExerciseModelImpl> get copyWith =>
-      throw _privateConstructorUsedError;
+  _$$EditExerciseModelDataImplCopyWith<_$EditExerciseModelDataImpl>
+      get copyWith => throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class _$$EditExerciseModelLoadingImplCopyWith<$Res> {
+  factory _$$EditExerciseModelLoadingImplCopyWith(
+          _$EditExerciseModelLoadingImpl value,
+          $Res Function(_$EditExerciseModelLoadingImpl) then) =
+      __$$EditExerciseModelLoadingImplCopyWithImpl<$Res>;
+}
+
+/// @nodoc
+class __$$EditExerciseModelLoadingImplCopyWithImpl<$Res>
+    extends _$EditExerciseModelCopyWithImpl<$Res,
+        _$EditExerciseModelLoadingImpl>
+    implements _$$EditExerciseModelLoadingImplCopyWith<$Res> {
+  __$$EditExerciseModelLoadingImplCopyWithImpl(
+      _$EditExerciseModelLoadingImpl _value,
+      $Res Function(_$EditExerciseModelLoadingImpl) _then)
+      : super(_value, _then);
+}
+
+/// @nodoc
+
+class _$EditExerciseModelLoadingImpl implements _EditExerciseModelLoading {
+  _$EditExerciseModelLoadingImpl();
+
+  @override
+  String toString() {
+    return 'EditExerciseModel.loading()';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$EditExerciseModelLoadingImpl);
+  }
+
+  @override
+  int get hashCode => runtimeType.hashCode;
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function(
+            String id,
+            String name,
+            String? description,
+            List<String> material,
+            String? image,
+            int difficulty,
+            bool inTraining)
+        data,
+    required TResult Function() loading,
+    required TResult Function() empty,
+  }) {
+    return loading();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function(
+            String id,
+            String name,
+            String? description,
+            List<String> material,
+            String? image,
+            int difficulty,
+            bool inTraining)?
+        data,
+    TResult? Function()? loading,
+    TResult? Function()? empty,
+  }) {
+    return loading?.call();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function(
+            String id,
+            String name,
+            String? description,
+            List<String> material,
+            String? image,
+            int difficulty,
+            bool inTraining)?
+        data,
+    TResult Function()? loading,
+    TResult Function()? empty,
+    required TResult orElse(),
+  }) {
+    if (loading != null) {
+      return loading();
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(_EditExerciseModelData value) data,
+    required TResult Function(_EditExerciseModelLoading value) loading,
+    required TResult Function(_EditExerciseModelEmpty value) empty,
+  }) {
+    return loading(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(_EditExerciseModelData value)? data,
+    TResult? Function(_EditExerciseModelLoading value)? loading,
+    TResult? Function(_EditExerciseModelEmpty value)? empty,
+  }) {
+    return loading?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(_EditExerciseModelData value)? data,
+    TResult Function(_EditExerciseModelLoading value)? loading,
+    TResult Function(_EditExerciseModelEmpty value)? empty,
+    required TResult orElse(),
+  }) {
+    if (loading != null) {
+      return loading(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class _EditExerciseModelLoading implements EditExerciseModel {
+  factory _EditExerciseModelLoading() = _$EditExerciseModelLoadingImpl;
 }
 
 /// @nodoc
@@ -392,16 +540,17 @@ class _$EditExerciseModelEmptyImpl implements _EditExerciseModelEmpty {
 
   @override
   @optionalTypeArgs
-  TResult when<TResult extends Object?>(
-    TResult Function(
+  TResult when<TResult extends Object?>({
+    required TResult Function(
             String id,
             String name,
-            String description,
+            String? description,
             List<String> material,
             String? image,
             int difficulty,
             bool inTraining)
-        $default, {
+        data,
+    required TResult Function() loading,
     required TResult Function() empty,
   }) {
     return empty();
@@ -409,16 +558,17 @@ class _$EditExerciseModelEmptyImpl implements _EditExerciseModelEmpty {
 
   @override
   @optionalTypeArgs
-  TResult? whenOrNull<TResult extends Object?>(
+  TResult? whenOrNull<TResult extends Object?>({
     TResult? Function(
             String id,
             String name,
-            String description,
+            String? description,
             List<String> material,
             String? image,
             int difficulty,
             bool inTraining)?
-        $default, {
+        data,
+    TResult? Function()? loading,
     TResult? Function()? empty,
   }) {
     return empty?.call();
@@ -426,16 +576,17 @@ class _$EditExerciseModelEmptyImpl implements _EditExerciseModelEmpty {
 
   @override
   @optionalTypeArgs
-  TResult maybeWhen<TResult extends Object?>(
+  TResult maybeWhen<TResult extends Object?>({
     TResult Function(
             String id,
             String name,
-            String description,
+            String? description,
             List<String> material,
             String? image,
             int difficulty,
             bool inTraining)?
-        $default, {
+        data,
+    TResult Function()? loading,
     TResult Function()? empty,
     required TResult orElse(),
   }) {
@@ -447,8 +598,9 @@ class _$EditExerciseModelEmptyImpl implements _EditExerciseModelEmpty {
 
   @override
   @optionalTypeArgs
-  TResult map<TResult extends Object?>(
-    TResult Function(_EditExerciseModel value) $default, {
+  TResult map<TResult extends Object?>({
+    required TResult Function(_EditExerciseModelData value) data,
+    required TResult Function(_EditExerciseModelLoading value) loading,
     required TResult Function(_EditExerciseModelEmpty value) empty,
   }) {
     return empty(this);
@@ -456,8 +608,9 @@ class _$EditExerciseModelEmptyImpl implements _EditExerciseModelEmpty {
 
   @override
   @optionalTypeArgs
-  TResult? mapOrNull<TResult extends Object?>(
-    TResult? Function(_EditExerciseModel value)? $default, {
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(_EditExerciseModelData value)? data,
+    TResult? Function(_EditExerciseModelLoading value)? loading,
     TResult? Function(_EditExerciseModelEmpty value)? empty,
   }) {
     return empty?.call(this);
@@ -465,8 +618,9 @@ class _$EditExerciseModelEmptyImpl implements _EditExerciseModelEmpty {
 
   @override
   @optionalTypeArgs
-  TResult maybeMap<TResult extends Object?>(
-    TResult Function(_EditExerciseModel value)? $default, {
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(_EditExerciseModelData value)? data,
+    TResult Function(_EditExerciseModelLoading value)? loading,
     TResult Function(_EditExerciseModelEmpty value)? empty,
     required TResult orElse(),
   }) {

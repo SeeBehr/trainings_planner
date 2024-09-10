@@ -30,7 +30,7 @@ class HomeModelExercise with _$HomeModelExercise {
   factory HomeModelExercise({
     required String id,
     required String name,
-    required String description,
+    required String? description,
     required List<String> material,
     required String? image,
     required int difficulty,

@@ -36,6 +36,10 @@ class HomeController extends Cubit<HomeModel> {
             activeExercise: exerciseIndex,
           ),
         );
+        dataRepository.setActiveExercise(
+          collectionIndex: collectionIndex,
+          exerciseIndex: exerciseIndex,
+        );
         debugPrint(
           'activeCollection: $collectionIndex, activeExercise: $exerciseIndex',
         );
@@ -44,8 +48,8 @@ class HomeController extends Cubit<HomeModel> {
     );
   }
 
-  void openExercise({required String id}) {
-    navigationService.openExercise(id: id);
+  void openExercise() {
+    navigationService.openExercise();
   }
 
   @override

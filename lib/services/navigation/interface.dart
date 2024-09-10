@@ -1,4 +1,4 @@
 abstract class NavigationService {
-  void openExercise({required String id});
+  void openExercise();
   void goBack();
 }

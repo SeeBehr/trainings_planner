@@ -698,7 +698,7 @@ abstract class _HomeModelCollection implements HomeModelCollection {
 mixin _$HomeModelExercise {
   String get id => throw _privateConstructorUsedError;
   String get name => throw _privateConstructorUsedError;
-  String get description => throw _privateConstructorUsedError;
+  String? get description => throw _privateConstructorUsedError;
   List<String> get material => throw _privateConstructorUsedError;
   String? get image => throw _privateConstructorUsedError;
   int get difficulty => throw _privateConstructorUsedError;
@@ -718,7 +718,7 @@ abstract class $HomeModelExerciseCopyWith<$Res> {
   $Res call(
       {String id,
       String name,
-      String description,
+      String? description,
       List<String> material,
       String? image,
       int difficulty,
@@ -740,7 +740,7 @@ class _$HomeModelExerciseCopyWithImpl<$Res, $Val extends HomeModelExercise>
   $Res call({
     Object? id = null,
     Object? name = null,
-    Object? description = null,
+    Object? description = freezed,
     Object? material = null,
     Object? image = freezed,
     Object? difficulty = null,
@@ -755,10 +755,10 @@ class _$HomeModelExerciseCopyWithImpl<$Res, $Val extends HomeModelExercise>
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
               as String,
-      description: null == description
+      description: freezed == description
           ? _value.description
           : description // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
       material: null == material
           ? _value.material
           : material // ignore: cast_nullable_to_non_nullable
@@ -790,7 +790,7 @@ abstract class _$$HomeModelExerciseImplCopyWith<$Res>
   $Res call(
       {String id,
       String name,
-      String description,
+      String? description,
       List<String> material,
       String? image,
       int difficulty,
@@ -810,7 +810,7 @@ class __$$HomeModelExerciseImplCopyWithImpl<$Res>
   $Res call({
     Object? id = null,
     Object? name = null,
-    Object? description = null,
+    Object? description = freezed,
     Object? material = null,
     Object? image = freezed,
     Object? difficulty = null,
@@ -825,10 +825,10 @@ class __$$HomeModelExerciseImplCopyWithImpl<$Res>
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
               as String,
-      description: null == description
+      description: freezed == description
           ? _value.description
           : description // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
       material: null == material
           ? _value._material
           : material // ignore: cast_nullable_to_non_nullable
@@ -867,7 +867,7 @@ class _$HomeModelExerciseImpl implements _HomeModelExercise {
   @override
   final String name;
   @override
-  final String description;
+  final String? description;
   final List<String> _material;
   @override
   List<String> get material {
@@ -928,7 +928,7 @@ abstract class _HomeModelExercise implements HomeModelExercise {
   factory _HomeModelExercise(
       {required final String id,
       required final String name,
-      required final String description,
+      required final String? description,
       required final List<String> material,
       required final String? image,
       required final int difficulty,
@@ -939,7 +939,7 @@ abstract class _HomeModelExercise implements HomeModelExercise {
   @override
   String get name;
   @override
-  String get description;
+  String? get description;
   @override
   List<String> get material;
   @override

@@ -6,27 +6,77 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:trainings_planner/features/edit_exercise/edit_exercise_controller.dart';
 import 'package:trainings_planner/features/edit_exercise/edit_exercise_model.dart';
 
-class EditExerciseView extends StatelessWidget {
+class EditExerciseView extends StatefulWidget {
   const EditExerciseView({super.key});
+
+  @override
+  State<EditExerciseView> createState() => _EditExerciseViewState();
+}
+
+class _EditExerciseViewState extends State<EditExerciseView> {
+  late TextEditingController titleTextController;
+  late TextEditingController descriptionTextController;
+  late TextEditingController materialTextController;
+  late int difficulty;
+  String? image;
+
+  @override
+  void initState() {
+    super.initState();
+    int diff;
+    String? img;
+    String title;
+    String? description;
+    List<String> material;
+    (diff, img, title, description, material) =
+        context.read<EditExerciseController>().state.maybeMap(
+              data: (exercise) => (
+                exercise.difficulty,
+                exercise.image,
+                exercise.name,
+                exercise.description,
+                exercise.material
+              ),
+              orElse: () => (0, null, '', '', []),
+            );
+    difficulty = diff;
+    image = img;
+    titleTextController = TextEditingController(text: title);
+    descriptionTextController = TextEditingController(text: description);
+    materialTextController = TextEditingController(text: material.join('\n'));
+  }
 
   @override
   Widget build(BuildContext context) => Scaffold(
         appBar: AppBar(
           leading: IconButton(
             icon: const Icon(Icons.arrow_back),
-            onPressed: () => context.read<EditExerciseController>().goBack(),
+            onPressed: () {
+              context.read<EditExerciseController>().setExercise(
+                    name: titleTextController.text == ''
+                        ? 'exercise'
+                        : titleTextController.text,
+                    description: descriptionTextController.text == ''
+                        ? null
+                        : descriptionTextController.text,
+                    material: materialTextController.text
+                        .split('\n')
+                        .map((element) => element == '' ? null : element)
+                        .nonNulls
+                        .toList(),
+                    difficulty: difficulty,
+                    image: image,
+                  );
+              context.read<EditExerciseController>().goBack();
+            },
           ),
           title: const Text('Edit Exercise'),
         ),
         body: BlocBuilder<EditExerciseController, EditExerciseModel>(
+          buildWhen: (previous, current) =>
+              previous.runtimeType != current.runtimeType,
           builder: (context, state) => state.map(
-            (exercise) {
-              final titleTextController =
-                  TextEditingController(text: exercise.name);
-              final descriptionTextController =
-                  TextEditingController(text: exercise.description);
-              final materialTextController =
-                  TextEditingController(text: exercise.material.join('\n'));
+            data: (exercise) {
               return Scaffold(
                 body: Padding(
                   padding: const EdgeInsets.all(8),
@@ -81,14 +131,13 @@ class EditExerciseView extends StatelessWidget {
                                       hoverColor: Colors.transparent,
                                       highlightColor: Colors.transparent,
                                       icon: Icon(
-                                        exercise.difficulty < i
+                                        difficulty < i
                                             ? Icons.star_border
                                             : Icons.star,
                                         color: Colors.yellowAccent,
                                       ),
-                                      onPressed: () => context
-                                          .read<EditExerciseController>()
-                                          .setDifficulty(difficulty: i),
+                                      onPressed: () =>
+                                          setState(() => difficulty = i),
                                     ),
                                 ],
                               ),
@@ -163,7 +212,10 @@ class EditExerciseView extends StatelessWidget {
                                       onPressed: () async {
                                         final result = await FilePicker.platform
                                             .pickFiles();
-                                        if (result == null) return;
+                                        if (result == null ||
+                                            result.files.isEmpty == true) {
+                                          return;
+                                        }
                                         if (result.files.firstOrNull!
                                                     .extension !=
                                                 'jpg' &&
@@ -172,22 +224,12 @@ class EditExerciseView extends StatelessWidget {
                                                 'png') {
                                           return;
                                         }
-                                        // ignore: use_build_context_synchronously
-                                        context
-                                            .read<EditExerciseController>()
-                                            .setImage(
-                                              image: result
-                                                  .files.firstOrNull!.path,
-                                            );
+                                        image = result.files.firstOrNull!.path;
                                       },
                                       child: const Text('add image'),
                                     ),
                                     TextButton(
-                                      onPressed: () {
-                                        context
-                                            .read<EditExerciseController>()
-                                            .setImage(image: null);
-                                      },
+                                      onPressed: () => image = null,
                                       child: const Text('remove image'),
                                     ),
                                   ],
@@ -195,8 +237,8 @@ class EditExerciseView extends StatelessWidget {
                               ),
                               Align(
                                 alignment: Alignment.topLeft,
-                                child: exercise.image != null
-                                    ? Image.file(File(exercise.image!))
+                                child: image != null
+                                    ? Image.file(File(image!))
                                     : const Icon(Icons.image),
                               ),
                             ],
@@ -229,6 +271,8 @@ class EditExerciseView extends StatelessWidget {
                                           descriptionTextController.text,
                                       material: materialTextController.text
                                           .split('\n'),
+                                      difficulty: difficulty,
+                                      image: image,
                                     );
                               },
                               child: Padding(
@@ -287,7 +331,8 @@ class EditExerciseView extends StatelessWidget {
                 ),
               );
             },
-            empty: (_) => const Center(child: CircularProgressIndicator()),
+            loading: (_) => const Center(child: CircularProgressIndicator()),
+            empty: (_) => const Center(child: Text('error loading exercise')),
           ),
         ),
       );

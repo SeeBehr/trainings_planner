@@ -7,56 +7,39 @@ import 'package:trainings_planner/services/navigation/interface.dart';
 
 class EditExerciseController extends Cubit<EditExerciseModel> {
   EditExerciseController({
-    required String? id,
     required this.navigationService,
     required this.dataRepository,
-  }) : super(EditExerciseModel.empty()) {
-    if (id != null) unawaited(_fetchExercise(id: id));
+  }) : super(EditExerciseModel.loading()) {
+    unawaited(_fetchExercise());
   }
 
   final NavigationService navigationService;
   final DataRepository dataRepository;
 
-  Future<void> _fetchExercise({required String id}) async => emit(
-        EditExerciseModel(
-          id: id,
-          name: '',
-          description: 'description',
-          material: [],
-          image: null,
-          difficulty: 1,
-          inTraining: false,
-        ),
-      );
+  Future<void> _fetchExercise() async =>
+      dataRepository.loadExercise().then(emit);
+
   void setExercise({
     required String name,
-    required String description,
+    required String? description,
     required List<String> material,
-  }) =>
-      emit(
-        state.map(
-          (exercise) => exercise.copyWith(
-            name: name,
-            description: description,
-            material: material,
-          ),
-          empty: (_) => state,
+    required int difficulty,
+    required String? image,
+  }) {
+    emit(
+      state.maybeMap(
+        data: (exercise) => exercise.copyWith(
+          name: name,
+          description: description,
+          material: material,
+          difficulty: difficulty,
+          image: image,
         ),
-      );
-
-  void setDifficulty({required int difficulty}) => emit(
-        state.map(
-          (exercise) => exercise.copyWith(difficulty: difficulty),
-          empty: (_) => state,
-        ),
-      );
-
-  void setImage({required String? image}) => emit(
-        state.map(
-          (exercise) => exercise.copyWith(image: image),
-          empty: (_) => state,
-        ),
-      );
+        orElse: () => state,
+      ),
+    );
+    unawaited(dataRepository.saveExercise(state));
+  }
 
   Future<void> goBack() async {
     await dataRepository.saveExercise(state);
