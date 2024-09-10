@@ -531,6 +531,7 @@ abstract class HomeModelError implements HomeModel {
 
 /// @nodoc
 mixin _$HomeModelCollection {
+  String get id => throw _privateConstructorUsedError;
   String get name => throw _privateConstructorUsedError;
   List<HomeModelExercise> get exercises => throw _privateConstructorUsedError;
 
@@ -545,7 +546,7 @@ abstract class $HomeModelCollectionCopyWith<$Res> {
           HomeModelCollection value, $Res Function(HomeModelCollection) then) =
       _$HomeModelCollectionCopyWithImpl<$Res, HomeModelCollection>;
   @useResult
-  $Res call({String name, List<HomeModelExercise> exercises});
+  $Res call({String id, String name, List<HomeModelExercise> exercises});
 }
 
 /// @nodoc
@@ -561,10 +562,15 @@ class _$HomeModelCollectionCopyWithImpl<$Res, $Val extends HomeModelCollection>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
+    Object? id = null,
     Object? name = null,
     Object? exercises = null,
   }) {
     return _then(_value.copyWith(
+      id: null == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as String,
       name: null == name
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
@@ -585,7 +591,7 @@ abstract class _$$HomeModelCollectionImplCopyWith<$Res>
       __$$HomeModelCollectionImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String name, List<HomeModelExercise> exercises});
+  $Res call({String id, String name, List<HomeModelExercise> exercises});
 }
 
 /// @nodoc
@@ -599,10 +605,15 @@ class __$$HomeModelCollectionImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
+    Object? id = null,
     Object? name = null,
     Object? exercises = null,
   }) {
     return _then(_$HomeModelCollectionImpl(
+      id: null == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as String,
       name: null == name
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
@@ -619,9 +630,13 @@ class __$$HomeModelCollectionImplCopyWithImpl<$Res>
 
 class _$HomeModelCollectionImpl implements _HomeModelCollection {
   _$HomeModelCollectionImpl(
-      {required this.name, required final List<HomeModelExercise> exercises})
+      {required this.id,
+      required this.name,
+      required final List<HomeModelExercise> exercises})
       : _exercises = exercises;
 
+  @override
+  final String id;
   @override
   final String name;
   final List<HomeModelExercise> _exercises;
@@ -634,7 +649,7 @@ class _$HomeModelCollectionImpl implements _HomeModelCollection {
 
   @override
   String toString() {
-    return 'HomeModelCollection(name: $name, exercises: $exercises)';
+    return 'HomeModelCollection(id: $id, name: $name, exercises: $exercises)';
   }
 
   @override
@@ -642,6 +657,7 @@ class _$HomeModelCollectionImpl implements _HomeModelCollection {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$HomeModelCollectionImpl &&
+            (identical(other.id, id) || other.id == id) &&
             (identical(other.name, name) || other.name == name) &&
             const DeepCollectionEquality()
                 .equals(other._exercises, _exercises));
@@ -649,7 +665,7 @@ class _$HomeModelCollectionImpl implements _HomeModelCollection {
 
   @override
   int get hashCode => Object.hash(
-      runtimeType, name, const DeepCollectionEquality().hash(_exercises));
+      runtimeType, id, name, const DeepCollectionEquality().hash(_exercises));
 
   @JsonKey(ignore: true)
   @override
@@ -661,10 +677,13 @@ class _$HomeModelCollectionImpl implements _HomeModelCollection {
 
 abstract class _HomeModelCollection implements HomeModelCollection {
   factory _HomeModelCollection(
-          {required final String name,
+          {required final String id,
+          required final String name,
           required final List<HomeModelExercise> exercises}) =
       _$HomeModelCollectionImpl;
 
+  @override
+  String get id;
   @override
   String get name;
   @override

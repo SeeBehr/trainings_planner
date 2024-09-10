@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:trainings_planner/features/home/home_view.dart';
 import 'package:trainings_planner/provider_widget.dart';
+import 'package:trainings_planner/services/navigation/go_router.dart';
 import 'package:trainings_planner/theme/theme_data.dart';
 
 void main() {
@@ -12,10 +12,12 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Demo',
-      theme: theme,
-      home: const ProviderWidget(child: HomeView()),
+    return ProviderWidget(
+      child: MaterialApp.router(
+        title: 'Flutter Demo',
+        theme: theme,
+        routerConfig: goRouter,
+      ),
     );
   }
 }

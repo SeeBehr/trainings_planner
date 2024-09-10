@@ -19,6 +19,7 @@ class HomeModel with _$HomeModel {
 @freezed
 class HomeModelCollection with _$HomeModelCollection {
   factory HomeModelCollection({
+    required String id,
     required String name,
     required List<HomeModelExercise> exercises,
   }) = _HomeModelCollection;

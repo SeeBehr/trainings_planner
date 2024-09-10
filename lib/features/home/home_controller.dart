@@ -3,37 +3,26 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:trainings_planner/features/home/home_model.dart';
+import 'package:trainings_planner/repositories/data/interface.dart';
+import 'package:trainings_planner/services/navigation/interface.dart';
 
 class HomeController extends Cubit<HomeModel> {
-  HomeController() : super(HomeModel.loading()) {
-    unawaited(_laodTraining());
+  HomeController({
+    required this.dataRepository,
+    required this.navigationService,
+  }) : super(HomeModel.loading()) {
+    unawaited(_loadData());
   }
+  final DataRepository dataRepository;
+  final NavigationService navigationService;
+  late StreamSubscription<HomeModel?> _dataSubscription;
 
-  Future<void> _laodTraining() =>
-      Future.delayed(const Duration(seconds: 2), () {
-        emit(
-          HomeModel.data(
-            activeCollection: -1,
-            activeExercise: -1,
-            collections: [
-              HomeModelCollection(
-                name: 'collection',
-                exercises: [
-                  HomeModelExercise(
-                    id: 'id',
-                    name: 'exercise',
-                    description: 'description',
-                    material: [],
-                    image: null,
-                    difficulty: 1,
-                    inTraining: false,
-                  ),
-                ],
-              ),
-            ],
-          ),
-        );
-      });
+  Future<void> _loadData() async {
+    emit(await dataRepository.loadData());
+    _dataSubscription = dataRepository.dataStream.listen((event) {
+      if (event != null) emit(event);
+    });
+  }
 
   void setActiveExercise({
     required int collectionIndex,
@@ -53,5 +42,15 @@ class HomeController extends Cubit<HomeModel> {
       },
       orElse: () {},
     );
+  }
+
+  void openExercise({required String id}) {
+    navigationService.openExercise(id: id);
+  }
+
+  @override
+  Future<void> close() {
+    _dataSubscription.cancel();
+    return super.close();
   }
 }

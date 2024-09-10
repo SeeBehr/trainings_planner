@@ -1,6 +1,8 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:trainings_planner/features/home/home_controller.dart';
 import 'package:trainings_planner/features/home/home_model.dart';
 
 class ExerciseView extends StatelessWidget {
@@ -137,7 +139,12 @@ class ExerciseViewData extends StatelessWidget {
                               style: Theme.of(context).textTheme.bodyLarge,
                             ),
                           ),
-                          onPressed: () {},
+                          onPressed: () {
+                            debugPrint('openExercise: ${exercise.id}');
+                            context
+                                .read<HomeController>()
+                                .openExercise(id: exercise.id);
+                          },
                         ),
                         const SizedBox(width: 8),
                         ElevatedButton(
