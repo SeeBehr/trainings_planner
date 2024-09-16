@@ -10,14 +10,13 @@ class EditExerciseController extends Cubit<EditExerciseModel> {
     required this.navigationService,
     required this.dataRepository,
   }) : super(EditExerciseModel.loading()) {
-    unawaited(_fetchExercise());
+    _fetchExercise();
   }
 
   final NavigationService navigationService;
   final DataRepository dataRepository;
 
-  Future<void> _fetchExercise() async =>
-      dataRepository.loadExercise().then(emit);
+  void _fetchExercise() => emit(dataRepository.loadExercise());
 
   void setExercise({
     required String name,

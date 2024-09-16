@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fpdart/fpdart.dart' hide State;
-import 'package:trainings_planner/features/home/home_controller.dart';
 import 'package:trainings_planner/features/home/home_model.dart';
 import 'package:trainings_planner/features/home/widgets/collection_view.dart';
 import 'package:trainings_planner/features/home/widgets/exercise_view.dart';
@@ -19,14 +17,6 @@ class HomeViewData extends StatelessWidget {
         Expanded(
           child: CollectionView(
             collections: collections.collections,
-            setActiveCollection: ({
-              required int collectionIndex,
-              required int exerciseIndex,
-            }) =>
-                context.read<HomeController>().setActiveExercise(
-                      collectionIndex: collectionIndex,
-                      exerciseIndex: exerciseIndex,
-                    ),
           ),
         ),
         Expanded(
@@ -40,6 +30,7 @@ class HomeViewData extends StatelessWidget {
                 ? ExerciseView(
                     exercise: collections
                         .collections[collections.activeCollection]
+                        .groups[collections.activeGroup]
                         .exercises[collections.activeExercise],
                   )
                 : const ExerciseView(exercise: null),
@@ -48,7 +39,8 @@ class HomeViewData extends StatelessWidget {
         Expanded(
           child: TrainingView(
             exercises: collections.collections
-                .expand((collection) => collection.exercises)
+                .expand((collection) => collection.groups)
+                .expand((group) => group.exercises)
                 .filter((exercise) => exercise.inTraining)
                 .toList(),
           ),

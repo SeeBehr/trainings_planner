@@ -18,20 +18,27 @@ class DataRepositoryImplementation extends DataRepository {
           if (data == null) {
             return data = HomeModel.data(
               activeCollection: -1,
+              activeGroup: -1,
               activeExercise: -1,
               collections: [
                 HomeModelCollection(
-                  id: DateTime.now().hashCode.toString(),
+                  id: 'collection${DateTime.now().hashCode}',
                   name: 'collection',
-                  exercises: [
-                    HomeModelExercise(
-                      id: 'id',
-                      name: 'exercise',
-                      description: null,
-                      material: [],
-                      image: null,
-                      difficulty: 1,
-                      inTraining: false,
+                  groups: [
+                    HomeModelGroup(
+                      id: 'group${DateTime.now().hashCode}',
+                      name: 'group',
+                      exercises: [
+                        HomeModelExercise(
+                          id: 'exercise${DateTime.now().hashCode}',
+                          name: 'exercise',
+                          description: null,
+                          material: [],
+                          image: null,
+                          difficulty: 1,
+                          inTraining: false,
+                        ),
+                      ],
                     ),
                   ],
                 ),
@@ -53,19 +60,27 @@ class DataRepositoryImplementation extends DataRepository {
             collections: model.collections.mapWithIndex((collection, index) {
               if (index == model.activeCollection) {
                 return collection.copyWith(
-                  exercises:
-                      collection.exercises.mapWithIndex((exercise, index) {
-                    if (index == model.activeExercise) {
-                      return exercise.copyWith(
-                        name: edited.name,
-                        description: edited.description,
-                        material: edited.material,
-                        image: edited.image,
-                        difficulty: edited.difficulty,
-                        inTraining: edited.inTraining,
+                  groups: collection.groups.mapWithIndex((group, index) {
+                    if (index == model.activeGroup) {
+                      return group.copyWith(
+                        exercises:
+                            group.exercises.mapWithIndex((exercise, index) {
+                          if (index == model.activeExercise) {
+                            return exercise.copyWith(
+                              name: edited.name,
+                              description: edited.description,
+                              material: edited.material,
+                              image: edited.image,
+                              difficulty: edited.difficulty,
+                              inTraining: edited.inTraining,
+                            );
+                          } else {
+                            return exercise;
+                          }
+                        }).toList(),
                       );
                     } else {
-                      return exercise;
+                      return group;
                     }
                   }).toList(),
                 );
@@ -85,11 +100,13 @@ class DataRepositoryImplementation extends DataRepository {
   @override
   void setActiveExercise({
     required int collectionIndex,
+    required int groupIndex,
     required int exerciseIndex,
   }) {
     data = data?.maybeMap(
       data: (model) => model.copyWith(
         activeCollection: collectionIndex,
+        activeGroup: groupIndex,
         activeExercise: exerciseIndex,
       ),
       orElse: () => null,
@@ -97,19 +114,16 @@ class DataRepositoryImplementation extends DataRepository {
   }
 
   @override
-  Future<EditExerciseModel> loadExercise() {
+  EditExerciseModel loadExercise() {
     if (data == null) {
-      return Future.value(EditExerciseModel.empty());
+      return EditExerciseModel.empty();
     }
-    return Future.delayed(
-      const Duration(seconds: 2),
-      () => data!.maybeMap(
-        data: (model) => _mapToEditExerciseModel(
-          model.collections[model.activeCollection]
-              .exercises[model.activeExercise],
-        ),
-        orElse: EditExerciseModel.empty,
+    return data!.maybeMap(
+      data: (model) => _mapToEditExerciseModel(
+        model.collections[model.activeCollection].groups[model.activeGroup]
+            .exercises[model.activeExercise],
       ),
+      orElse: EditExerciseModel.empty,
     );
   }
 
@@ -122,6 +136,34 @@ class DataRepositoryImplementation extends DataRepository {
       image: exercise.image,
       difficulty: exercise.difficulty,
       inTraining: exercise.inTraining,
+    );
+  }
+
+  @override
+  void addExercise() {
+    data = data?.maybeMap(
+      data: (model) => model.copyWith(
+        collections: model.collections.mapWithIndex((collection, index) {
+          if (index == model.activeCollection) {
+            return collection.copyWith(
+              groups: collection.groups.mapWithIndex((group, index) {
+                if (index == model.activeGroup) {
+                  return group.copyWith(
+                    exercises: group.exercises
+                        .append(HomeModelExercise.add())
+                        .toList(),
+                  );
+                } else {
+                  return group;
+                }
+              }).toList(),
+            );
+          } else {
+            return collection;
+          }
+        }).toList(),
+      ),
+      orElse: () => null,
     );
   }
 }
