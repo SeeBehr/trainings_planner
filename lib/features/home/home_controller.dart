@@ -64,10 +64,13 @@ class HomeController extends Cubit<HomeModel> {
     return super.close();
   }
 
-  void addExercise() {
+  bool addExercise() {
     debugPrint('addExercise');
-    state.maybeMap(
+    return state.maybeMap(
       data: (value) {
+        if (value.activeCollection == -1 || value.activeGroup == -1) {
+          return false;
+        }
         emit(
           value.copyWith(
             collections:
@@ -95,15 +98,17 @@ class HomeController extends Cubit<HomeModel> {
           ),
         );
         dataRepository.addExercise();
+        return true;
       },
-      orElse: () {},
+      orElse: () => false,
     );
   }
 
-  void addGroup() {
+  bool addGroup() {
     debugPrint('addExercise');
-    state.maybeMap(
+    return state.maybeMap(
       data: (value) {
+        if (value.activeCollection == -1) return false;
         emit(
           value.copyWith(
             collections:
@@ -121,14 +126,15 @@ class HomeController extends Cubit<HomeModel> {
           ),
         );
         dataRepository.addExercise();
+        return true;
       },
-      orElse: () {},
+      orElse: () => false,
     );
   }
 
-  void addCollection() {
+  bool addCollection() {
     debugPrint('addExercise');
-    state.maybeMap(
+    return state.maybeMap(
       data: (value) {
         emit(
           value.copyWith(
@@ -137,8 +143,11 @@ class HomeController extends Cubit<HomeModel> {
           ),
         );
         dataRepository.addExercise();
+        return true;
       },
-      orElse: () {},
+      orElse: () => false,
     );
   }
+
+  Future<void> saveAll() => dataRepository.saveData();
 }

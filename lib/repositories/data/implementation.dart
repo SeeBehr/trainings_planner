@@ -5,50 +5,36 @@ import 'package:fpdart/fpdart.dart';
 import 'package:trainings_planner/features/edit_exercise/edit_exercise_model.dart';
 import 'package:trainings_planner/features/home/home_model.dart';
 import 'package:trainings_planner/repositories/data/interface.dart';
+import 'package:trainings_planner/services/persistance/hive.dart';
+import 'package:trainings_planner/services/persistance/interface.dart';
 
 class DataRepositoryImplementation extends DataRepository {
+  PersistenceService persistenceService = HivePersistanceService();
   HomeModel? data;
   @override
   Stream<HomeModel?> get dataStream => _stream.stream;
   final StreamController<HomeModel?> _stream = StreamController<HomeModel?>();
   @override
-  Future<HomeModel> loadData() => Future.delayed(
-        const Duration(seconds: 2),
-        () {
-          if (data == null) {
-            return data = HomeModel.data(
-              activeCollection: -1,
-              activeGroup: -1,
-              activeExercise: -1,
-              collections: [
-                HomeModelCollection(
-                  id: 'collection${DateTime.now().hashCode}',
-                  name: 'collection',
-                  groups: [
-                    HomeModelGroup(
-                      id: 'group${DateTime.now().hashCode}',
-                      name: 'group',
-                      exercises: [
-                        HomeModelExercise(
-                          id: 'exercise${DateTime.now().hashCode}',
-                          name: 'exercise',
-                          description: null,
-                          material: [],
-                          image: null,
-                          difficulty: 1,
-                          inTraining: false,
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
-              ],
-            );
-          } else {
-            return data!;
-          }
-        },
-      );
+  Future<HomeModel> loadData() => persistenceService.loadData().then((value) {
+        data = HomeModel.data(
+          activeCollection: -1,
+          activeGroup: -1,
+          activeExercise: -1,
+          collections: value,
+        );
+        _stream.add(data);
+        return data!;
+      });
+
+  @override
+  Future<void> saveData() async {
+    if (data != null) {
+      await data!.map(
+          loading: (_) {},
+          data: (data) => persistenceService.saveData(data.collections),
+          error: (_) {});
+    }
+  }
 
   @override
   Future<void> saveExercise(EditExerciseModel newExercise) {

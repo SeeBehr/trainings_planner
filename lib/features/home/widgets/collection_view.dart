@@ -114,45 +114,89 @@ class _CollectionViewState extends State<CollectionView> {
             padding: const EdgeInsets.all(8),
             child: Align(
               alignment: Alignment.bottomLeft,
-              child: FloatingActionButton(
-                shape: const CircleBorder(),
-                onPressed: () => showMenu(
-                  context: context,
-                  position: RelativeRect.fill,
-                  items: [
-                    PopupMenuItem(
-                      value: 0,
-                      child: ListTile(
-                        title: const Text('Add collection'),
-                        onTap: () {
-                          Navigator.pop(context);
-                          context.read<HomeController>().addCollection();
-                        },
+              child: PopupMenuButton(
+                color: Theme.of(context).colorScheme.secondary,
+                shape: Border.all(),
+                itemBuilder: (context) => [
+                  PopupMenuItem(
+                    value: 0,
+                    child: ListTile(
+                      title: const Text(
+                        'Add collection',
+                        style: TextStyle(color: Colors.black),
                       ),
+                      onTap: () {
+                        Navigator.pop(context);
+                        context.read<HomeController>().addCollection();
+                      },
                     ),
-                    PopupMenuItem(
-                      value: 1,
-                      child: ListTile(
-                        title: const Text('Add group'),
-                        onTap: () {
-                          Navigator.pop(context);
-                          context.read<HomeController>().addGroup();
-                        },
+                  ),
+                  PopupMenuItem(
+                    value: 1,
+                    child: ListTile(
+                      title: const Text(
+                        'Add group',
+                        style: TextStyle(color: Colors.black),
                       ),
+                      onTap: () {
+                        Navigator.pop(context);
+                        if (!context.read<HomeController>().addGroup()) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(
+                              content: Text(
+                                'Please first select the collection '
+                                'in which you want to add the group.',
+                              ),
+                            ),
+                          );
+                        }
+                      },
                     ),
-                    PopupMenuItem(
-                      value: 2,
-                      child: ListTile(
-                        title: const Text('Add exercise'),
-                        onTap: () {
-                          Navigator.pop(context);
-                          context.read<HomeController>().addExercise();
-                        },
+                  ),
+                  PopupMenuItem(
+                    value: 2,
+                    child: ListTile(
+                      title: const Text(
+                        'Add exercise',
+                        style: TextStyle(color: Colors.black),
                       ),
+                      onTap: () {
+                        Navigator.pop(context);
+                        if (!context.read<HomeController>().addExercise()) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(
+                              content: Text(
+                                'Please first select the group '
+                                'in which you want to add the exercise.',
+                              ),
+                            ),
+                          );
+                        }
+                      },
                     ),
-                  ],
+                  ),
+                  PopupMenuItem(
+                    value: 3,
+                    child: const Text(
+                      'Save all',
+                      style: TextStyle(color: Colors.black),
+                    ),
+                    onTap: () {
+                      context.read<HomeController>().saveAll();
+                    },
+                  ),
+                ],
+                child: DecoratedBox(
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(32),
+                    color: Theme.of(context).colorScheme.secondary,
+                  ),
+                  child: const Icon(
+                    Icons.add,
+                    size: 32,
+                    color: Colors.black,
+                  ),
                 ),
-                child: const Icon(Icons.add),
               ),
             ),
           ),
