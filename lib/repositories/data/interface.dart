@@ -16,4 +16,12 @@ abstract class DataRepository {
   EditExerciseModel loadExercise();
 
   void addExercise();
+
+  void addGroup();
+
+  void addCollection();
+
+  void renameCollection(int index, String value);
+
+  void renameGroup(int collectionIndex, int groupIndex, String value);
 }

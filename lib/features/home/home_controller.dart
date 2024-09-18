@@ -95,6 +95,9 @@ class HomeController extends Cubit<HomeModel> {
                 return collection;
               }
             }).toList(),
+            activeExercise: value.collections[value.activeCollection]
+                    .groups[value.activeGroup].exercises.length -
+                1,
           ),
         );
         dataRepository.addExercise();
@@ -123,9 +126,11 @@ class HomeController extends Cubit<HomeModel> {
                 return collection;
               }
             }).toList(),
+            activeGroup:
+                value.collections[value.activeCollection].groups.length - 1,
           ),
         );
-        dataRepository.addExercise();
+        dataRepository.addGroup();
         return true;
       },
       orElse: () => false,
@@ -140,9 +145,10 @@ class HomeController extends Cubit<HomeModel> {
           value.copyWith(
             collections:
                 value.collections.append(HomeModelCollection.add()).toList(),
+            activeCollection: value.collections.length - 1,
           ),
         );
-        dataRepository.addExercise();
+        dataRepository.addCollection();
         return true;
       },
       orElse: () => false,
@@ -150,4 +156,52 @@ class HomeController extends Cubit<HomeModel> {
   }
 
   Future<void> saveAll() => dataRepository.saveData();
+
+  void renameCollection(int index, String value) {
+    state.maybeMap(
+      data: (data) {
+        emit(
+          data.copyWith(
+            collections: data.collections.mapWithIndex((collection, i) {
+              if (i == index) {
+                return collection.copyWith(name: value);
+              } else {
+                return collection;
+              }
+            }).toList(),
+          ),
+        );
+        dataRepository.renameCollection(index, value);
+      },
+      orElse: () {},
+    );
+  }
+
+  void renameGroup(int collectionIndex, int groupIndex, String value) {
+    state.maybeMap(
+      data: (data) {
+        emit(
+          data.copyWith(
+            collections: data.collections.mapWithIndex((collection, i) {
+              if (i == collectionIndex) {
+                return collection.copyWith(
+                  groups: collection.groups.mapWithIndex((group, j) {
+                    if (j == groupIndex) {
+                      return group.copyWith(name: value);
+                    } else {
+                      return group;
+                    }
+                  }).toList(),
+                );
+              } else {
+                return collection;
+              }
+            }).toList(),
+          ),
+        );
+        dataRepository.renameGroup(collectionIndex, groupIndex, value);
+      },
+      orElse: () {},
+    );
+  }
 }

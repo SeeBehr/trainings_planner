@@ -28,11 +28,13 @@ class DataRepositoryImplementation extends DataRepository {
 
   @override
   Future<void> saveData() async {
+    debugPrint('Saving data: $data');
     if (data != null) {
       await data!.map(
-          loading: (_) {},
-          data: (data) => persistenceService.saveData(data.collections),
-          error: (_) {});
+        loading: (_) {},
+        data: (data) => persistenceService.saveData(data.collections),
+        error: (_) {},
+      );
     }
   }
 
@@ -97,6 +99,7 @@ class DataRepositoryImplementation extends DataRepository {
       ),
       orElse: () => null,
     );
+    _stream.add(data);
   }
 
   @override
@@ -150,6 +153,79 @@ class DataRepositoryImplementation extends DataRepository {
         }).toList(),
       ),
       orElse: () => null,
+    );
+    _stream.add(data);
+  }
+
+  @override
+  void addGroup() {
+    data = data?.maybeMap(
+      data: (model) => model.copyWith(
+        collections: model.collections.mapWithIndex((collection, index) {
+          if (index == model.activeCollection) {
+            return collection.copyWith(
+              groups: model.collections[model.activeCollection].groups
+                  .append(HomeModelGroup.add())
+                  .toList(),
+            );
+          } else {
+            return collection;
+          }
+        }).toList(),
+      ),
+      orElse: () => data,
+    );
+  }
+
+  @override
+  void addCollection() {
+    data = data?.maybeMap(
+      data: (model) => model.copyWith(
+        collections:
+            model.collections.append(HomeModelCollection.add()).toList(),
+      ),
+      orElse: () => data,
+    );
+  }
+
+  @override
+  void renameCollection(int index, String value) {
+    data = data?.maybeMap(
+      data: (model) => model.copyWith(
+        collections:
+            model.collections.mapWithIndex((collection, collectionIndex) {
+          if (collectionIndex == index) {
+            return collection.copyWith(name: value);
+          } else {
+            return collection;
+          }
+        }).toList(),
+      ),
+      orElse: () => data,
+    );
+  }
+
+  @override
+  void renameGroup(int collectionIndex, int groupIndex, String value) {
+    data = data?.maybeMap(
+      data: (model) => model.copyWith(
+        collections: model.collections.mapWithIndex((collection, index) {
+          if (index == collectionIndex) {
+            return collection.copyWith(
+              groups: collection.groups.mapWithIndex((group, index) {
+                if (index == groupIndex) {
+                  return group.copyWith(name: value);
+                } else {
+                  return group;
+                }
+              }).toList(),
+            );
+          } else {
+            return collection;
+          }
+        }).toList(),
+      ),
+      orElse: () => data,
     );
   }
 }

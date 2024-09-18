@@ -36,7 +36,7 @@ class _CollectionViewState extends State<CollectionView> {
                 height: 2,
               ),
               ...widget.collections.mapWithIndex(
-                (e, index) => Row(
+                (collection, index) => Row(
                   children: [
                     Expanded(
                       child: ElevatedButton(
@@ -46,7 +46,14 @@ class _CollectionViewState extends State<CollectionView> {
                               ? Theme.of(context).colorScheme.onSurface
                               : Theme.of(context).colorScheme.surface,
                         ),
-                        child: Text(e.name),
+                        child: FolderNameField(
+                          name: widget.collections[index].name,
+                          renameGroup: (name) =>
+                              context.read<HomeController>().renameCollection(
+                                    index,
+                                    name,
+                                  ),
+                        ),
                         onPressed: () {
                           context.read<HomeController>().setActiveExercise(
                                 collectionIndex: index,
@@ -81,9 +88,15 @@ class _CollectionViewState extends State<CollectionView> {
                                   exerciseIndex: -1,
                                 ),
                             childrenPadding: const EdgeInsets.only(left: 16),
-                            title: Text(
-                              widget.collections[collectionIndex]
+                            title: FolderNameField(
+                              name: widget.collections[collectionIndex]
                                   .groups[groupIndex].name,
+                              renameGroup: (name) =>
+                                  context.read<HomeController>().renameGroup(
+                                        collectionIndex,
+                                        groupIndex,
+                                        name,
+                                      ),
                             ),
                             children: widget.collections[collectionIndex]
                                 .groups[groupIndex].exercises
@@ -202,4 +215,36 @@ class _CollectionViewState extends State<CollectionView> {
           ),
         ],
       );
+}
+
+class FolderNameField extends StatefulWidget {
+  const FolderNameField({
+    required this.name,
+    required this.renameGroup,
+    super.key,
+  });
+
+  final String name;
+  final void Function(String) renameGroup;
+
+  @override
+  State<FolderNameField> createState() => _FolderNameFieldState();
+}
+
+class _FolderNameFieldState extends State<FolderNameField> {
+  bool active = false;
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onSecondaryTap: () => setState(() => active = true),
+      child: TextFormField(
+        initialValue: widget.name,
+        enabled: active,
+        onFieldSubmitted: (text) {
+          widget.renameGroup(text);
+          setState(() => active = false);
+        },
+      ),
+    );
+  }
 }

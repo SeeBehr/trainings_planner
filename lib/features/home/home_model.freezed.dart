@@ -22,7 +22,7 @@ mixin _$HomeModel {
     required TResult Function(int activeCollection, int activeGroup,
             int activeExercise, List<HomeModelCollection> collections)
         data,
-    required TResult Function(TrainingsPlannerError error) error,
+    required TResult Function(String error) error,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -31,7 +31,7 @@ mixin _$HomeModel {
     TResult? Function(int activeCollection, int activeGroup, int activeExercise,
             List<HomeModelCollection> collections)?
         data,
-    TResult? Function(TrainingsPlannerError error)? error,
+    TResult? Function(String error)? error,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -40,7 +40,7 @@ mixin _$HomeModel {
     TResult Function(int activeCollection, int activeGroup, int activeExercise,
             List<HomeModelCollection> collections)?
         data,
-    TResult Function(TrainingsPlannerError error)? error,
+    TResult Function(String error)? error,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -127,7 +127,7 @@ class _$HomeModelLoadingImpl implements HomeModelLoading {
     required TResult Function(int activeCollection, int activeGroup,
             int activeExercise, List<HomeModelCollection> collections)
         data,
-    required TResult Function(TrainingsPlannerError error) error,
+    required TResult Function(String error) error,
   }) {
     return loading();
   }
@@ -139,7 +139,7 @@ class _$HomeModelLoadingImpl implements HomeModelLoading {
     TResult? Function(int activeCollection, int activeGroup, int activeExercise,
             List<HomeModelCollection> collections)?
         data,
-    TResult? Function(TrainingsPlannerError error)? error,
+    TResult? Function(String error)? error,
   }) {
     return loading?.call();
   }
@@ -151,7 +151,7 @@ class _$HomeModelLoadingImpl implements HomeModelLoading {
     TResult Function(int activeCollection, int activeGroup, int activeExercise,
             List<HomeModelCollection> collections)?
         data,
-    TResult Function(TrainingsPlannerError error)? error,
+    TResult Function(String error)? error,
     required TResult orElse(),
   }) {
     if (loading != null) {
@@ -310,7 +310,7 @@ class _$HomeModelDataImpl implements HomeModelData {
     required TResult Function(int activeCollection, int activeGroup,
             int activeExercise, List<HomeModelCollection> collections)
         data,
-    required TResult Function(TrainingsPlannerError error) error,
+    required TResult Function(String error) error,
   }) {
     return data(activeCollection, activeGroup, activeExercise, collections);
   }
@@ -322,7 +322,7 @@ class _$HomeModelDataImpl implements HomeModelData {
     TResult? Function(int activeCollection, int activeGroup, int activeExercise,
             List<HomeModelCollection> collections)?
         data,
-    TResult? Function(TrainingsPlannerError error)? error,
+    TResult? Function(String error)? error,
   }) {
     return data?.call(
         activeCollection, activeGroup, activeExercise, collections);
@@ -335,7 +335,7 @@ class _$HomeModelDataImpl implements HomeModelData {
     TResult Function(int activeCollection, int activeGroup, int activeExercise,
             List<HomeModelCollection> collections)?
         data,
-    TResult Function(TrainingsPlannerError error)? error,
+    TResult Function(String error)? error,
     required TResult orElse(),
   }) {
     if (data != null) {
@@ -402,7 +402,7 @@ abstract class _$$HomeModelErrorImplCopyWith<$Res> {
           $Res Function(_$HomeModelErrorImpl) then) =
       __$$HomeModelErrorImplCopyWithImpl<$Res>;
   @useResult
-  $Res call({TrainingsPlannerError error});
+  $Res call({String error});
 }
 
 /// @nodoc
@@ -422,7 +422,7 @@ class __$$HomeModelErrorImplCopyWithImpl<$Res>
       error: null == error
           ? _value.error
           : error // ignore: cast_nullable_to_non_nullable
-              as TrainingsPlannerError,
+              as String,
     ));
   }
 }
@@ -433,7 +433,7 @@ class _$HomeModelErrorImpl implements HomeModelError {
   _$HomeModelErrorImpl({required this.error});
 
   @override
-  final TrainingsPlannerError error;
+  final String error;
 
   @override
   String toString() {
@@ -465,7 +465,7 @@ class _$HomeModelErrorImpl implements HomeModelError {
     required TResult Function(int activeCollection, int activeGroup,
             int activeExercise, List<HomeModelCollection> collections)
         data,
-    required TResult Function(TrainingsPlannerError error) error,
+    required TResult Function(String error) error,
   }) {
     return error(this.error);
   }
@@ -477,7 +477,7 @@ class _$HomeModelErrorImpl implements HomeModelError {
     TResult? Function(int activeCollection, int activeGroup, int activeExercise,
             List<HomeModelCollection> collections)?
         data,
-    TResult? Function(TrainingsPlannerError error)? error,
+    TResult? Function(String error)? error,
   }) {
     return error?.call(this.error);
   }
@@ -489,7 +489,7 @@ class _$HomeModelErrorImpl implements HomeModelError {
     TResult Function(int activeCollection, int activeGroup, int activeExercise,
             List<HomeModelCollection> collections)?
         data,
-    TResult Function(TrainingsPlannerError error)? error,
+    TResult Function(String error)? error,
     required TResult orElse(),
   }) {
     if (error != null) {
@@ -534,10 +534,9 @@ class _$HomeModelErrorImpl implements HomeModelError {
 }
 
 abstract class HomeModelError implements HomeModel {
-  factory HomeModelError({required final TrainingsPlannerError error}) =
-      _$HomeModelErrorImpl;
+  factory HomeModelError({required final String error}) = _$HomeModelErrorImpl;
 
-  TrainingsPlannerError get error;
+  String get error;
   @JsonKey(ignore: true)
   _$$HomeModelErrorImplCopyWith<_$HomeModelErrorImpl> get copyWith =>
       throw _privateConstructorUsedError;

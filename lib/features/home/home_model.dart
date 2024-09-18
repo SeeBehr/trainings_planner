@@ -1,5 +1,4 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:trainings_planner/common/trainings_planner_error.dart';
 
 part 'home_model.freezed.dart';
 
@@ -13,7 +12,7 @@ class HomeModel with _$HomeModel {
     required List<HomeModelCollection> collections,
   }) = HomeModelData;
   factory HomeModel.error({
-    required TrainingsPlannerError error,
+    required String error,
   }) = HomeModelError;
 }
 
