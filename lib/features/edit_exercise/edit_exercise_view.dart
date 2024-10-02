@@ -61,8 +61,7 @@ class _EditExerciseViewState extends State<EditExerciseView> {
                         : descriptionTextController.text,
                     material: materialTextController.text
                         .split('\n')
-                        .map((element) => element == '' ? null : element)
-                        .nonNulls
+                        .where((element) => element.isNotEmpty)
                         .toList(),
                     difficulty: difficulty,
                     image: image,
@@ -270,7 +269,11 @@ class _EditExerciseViewState extends State<EditExerciseView> {
                                       description:
                                           descriptionTextController.text,
                                       material: materialTextController.text
-                                          .split('\n'),
+                                          .split('\n')
+                                          .where(
+                                            (element) => element.isNotEmpty,
+                                          )
+                                          .toList(),
                                       difficulty: difficulty,
                                       image: image,
                                     );
@@ -284,7 +287,17 @@ class _EditExerciseViewState extends State<EditExerciseView> {
                                 ),
                                 child: Text(
                                   'save',
-                                  style: Theme.of(context).textTheme.bodyLarge,
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .bodyLarge!
+                                      .copyWith(
+                                        color: const Color.fromARGB(
+                                          255,
+                                          40,
+                                          40,
+                                          139,
+                                        ),
+                                      ),
                                 ),
                               ),
                             ),
@@ -319,7 +332,17 @@ class _EditExerciseViewState extends State<EditExerciseView> {
                                 ),
                                 child: Text(
                                   'cancel',
-                                  style: Theme.of(context).textTheme.bodyLarge,
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .bodyLarge!
+                                      .copyWith(
+                                        color: const Color.fromARGB(
+                                          255,
+                                          40,
+                                          40,
+                                          139,
+                                        ),
+                                      ),
                                 ),
                               ),
                             ),

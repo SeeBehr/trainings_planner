@@ -41,7 +41,7 @@ class DataRepositoryImplementation extends DataRepository {
   @override
   Future<void> saveExercise(EditExerciseModel newExercise) {
     return Future.delayed(const Duration(seconds: 2), () {
-      debugPrint('Exercise saved');
+      debugPrint('Exercise saved: $newExercise');
       data = newExercise.mapOrNull(
         data: (edited) => data?.maybeMap(
           data: (model) => model.copyWith(

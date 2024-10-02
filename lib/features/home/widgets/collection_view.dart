@@ -104,7 +104,12 @@ class _CollectionViewState extends State<CollectionView> {
                                 .entries
                                 .map(
                                   (entry) => ListTile(
-                                    title: Text(entry.value.name),
+                                    title: Text(
+                                      entry.value.name,
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .labelLarge,
+                                    ),
                                     onTap: () => context
                                         .read<HomeController>()
                                         .setActiveExercise(
@@ -136,7 +141,9 @@ class _CollectionViewState extends State<CollectionView> {
                     child: ListTile(
                       title: const Text(
                         'Add collection',
-                        style: TextStyle(color: Colors.black),
+                        style: TextStyle(
+                          color: Color.fromARGB(255, 40, 40, 139),
+                        ),
                       ),
                       onTap: () {
                         Navigator.pop(context);
@@ -149,7 +156,9 @@ class _CollectionViewState extends State<CollectionView> {
                     child: ListTile(
                       title: const Text(
                         'Add group',
-                        style: TextStyle(color: Colors.black),
+                        style: TextStyle(
+                          color: Color.fromARGB(255, 40, 40, 139),
+                        ),
                       ),
                       onTap: () {
                         Navigator.pop(context);
@@ -171,7 +180,9 @@ class _CollectionViewState extends State<CollectionView> {
                     child: ListTile(
                       title: const Text(
                         'Add exercise',
-                        style: TextStyle(color: Colors.black),
+                        style: TextStyle(
+                          color: Color.fromARGB(255, 40, 40, 139),
+                        ),
                       ),
                       onTap: () {
                         Navigator.pop(context);
@@ -192,7 +203,9 @@ class _CollectionViewState extends State<CollectionView> {
                     value: 3,
                     child: const Text(
                       'Save all',
-                      style: TextStyle(color: Colors.black),
+                      style: TextStyle(
+                        color: Color.fromARGB(255, 40, 40, 139),
+                      ),
                     ),
                     onTap: () {
                       context.read<HomeController>().saveAll();
@@ -207,7 +220,7 @@ class _CollectionViewState extends State<CollectionView> {
                   child: const Icon(
                     Icons.add,
                     size: 32,
-                    color: Colors.black,
+                    color: Color.fromARGB(255, 40, 40, 139),
                   ),
                 ),
               ),
@@ -238,6 +251,8 @@ class _FolderNameFieldState extends State<FolderNameField> {
     return GestureDetector(
       onSecondaryTap: () => setState(() => active = true),
       child: TextFormField(
+        style: Theme.of(context).textTheme.labelLarge,
+        decoration: null,
         initialValue: widget.name,
         enabled: active,
         onFieldSubmitted: (text) {

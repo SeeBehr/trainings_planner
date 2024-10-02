@@ -66,7 +66,7 @@ class ExerciseViewData extends StatelessWidget {
                         children: [
                           Text(
                             'difficulty',
-                            style: Theme.of(context).textTheme.titleMedium,
+                            style: Theme.of(context).textTheme.bodyLarge,
                           ),
                           const SizedBox(width: 8),
                           for (int i = 5; i > 0; i--)
@@ -83,7 +83,7 @@ class ExerciseViewData extends StatelessWidget {
                         alignment: Alignment.centerLeft,
                         child: Text(
                           'Description',
-                          style: Theme.of(context).textTheme.titleMedium,
+                          style: Theme.of(context).textTheme.bodyLarge,
                         ),
                       ),
                       const SizedBox(height: 8),
@@ -95,8 +95,10 @@ class ExerciseViewData extends StatelessWidget {
                         child: Container(
                           padding: const EdgeInsets.all(8),
                           alignment: Alignment.centerLeft,
-                          child:
-                              Text(exercise.description ?? 'your description'),
+                          child: Text(
+                            exercise.description ?? 'your description',
+                            style: Theme.of(context).textTheme.bodySmall,
+                          ),
                         ),
                       ),
                       const SizedBox(height: 16),
@@ -104,7 +106,7 @@ class ExerciseViewData extends StatelessWidget {
                         alignment: Alignment.centerLeft,
                         child: Text(
                           'material',
-                          style: Theme.of(context).textTheme.titleMedium,
+                          style: Theme.of(context).textTheme.bodyLarge,
                         ),
                       ),
                       const SizedBox(height: 8),
@@ -118,7 +120,12 @@ class ExerciseViewData extends StatelessWidget {
                           alignment: Alignment.centerLeft,
                           child: exercise.material.isNotEmpty
                               ? Text('• ${exercise.material.join('\n• ')}')
-                              : const Text('your material'),
+                              : Text(
+                                  exercise.material.isEmpty
+                                      ? 'your material'
+                                      : '*  ${exercise.material.join('\n*  ')}',
+                                  style: Theme.of(context).textTheme.bodySmall,
+                                ),
                         ),
                       ),
                       const SizedBox(height: 16),
@@ -126,7 +133,7 @@ class ExerciseViewData extends StatelessWidget {
                         alignment: Alignment.centerLeft,
                         child: Text(
                           'sketch',
-                          style: Theme.of(context).textTheme.titleMedium,
+                          style: Theme.of(context).textTheme.bodyLarge,
                         ),
                       ),
                       const SizedBox(height: 8),
@@ -158,7 +165,13 @@ class ExerciseViewData extends StatelessWidget {
                             ),
                             child: Text(
                               'edit',
-                              style: Theme.of(context).textTheme.bodyLarge,
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .bodyLarge!
+                                  .copyWith(
+                                    color:
+                                        const Color.fromARGB(255, 40, 40, 139),
+                                  ),
                             ),
                           ),
                           onPressed: () {
@@ -182,7 +195,13 @@ class ExerciseViewData extends StatelessWidget {
                             ),
                             child: Text(
                               'add',
-                              style: Theme.of(context).textTheme.bodyLarge,
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .bodyLarge!
+                                  .copyWith(
+                                    color:
+                                        const Color.fromARGB(255, 40, 40, 139),
+                                  ),
                             ),
                           ),
                           onPressed: () {},
