@@ -228,4 +228,41 @@ class DataRepositoryImplementation extends DataRepository {
       orElse: () => data,
     );
   }
+
+  @override
+  void deleteCollection(int collectionIndex) {
+    data = data?.maybeMap(
+      data: (model) => model.copyWith(
+        collections: model.collections
+            .where(
+              (collection) =>
+                  collectionIndex != model.collections.indexOf(collection),
+            )
+            .toList(),
+      ),
+      orElse: () => data,
+    );
+  }
+
+  @override
+  void deleteGroup(int collectionIndex, int groupIndex) {
+    data = data?.maybeMap(
+      data: (model) => model.copyWith(
+        collections: model.collections.mapWithIndex((collection, index) {
+          if (index == collectionIndex) {
+            return collection.copyWith(
+              groups: collection.groups
+                  .where(
+                    (group) => groupIndex != collection.groups.indexOf(group),
+                  )
+                  .toList(),
+            );
+          } else {
+            return collection;
+          }
+        }).toList(),
+      ),
+      orElse: () => data,
+    );
+  }
 }

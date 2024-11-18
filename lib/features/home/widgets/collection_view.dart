@@ -1,8 +1,10 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fpdart/fpdart.dart' hide State;
 import 'package:trainings_planner/features/home/home_controller.dart';
 import 'package:trainings_planner/features/home/home_model.dart';
+import 'package:trainings_planner/features/home/widgets/folder_name_field.dart';
 
 class CollectionView extends StatefulWidget {
   const CollectionView({
@@ -47,13 +49,15 @@ class _CollectionViewState extends State<CollectionView> {
                               : Theme.of(context).colorScheme.surface,
                         ),
                         child: FolderNameField(
-                          name: widget.collections[index].name,
-                          renameGroup: (name) =>
-                              context.read<HomeController>().renameCollection(
-                                    index,
-                                    name,
-                                  ),
-                        ),
+                            name: widget.collections[index].name,
+                            rename: (name) =>
+                                context.read<HomeController>().renameCollection(
+                                      index,
+                                      name,
+                                    ),
+                            delete: () => context
+                                .read<HomeController>()
+                                .deleteCollection(index)),
                         onPressed: () {
                           context.read<HomeController>().setActiveExercise(
                                 collectionIndex: index,
@@ -91,11 +95,16 @@ class _CollectionViewState extends State<CollectionView> {
                             title: FolderNameField(
                               name: widget.collections[collectionIndex]
                                   .groups[groupIndex].name,
-                              renameGroup: (name) =>
+                              rename: (name) =>
                                   context.read<HomeController>().renameGroup(
                                         collectionIndex,
                                         groupIndex,
                                         name,
+                                      ),
+                              delete: () =>
+                                  context.read<HomeController>().deleteGroup(
+                                        collectionIndex,
+                                        groupIndex,
                                       ),
                             ),
                             children: widget.collections[collectionIndex]
@@ -228,38 +237,4 @@ class _CollectionViewState extends State<CollectionView> {
           ),
         ],
       );
-}
-
-class FolderNameField extends StatefulWidget {
-  const FolderNameField({
-    required this.name,
-    required this.renameGroup,
-    super.key,
-  });
-
-  final String name;
-  final void Function(String) renameGroup;
-
-  @override
-  State<FolderNameField> createState() => _FolderNameFieldState();
-}
-
-class _FolderNameFieldState extends State<FolderNameField> {
-  bool active = false;
-  @override
-  Widget build(BuildContext context) {
-    return GestureDetector(
-      onSecondaryTap: () => setState(() => active = true),
-      child: TextFormField(
-        style: Theme.of(context).textTheme.labelLarge,
-        decoration: null,
-        initialValue: widget.name,
-        enabled: active,
-        onFieldSubmitted: (text) {
-          widget.renameGroup(text);
-          setState(() => active = false);
-        },
-      ),
-    );
-  }
 }

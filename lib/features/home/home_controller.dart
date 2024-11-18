@@ -204,4 +204,63 @@ class HomeController extends Cubit<HomeModel> {
       orElse: () {},
     );
   }
+
+  void deleteCollection(int collectionIndex) {
+    state.maybeMap(
+      data: (data) {
+        emit(
+          data.copyWith(
+            collections: data.collections
+                .where(
+                  (collection) =>
+                      collectionIndex != data.collections.indexOf(collection),
+                )
+                .toList(),
+            activeCollection: data.activeCollection == collectionIndex
+                ? -1
+                : data.activeCollection >= collectionIndex
+                    ? data.activeCollection - 1
+                    : data.activeCollection,
+            activeGroup: -1,
+            activeExercise: -1,
+          ),
+        );
+        dataRepository.deleteCollection(collectionIndex);
+      },
+      orElse: () {},
+    );
+  }
+
+  void deleteGroup(int collectionIndex, int groupIndex) {
+    state.maybeMap(
+      data: (data) {
+        emit(
+          data.copyWith(
+            collections: data.collections.mapWithIndex((collection, i) {
+              if (i == collectionIndex) {
+                return collection.copyWith(
+                  groups: collection.groups
+                      .where(
+                        (group) =>
+                            groupIndex != collection.groups.indexOf(group),
+                      )
+                      .toList(),
+                );
+              } else {
+                return collection;
+              }
+            }).toList(),
+            activeGroup: data.activeGroup == groupIndex
+                ? -1
+                : data.activeGroup >= groupIndex
+                    ? data.activeGroup - 1
+                    : data.activeGroup,
+            activeExercise: -1,
+          ),
+        );
+        dataRepository.deleteGroup(collectionIndex, groupIndex);
+      },
+      orElse: () {},
+    );
+  }
 }

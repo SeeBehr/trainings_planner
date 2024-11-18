@@ -26,7 +26,7 @@ class HomeModelCollection with _$HomeModelCollection {
   factory HomeModelCollection.add() => HomeModelCollection(
         id: 'collection${DateTime.now().hashCode}',
         name: 'collection',
-        groups: [],
+        groups: [HomeModelGroup.add()],
       );
 }
 
@@ -40,7 +40,7 @@ class HomeModelGroup with _$HomeModelGroup {
   factory HomeModelGroup.add() => HomeModelGroup(
         id: 'group${DateTime.now().hashCode}',
         name: 'group',
-        exercises: [],
+        exercises: [HomeModelExercise.add()],
       );
 }
 
