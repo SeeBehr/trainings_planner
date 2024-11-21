@@ -204,6 +204,8 @@ class _CollectionViewState extends State<CollectionView> {
                               ),
                             ),
                           );
+                        } else {
+                          context.read<HomeController>().openExercise();
                         }
                       },
                     ),
