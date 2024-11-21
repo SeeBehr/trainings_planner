@@ -204,7 +204,8 @@ class ExerciseViewData extends StatelessWidget {
                                   ),
                             ),
                           ),
-                          onPressed: () {},
+                          onPressed: () =>
+                              context.read<HomeController>().addToTraining(),
                         ),
                       ],
                     ),

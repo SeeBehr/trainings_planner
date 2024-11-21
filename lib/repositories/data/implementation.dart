@@ -21,6 +21,7 @@ class DataRepositoryImplementation extends DataRepository {
           activeGroup: -1,
           activeExercise: -1,
           collections: value,
+          trainingLength: 0,
         );
         _stream.add(data);
         return data!;
@@ -60,7 +61,7 @@ class DataRepositoryImplementation extends DataRepository {
                               material: edited.material,
                               image: edited.image,
                               difficulty: edited.difficulty,
-                              inTraining: edited.inTraining,
+                              trainingIndex: edited.trainingIndex,
                             );
                           } else {
                             return exercise;
@@ -124,7 +125,7 @@ class DataRepositoryImplementation extends DataRepository {
       material: exercise.material,
       image: exercise.image,
       difficulty: exercise.difficulty,
-      inTraining: exercise.inTraining,
+      trainingIndex: exercise.trainingIndex,
     );
   }
 
@@ -261,6 +262,16 @@ class DataRepositoryImplementation extends DataRepository {
             return collection;
           }
         }).toList(),
+      ),
+      orElse: () => data,
+    );
+  }
+
+  @override
+  void addToTraining() {
+    data = data?.maybeMap(
+      data: (model) => model.copyWith(
+        trainingLength: model.trainingLength + 1,
       ),
       orElse: () => data,
     );

@@ -43,7 +43,6 @@ class HivePersistanceService implements PersistenceService {
       material: data.material,
       image: data.image,
       difficulty: data.difficulty,
-      inTraining: data.inTraining,
     );
   }
 
@@ -71,7 +70,6 @@ class HivePersistanceService implements PersistenceService {
       material: data.material,
       image: data.image,
       difficulty: data.difficulty,
-      inTraining: data.inTraining,
     );
   }
 }

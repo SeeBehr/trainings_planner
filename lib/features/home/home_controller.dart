@@ -263,4 +263,36 @@ class HomeController extends Cubit<HomeModel> {
       orElse: () {},
     );
   }
+
+  void addToTraining() {
+    state.maybeMap(
+      data: (data) {
+        emit(
+          data.copyWith(
+            collections: data.collections
+                .map(
+                  (collection) => collection.copyWith(
+                    groups: collection.groups
+                        .map(
+                          (group) => group.copyWith(
+                            exercises: group.exercises
+                                .map(
+                                  (exercise) => exercise.copyWith(
+                                    trainingIndex: data.trainingLength,
+                                  ),
+                                )
+                                .toList(),
+                          ),
+                        )
+                        .toList(),
+                  ),
+                )
+                .toList(),
+          ),
+        );
+        dataRepository.addToTraining();
+      },
+      orElse: () {},
+    );
+  }
 }

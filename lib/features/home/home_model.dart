@@ -10,6 +10,7 @@ class HomeModel with _$HomeModel {
     required int activeGroup,
     required int activeExercise,
     required List<HomeModelCollection> collections,
+    required int trainingLength,
   }) = HomeModelData;
   factory HomeModel.error({
     required String error,
@@ -53,7 +54,7 @@ class HomeModelExercise with _$HomeModelExercise {
     required List<String> material,
     required String? image,
     required int difficulty,
-    required bool inTraining,
+    @Default(-1) int trainingIndex,
   }) = _HomeModelExercise;
   factory HomeModelExercise.add() => HomeModelExercise(
         id: 'exercise${DateTime.now().hashCode}',
@@ -62,6 +63,5 @@ class HomeModelExercise with _$HomeModelExercise {
         material: [],
         image: null,
         difficulty: 1,
-        inTraining: false,
       );
 }

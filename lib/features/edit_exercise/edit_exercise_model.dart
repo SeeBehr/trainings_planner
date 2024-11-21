@@ -11,7 +11,7 @@ class EditExerciseModel with _$EditExerciseModel {
     required List<String> material,
     required String? image,
     required int difficulty,
-    required bool inTraining,
+    @Default(-1) int trainingIndex,
   }) = _EditExerciseModelData;
   factory EditExerciseModel.loading() = _EditExerciseModelLoading;
   factory EditExerciseModel.empty() = _EditExerciseModelEmpty;

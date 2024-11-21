@@ -42,7 +42,6 @@ class HiveExerciseModel extends HiveObject {
     required this.material,
     required this.image,
     required this.difficulty,
-    required this.inTraining,
   });
 
   @HiveField(0)
@@ -57,6 +56,4 @@ class HiveExerciseModel extends HiveObject {
   String? image;
   @HiveField(5)
   int difficulty;
-  @HiveField(6)
-  bool inTraining;
 }
