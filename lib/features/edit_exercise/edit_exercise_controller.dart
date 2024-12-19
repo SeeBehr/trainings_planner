@@ -37,11 +37,11 @@ class EditExerciseController extends Cubit<EditExerciseModel> {
         orElse: () => state,
       ),
     );
-    unawaited(dataRepository.saveExercise(state));
+    dataRepository.saveExercise(state);
   }
 
-  Future<void> goBack() async {
-    await dataRepository.saveExercise(state);
+  void goBack() async {
+    dataRepository.saveExercise(state);
     navigationService.goBack();
   }
 }

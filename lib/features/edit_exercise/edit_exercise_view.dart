@@ -18,6 +18,7 @@ class _EditExerciseViewState extends State<EditExerciseView> {
   late TextEditingController descriptionTextController;
   late TextEditingController materialTextController;
   late int difficulty;
+  bool changed = true;
   String? image;
 
   @override
@@ -52,21 +53,47 @@ class _EditExerciseViewState extends State<EditExerciseView> {
           leading: IconButton(
             icon: const Icon(Icons.arrow_back),
             onPressed: () {
-              context.read<EditExerciseController>().setExercise(
-                    name: titleTextController.text == ''
-                        ? 'exercise'
-                        : titleTextController.text,
-                    description: descriptionTextController.text == ''
-                        ? null
-                        : descriptionTextController.text,
-                    material: materialTextController.text
-                        .split('\n')
-                        .where((element) => element.isNotEmpty)
-                        .toList(),
-                    difficulty: difficulty,
-                    image: image,
-                  );
-              context.read<EditExerciseController>().goBack();
+              if (changed) {
+                showDialog<bool>(
+                  barrierDismissible: false,
+                  context: context,
+                  builder: (_) => AlertDialog(
+                    title: const Text(
+                      'You have unsaved changes\n Do you want to save them?',
+                    ),
+                    actions: [
+                      TextButton(
+                        onPressed: () => Navigator.of(context).pop(true),
+                        child: const Text('no'),
+                      ),
+                      TextButton(
+                        onPressed: () => Navigator.of(context).pop(true),
+                        child: const Text('yes'),
+                      ),
+                    ],
+                  ),
+                ).then((value) {
+                  if (value == true) {
+                    context.read<EditExerciseController>().setExercise(
+                          name: titleTextController.text == ''
+                              ? 'exercise'
+                              : titleTextController.text,
+                          description: descriptionTextController.text == ''
+                              ? null
+                              : descriptionTextController.text,
+                          material: materialTextController.text
+                              .split('\n')
+                              .where((element) => element.isNotEmpty)
+                              .toList(),
+                          difficulty: difficulty,
+                          image: image,
+                        );
+                  }
+                  context.read<EditExerciseController>().goBack();
+                });
+              } else {
+                context.read<EditExerciseController>().goBack();
+              }
             },
           ),
           title: const Text('Edit Exercise'),
@@ -101,6 +128,7 @@ class _EditExerciseViewState extends State<EditExerciseView> {
                                     ),
                                     Expanded(
                                       child: TextFormField(
+                                        onChanged: (_) => changed = true,
                                         decoration: const InputDecoration(
                                           border: OutlineInputBorder(
                                             borderRadius: BorderRadius.all(
@@ -135,8 +163,10 @@ class _EditExerciseViewState extends State<EditExerciseView> {
                                             : Icons.star,
                                         color: Colors.yellowAccent,
                                       ),
-                                      onPressed: () =>
-                                          setState(() => difficulty = i),
+                                      onPressed: () => setState(() {
+                                        difficulty = i;
+                                        changed = true;
+                                      }),
                                     ),
                                 ],
                               ),
@@ -155,6 +185,7 @@ class _EditExerciseViewState extends State<EditExerciseView> {
                                     ),
                                     Expanded(
                                       child: TextFormField(
+                                        onChanged: (_) => changed = true,
                                         decoration: const InputDecoration(
                                           border: OutlineInputBorder(),
                                           contentPadding: EdgeInsets.all(8),
@@ -182,6 +213,7 @@ class _EditExerciseViewState extends State<EditExerciseView> {
                                     ),
                                     Expanded(
                                       child: TextFormField(
+                                        onChanged: (_) => changed = true,
                                         decoration: const InputDecoration(
                                           border: OutlineInputBorder(),
                                           contentPadding: EdgeInsets.all(8),
@@ -224,6 +256,7 @@ class _EditExerciseViewState extends State<EditExerciseView> {
                                           return;
                                         }
                                         image = result.files.firstOrNull!.path;
+                                        changed = true;
                                       },
                                       child: const Text('add image'),
                                     ),
@@ -277,6 +310,7 @@ class _EditExerciseViewState extends State<EditExerciseView> {
                                       difficulty: difficulty,
                                       image: image,
                                     );
+                                changed = false;
                               },
                               child: Padding(
                                 padding: const EdgeInsets.only(

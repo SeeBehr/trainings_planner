@@ -40,50 +40,48 @@ class DataRepositoryImplementation extends DataRepository {
   }
 
   @override
-  Future<void> saveExercise(EditExerciseModel newExercise) {
-    return Future.delayed(const Duration(seconds: 2), () {
-      debugPrint('Exercise saved: $newExercise');
-      data = newExercise.mapOrNull(
-        data: (edited) => data?.maybeMap(
-          data: (model) => model.copyWith(
-            collections: model.collections.mapWithIndex((collection, index) {
-              if (index == model.activeCollection) {
-                return collection.copyWith(
-                  groups: collection.groups.mapWithIndex((group, index) {
-                    if (index == model.activeGroup) {
-                      return group.copyWith(
-                        exercises:
-                            group.exercises.mapWithIndex((exercise, index) {
-                          if (index == model.activeExercise) {
-                            return exercise.copyWith(
-                              name: edited.name,
-                              description: edited.description,
-                              material: edited.material,
-                              image: edited.image,
-                              difficulty: edited.difficulty,
-                              training: edited.training,
-                            );
-                          } else {
-                            return exercise;
-                          }
-                        }).toList(),
-                      );
-                    } else {
-                      return group;
-                    }
-                  }).toList(),
-                );
-              } else {
-                return collection;
-              }
-            }).toList(),
-          ),
-          orElse: () => null,
+  void saveExercise(EditExerciseModel newExercise) {
+    debugPrint('Exercise saved: $newExercise');
+    data = newExercise.mapOrNull(
+      data: (edited) => data?.maybeMap(
+        data: (model) => model.copyWith(
+          collections: model.collections.mapWithIndex((collection, index) {
+            if (index == model.activeCollection) {
+              return collection.copyWith(
+                groups: collection.groups.mapWithIndex((group, index) {
+                  if (index == model.activeGroup) {
+                    return group.copyWith(
+                      exercises:
+                          group.exercises.mapWithIndex((exercise, index) {
+                        if (index == model.activeExercise) {
+                          return exercise.copyWith(
+                            name: edited.name,
+                            description: edited.description,
+                            material: edited.material,
+                            image: edited.image,
+                            difficulty: edited.difficulty,
+                            training: edited.training,
+                          );
+                        } else {
+                          return exercise;
+                        }
+                      }).toList(),
+                    );
+                  } else {
+                    return group;
+                  }
+                }).toList(),
+              );
+            } else {
+              return collection;
+            }
+          }).toList(),
         ),
-      );
+        orElse: () => null,
+      ),
+    );
 
-      _stream.add(data);
-    });
+    _stream.add(data);
   }
 
   @override

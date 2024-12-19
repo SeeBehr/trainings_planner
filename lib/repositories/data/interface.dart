@@ -5,7 +5,7 @@ abstract class DataRepository {
   Stream<HomeModel?> get dataStream;
   Future<HomeModel> loadData();
   Future<void> saveData();
-  Future<void> saveExercise(EditExerciseModel newExercise);
+  void saveExercise(EditExerciseModel newExercise);
 
   void setActiveExercise({
     required int collectionIndex,
