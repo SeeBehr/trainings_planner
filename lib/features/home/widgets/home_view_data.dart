@@ -41,8 +41,8 @@ class HomeViewData extends StatelessWidget {
             exercises: collections.collections
                 .expand((collection) => collection.groups)
                 .expand((group) => group.exercises)
-                .filter((exercise) => exercise.trainingIndex != -1)
-                .sortWith((exercise) => exercise.trainingIndex, Order.orderInt)
+                .filter((exercise) => exercise.training.index != -1)
+                .sortWith((exercise) => exercise.training.index, Order.orderInt)
                 .toList(),
           ),
         ),

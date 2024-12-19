@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:trainings_planner/features/home/home_controller.dart';
 import 'package:trainings_planner/features/home/home_model.dart';
 
 class TrainingView extends StatelessWidget {
@@ -23,12 +25,35 @@ class TrainingView extends StatelessWidget {
         ),
         ReorderableListView.builder(
           shrinkWrap: true,
-          itemBuilder: (context, index) => ListTile(
+          itemBuilder: (context, index) => Row(
             key: ValueKey(exercises[index].id),
-            title: Text(exercises[index].name),
+            children: [
+              Expanded(
+                child: ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    shape: LinearBorder.none,
+                    backgroundColor: Theme.of(context).colorScheme.surface,
+                  ),
+                  child: Text(
+                    style: Theme.of(context).textTheme.labelLarge,
+                    exercises[index].name,
+                  ),
+                  onPressed: () => context
+                      .read<HomeController>()
+                      .setActiveExercise(
+                        collectionIndex:
+                            exercises[index].training.collectionIndex,
+                        groupIndex: exercises[index].training.groupIndex,
+                        exerciseIndex: exercises[index].training.exerciseIndex,
+                      ),
+                ),
+              ),
+            ],
           ),
           itemCount: exercises.length,
-          onReorder: (prev, curr) {},
+          onReorder: (prev, curr) {
+            context.read<HomeController>().reorderExercises(prev, curr);
+          },
         ),
       ],
     );

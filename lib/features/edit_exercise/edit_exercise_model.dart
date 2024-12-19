@@ -1,4 +1,5 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:trainings_planner/features/home/home_model.dart';
 
 part 'edit_exercise_model.freezed.dart';
 
@@ -11,7 +12,7 @@ class EditExerciseModel with _$EditExerciseModel {
     required List<String> material,
     required String? image,
     required int difficulty,
-    @Default(-1) int trainingIndex,
+    @Default(Training.none()) Training training,
   }) = _EditExerciseModelData;
   factory EditExerciseModel.loading() = _EditExerciseModelLoading;
   factory EditExerciseModel.empty() = _EditExerciseModelEmpty;

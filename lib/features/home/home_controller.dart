@@ -269,19 +269,98 @@ class HomeController extends Cubit<HomeModel> {
       data: (data) {
         emit(
           data.copyWith(
+            collections: data.collections.mapWithIndex(
+              (collection, collectionIndex) {
+                if (collectionIndex != data.activeCollection) {
+                  return collection;
+                }
+                return collection.copyWith(
+                  groups: collection.groups.mapWithIndex(
+                    (group, groupIndex) {
+                      if (groupIndex != data.activeGroup) {
+                        return group;
+                      }
+                      return group.copyWith(
+                        exercises: group.exercises.mapWithIndex(
+                          (exercise, exerciseIndex) {
+                            if (exerciseIndex != data.activeExercise) {
+                              return exercise;
+                            }
+                            return exercise.copyWith(
+                              training: Training(
+                                data.trainingLength,
+                                collectionIndex,
+                                groupIndex,
+                                exerciseIndex,
+                              ),
+                            );
+                          },
+                        ).toList(),
+                      );
+                    },
+                  ).toList(),
+                );
+              },
+            ).toList(),
+            trainingLength: data.trainingLength + 1,
+          ),
+        );
+        dataRepository.addToTraining();
+      },
+      orElse: () {},
+    );
+  }
+
+  void reorderExercises(int prev, int curr) {
+    state.maybeMap(
+      data: (data) {
+        emit(
+          data.copyWith(
             collections: data.collections
                 .map(
                   (collection) => collection.copyWith(
                     groups: collection.groups
                         .map(
                           (group) => group.copyWith(
-                            exercises: group.exercises
-                                .map(
-                                  (exercise) => exercise.copyWith(
-                                    trainingIndex: data.trainingLength,
-                                  ),
-                                )
-                                .toList(),
+                            exercises: group.exercises.map(
+                              (exercise) {
+                                if (prev <= curr) {
+                                  if (exercise.training.index == prev) {
+                                    return exercise.copyWith(
+                                      training: exercise.training.copyWith(
+                                        index: curr,
+                                      ),
+                                    );
+                                  }
+                                  if (exercise.training.index > prev &&
+                                      exercise.training.index <= curr) {
+                                    return exercise.copyWith(
+                                      training: exercise.training.copyWith(
+                                        index: exercise.training.index - 1,
+                                      ),
+                                    );
+                                  }
+                                  return exercise;
+                                } else {
+                                  if (exercise.training.index == prev) {
+                                    return exercise.copyWith(
+                                      training: exercise.training.copyWith(
+                                        index: curr,
+                                      ),
+                                    );
+                                  }
+                                  if (exercise.training.index < prev &&
+                                      exercise.training.index >= curr) {
+                                    return exercise.copyWith(
+                                      training: exercise.training.copyWith(
+                                        index: exercise.training.index + 1,
+                                      ),
+                                    );
+                                  }
+                                  return exercise;
+                                }
+                              },
+                            ).toList(),
                           ),
                         )
                         .toList(),
@@ -290,9 +369,9 @@ class HomeController extends Cubit<HomeModel> {
                 .toList(),
           ),
         );
-        dataRepository.addToTraining();
       },
       orElse: () {},
     );
+    dataRepository.reorderExercises(prev, curr);
   }
 }

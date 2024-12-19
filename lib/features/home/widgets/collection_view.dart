@@ -49,15 +49,16 @@ class _CollectionViewState extends State<CollectionView> {
                               : Theme.of(context).colorScheme.surface,
                         ),
                         child: FolderNameField(
-                            name: widget.collections[index].name,
-                            rename: (name) =>
-                                context.read<HomeController>().renameCollection(
-                                      index,
-                                      name,
-                                    ),
-                            delete: () => context
-                                .read<HomeController>()
-                                .deleteCollection(index)),
+                          name: widget.collections[index].name,
+                          rename: (name) =>
+                              context.read<HomeController>().renameCollection(
+                                    index,
+                                    name,
+                                  ),
+                          delete: () => context
+                              .read<HomeController>()
+                              .deleteCollection(index),
+                        ),
                         onPressed: () {
                           context.read<HomeController>().setActiveExercise(
                                 collectionIndex: index,

@@ -25,7 +25,7 @@ mixin _$EditExerciseModel {
             List<String> material,
             String? image,
             int difficulty,
-            int trainingIndex)
+            Training training)
         data,
     required TResult Function() loading,
     required TResult Function() empty,
@@ -40,7 +40,7 @@ mixin _$EditExerciseModel {
             List<String> material,
             String? image,
             int difficulty,
-            int trainingIndex)?
+            Training training)?
         data,
     TResult? Function()? loading,
     TResult? Function()? empty,
@@ -55,7 +55,7 @@ mixin _$EditExerciseModel {
             List<String> material,
             String? image,
             int difficulty,
-            int trainingIndex)?
+            Training training)?
         data,
     TResult Function()? loading,
     TResult Function()? empty,
@@ -118,7 +118,7 @@ abstract class _$$EditExerciseModelDataImplCopyWith<$Res> {
       List<String> material,
       String? image,
       int difficulty,
-      int trainingIndex});
+      Training training});
 }
 
 /// @nodoc
@@ -138,7 +138,7 @@ class __$$EditExerciseModelDataImplCopyWithImpl<$Res>
     Object? material = null,
     Object? image = freezed,
     Object? difficulty = null,
-    Object? trainingIndex = null,
+    Object? training = null,
   }) {
     return _then(_$EditExerciseModelDataImpl(
       id: null == id
@@ -165,10 +165,10 @@ class __$$EditExerciseModelDataImplCopyWithImpl<$Res>
           ? _value.difficulty
           : difficulty // ignore: cast_nullable_to_non_nullable
               as int,
-      trainingIndex: null == trainingIndex
-          ? _value.trainingIndex
-          : trainingIndex // ignore: cast_nullable_to_non_nullable
-              as int,
+      training: null == training
+          ? _value.training
+          : training // ignore: cast_nullable_to_non_nullable
+              as Training,
     ));
   }
 }
@@ -183,7 +183,7 @@ class _$EditExerciseModelDataImpl implements _EditExerciseModelData {
       required final List<String> material,
       required this.image,
       required this.difficulty,
-      this.trainingIndex = -1})
+      this.training = const Training.none()})
       : _material = material;
 
   @override
@@ -206,11 +206,11 @@ class _$EditExerciseModelDataImpl implements _EditExerciseModelData {
   final int difficulty;
   @override
   @JsonKey()
-  final int trainingIndex;
+  final Training training;
 
   @override
   String toString() {
-    return 'EditExerciseModel.data(id: $id, name: $name, description: $description, material: $material, image: $image, difficulty: $difficulty, trainingIndex: $trainingIndex)';
+    return 'EditExerciseModel.data(id: $id, name: $name, description: $description, material: $material, image: $image, difficulty: $difficulty, training: $training)';
   }
 
   @override
@@ -226,8 +226,8 @@ class _$EditExerciseModelDataImpl implements _EditExerciseModelData {
             (identical(other.image, image) || other.image == image) &&
             (identical(other.difficulty, difficulty) ||
                 other.difficulty == difficulty) &&
-            (identical(other.trainingIndex, trainingIndex) ||
-                other.trainingIndex == trainingIndex));
+            (identical(other.training, training) ||
+                other.training == training));
   }
 
   @override
@@ -239,7 +239,7 @@ class _$EditExerciseModelDataImpl implements _EditExerciseModelData {
       const DeepCollectionEquality().hash(_material),
       image,
       difficulty,
-      trainingIndex);
+      training);
 
   @JsonKey(ignore: true)
   @override
@@ -258,13 +258,12 @@ class _$EditExerciseModelDataImpl implements _EditExerciseModelData {
             List<String> material,
             String? image,
             int difficulty,
-            int trainingIndex)
+            Training training)
         data,
     required TResult Function() loading,
     required TResult Function() empty,
   }) {
-    return data(
-        id, name, description, material, image, difficulty, trainingIndex);
+    return data(id, name, description, material, image, difficulty, training);
   }
 
   @override
@@ -277,13 +276,13 @@ class _$EditExerciseModelDataImpl implements _EditExerciseModelData {
             List<String> material,
             String? image,
             int difficulty,
-            int trainingIndex)?
+            Training training)?
         data,
     TResult? Function()? loading,
     TResult? Function()? empty,
   }) {
     return data?.call(
-        id, name, description, material, image, difficulty, trainingIndex);
+        id, name, description, material, image, difficulty, training);
   }
 
   @override
@@ -296,15 +295,14 @@ class _$EditExerciseModelDataImpl implements _EditExerciseModelData {
             List<String> material,
             String? image,
             int difficulty,
-            int trainingIndex)?
+            Training training)?
         data,
     TResult Function()? loading,
     TResult Function()? empty,
     required TResult orElse(),
   }) {
     if (data != null) {
-      return data(
-          id, name, description, material, image, difficulty, trainingIndex);
+      return data(id, name, description, material, image, difficulty, training);
     }
     return orElse();
   }
@@ -352,7 +350,7 @@ abstract class _EditExerciseModelData implements EditExerciseModel {
       required final List<String> material,
       required final String? image,
       required final int difficulty,
-      final int trainingIndex}) = _$EditExerciseModelDataImpl;
+      final Training training}) = _$EditExerciseModelDataImpl;
 
   String get id;
   String get name;
@@ -360,7 +358,7 @@ abstract class _EditExerciseModelData implements EditExerciseModel {
   List<String> get material;
   String? get image;
   int get difficulty;
-  int get trainingIndex;
+  Training get training;
   @JsonKey(ignore: true)
   _$$EditExerciseModelDataImplCopyWith<_$EditExerciseModelDataImpl>
       get copyWith => throw _privateConstructorUsedError;
@@ -415,7 +413,7 @@ class _$EditExerciseModelLoadingImpl implements _EditExerciseModelLoading {
             List<String> material,
             String? image,
             int difficulty,
-            int trainingIndex)
+            Training training)
         data,
     required TResult Function() loading,
     required TResult Function() empty,
@@ -433,7 +431,7 @@ class _$EditExerciseModelLoadingImpl implements _EditExerciseModelLoading {
             List<String> material,
             String? image,
             int difficulty,
-            int trainingIndex)?
+            Training training)?
         data,
     TResult? Function()? loading,
     TResult? Function()? empty,
@@ -451,7 +449,7 @@ class _$EditExerciseModelLoadingImpl implements _EditExerciseModelLoading {
             List<String> material,
             String? image,
             int difficulty,
-            int trainingIndex)?
+            Training training)?
         data,
     TResult Function()? loading,
     TResult Function()? empty,
@@ -550,7 +548,7 @@ class _$EditExerciseModelEmptyImpl implements _EditExerciseModelEmpty {
             List<String> material,
             String? image,
             int difficulty,
-            int trainingIndex)
+            Training training)
         data,
     required TResult Function() loading,
     required TResult Function() empty,
@@ -568,7 +566,7 @@ class _$EditExerciseModelEmptyImpl implements _EditExerciseModelEmpty {
             List<String> material,
             String? image,
             int difficulty,
-            int trainingIndex)?
+            Training training)?
         data,
     TResult? Function()? loading,
     TResult? Function()? empty,
@@ -586,7 +584,7 @@ class _$EditExerciseModelEmptyImpl implements _EditExerciseModelEmpty {
             List<String> material,
             String? image,
             int difficulty,
-            int trainingIndex)?
+            Training training)?
         data,
     TResult Function()? loading,
     TResult Function()? empty,

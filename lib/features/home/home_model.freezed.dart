@@ -913,7 +913,7 @@ mixin _$HomeModelExercise {
   List<String> get material => throw _privateConstructorUsedError;
   String? get image => throw _privateConstructorUsedError;
   int get difficulty => throw _privateConstructorUsedError;
-  int get trainingIndex => throw _privateConstructorUsedError;
+  Training get training => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $HomeModelExerciseCopyWith<HomeModelExercise> get copyWith =>
@@ -933,7 +933,7 @@ abstract class $HomeModelExerciseCopyWith<$Res> {
       List<String> material,
       String? image,
       int difficulty,
-      int trainingIndex});
+      Training training});
 }
 
 /// @nodoc
@@ -955,7 +955,7 @@ class _$HomeModelExerciseCopyWithImpl<$Res, $Val extends HomeModelExercise>
     Object? material = null,
     Object? image = freezed,
     Object? difficulty = null,
-    Object? trainingIndex = null,
+    Object? training = null,
   }) {
     return _then(_value.copyWith(
       id: null == id
@@ -982,10 +982,10 @@ class _$HomeModelExerciseCopyWithImpl<$Res, $Val extends HomeModelExercise>
           ? _value.difficulty
           : difficulty // ignore: cast_nullable_to_non_nullable
               as int,
-      trainingIndex: null == trainingIndex
-          ? _value.trainingIndex
-          : trainingIndex // ignore: cast_nullable_to_non_nullable
-              as int,
+      training: null == training
+          ? _value.training
+          : training // ignore: cast_nullable_to_non_nullable
+              as Training,
     ) as $Val);
   }
 }
@@ -1005,7 +1005,7 @@ abstract class _$$HomeModelExerciseImplCopyWith<$Res>
       List<String> material,
       String? image,
       int difficulty,
-      int trainingIndex});
+      Training training});
 }
 
 /// @nodoc
@@ -1025,7 +1025,7 @@ class __$$HomeModelExerciseImplCopyWithImpl<$Res>
     Object? material = null,
     Object? image = freezed,
     Object? difficulty = null,
-    Object? trainingIndex = null,
+    Object? training = null,
   }) {
     return _then(_$HomeModelExerciseImpl(
       id: null == id
@@ -1052,10 +1052,10 @@ class __$$HomeModelExerciseImplCopyWithImpl<$Res>
           ? _value.difficulty
           : difficulty // ignore: cast_nullable_to_non_nullable
               as int,
-      trainingIndex: null == trainingIndex
-          ? _value.trainingIndex
-          : trainingIndex // ignore: cast_nullable_to_non_nullable
-              as int,
+      training: null == training
+          ? _value.training
+          : training // ignore: cast_nullable_to_non_nullable
+              as Training,
     ));
   }
 }
@@ -1070,7 +1070,7 @@ class _$HomeModelExerciseImpl implements _HomeModelExercise {
       required final List<String> material,
       required this.image,
       required this.difficulty,
-      this.trainingIndex = -1})
+      this.training = const Training.none()})
       : _material = material;
 
   @override
@@ -1093,11 +1093,11 @@ class _$HomeModelExerciseImpl implements _HomeModelExercise {
   final int difficulty;
   @override
   @JsonKey()
-  final int trainingIndex;
+  final Training training;
 
   @override
   String toString() {
-    return 'HomeModelExercise(id: $id, name: $name, description: $description, material: $material, image: $image, difficulty: $difficulty, trainingIndex: $trainingIndex)';
+    return 'HomeModelExercise(id: $id, name: $name, description: $description, material: $material, image: $image, difficulty: $difficulty, training: $training)';
   }
 
   @override
@@ -1113,8 +1113,8 @@ class _$HomeModelExerciseImpl implements _HomeModelExercise {
             (identical(other.image, image) || other.image == image) &&
             (identical(other.difficulty, difficulty) ||
                 other.difficulty == difficulty) &&
-            (identical(other.trainingIndex, trainingIndex) ||
-                other.trainingIndex == trainingIndex));
+            (identical(other.training, training) ||
+                other.training == training));
   }
 
   @override
@@ -1126,7 +1126,7 @@ class _$HomeModelExerciseImpl implements _HomeModelExercise {
       const DeepCollectionEquality().hash(_material),
       image,
       difficulty,
-      trainingIndex);
+      training);
 
   @JsonKey(ignore: true)
   @override
@@ -1144,7 +1144,7 @@ abstract class _HomeModelExercise implements HomeModelExercise {
       required final List<String> material,
       required final String? image,
       required final int difficulty,
-      final int trainingIndex}) = _$HomeModelExerciseImpl;
+      final Training training}) = _$HomeModelExerciseImpl;
 
   @override
   String get id;
@@ -1159,7 +1159,7 @@ abstract class _HomeModelExercise implements HomeModelExercise {
   @override
   int get difficulty;
   @override
-  int get trainingIndex;
+  Training get training;
   @override
   @JsonKey(ignore: true)
   _$$HomeModelExerciseImplCopyWith<_$HomeModelExerciseImpl> get copyWith =>

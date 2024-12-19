@@ -61,7 +61,7 @@ class DataRepositoryImplementation extends DataRepository {
                               material: edited.material,
                               image: edited.image,
                               difficulty: edited.difficulty,
-                              trainingIndex: edited.trainingIndex,
+                              training: edited.training,
                             );
                           } else {
                             return exercise;
@@ -125,7 +125,7 @@ class DataRepositoryImplementation extends DataRepository {
       material: exercise.material,
       image: exercise.image,
       difficulty: exercise.difficulty,
-      trainingIndex: exercise.trainingIndex,
+      training: exercise.training,
     );
   }
 
@@ -271,9 +271,100 @@ class DataRepositoryImplementation extends DataRepository {
   void addToTraining() {
     data = data?.maybeMap(
       data: (model) => model.copyWith(
+        collections: model.collections.mapWithIndex(
+          (collection, collectionIndex) {
+            if (collectionIndex != model.activeCollection) {
+              return collection;
+            }
+            return collection.copyWith(
+              groups: collection.groups.mapWithIndex(
+                (group, groupIndex) {
+                  if (groupIndex != model.activeGroup) {
+                    return group;
+                  }
+                  return group.copyWith(
+                    exercises: group.exercises.mapWithIndex(
+                      (exercise, exerciseIndex) {
+                        if (exerciseIndex != model.activeExercise) {
+                          return exercise;
+                        }
+                        return exercise.copyWith(
+                          training: Training(
+                            model.trainingLength,
+                            collectionIndex,
+                            groupIndex,
+                            exerciseIndex,
+                          ),
+                        );
+                      },
+                    ).toList(),
+                  );
+                },
+              ).toList(),
+            );
+          },
+        ).toList(),
         trainingLength: model.trainingLength + 1,
       ),
       orElse: () => data,
+    );
+  }
+
+  @override
+  void reorderExercises(int prev, int curr) {
+    data?.maybeMap(
+      data: (data) => data.copyWith(
+        collections: data.collections
+            .map(
+              (collection) => collection.copyWith(
+                groups: collection.groups
+                    .map(
+                      (group) => group.copyWith(
+                        exercises: group.exercises.map(
+                          (exercise) {
+                            if (prev <= curr) {
+                              if (exercise.training.collectionIndex == prev) {
+                                return exercise.copyWith(
+                                    training: exercise.training.copyWith(
+                                  collectionIndex: curr,
+                                ));
+                              } else if (exercise.training.index > prev &&
+                                  exercise.training.index <= curr) {
+                                return exercise.copyWith(
+                                  training: exercise.training.copyWith(
+                                      index: exercise.training.index - 1),
+                                );
+                              } else {
+                                return exercise;
+                              }
+                            } else {
+                              if (exercise.training.index == prev) {
+                                return exercise.copyWith(
+                                  training: exercise.training.copyWith(
+                                    index: curr,
+                                  ),
+                                );
+                              } else if (exercise.training.index < prev &&
+                                  exercise.training.index >= curr) {
+                                return exercise.copyWith(
+                                  training: exercise.training.copyWith(
+                                    index: exercise.training.index + 1,
+                                  ),
+                                );
+                              } else {
+                                return exercise;
+                              }
+                            }
+                          },
+                        ).toList(),
+                      ),
+                    )
+                    .toList(),
+              ),
+            )
+            .toList(),
+      ),
+      orElse: () {},
     );
   }
 }

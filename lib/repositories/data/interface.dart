@@ -30,4 +30,6 @@ abstract class DataRepository {
   void deleteGroup(int collectionIndex, int groupIndex);
 
   void addToTraining();
+
+  void reorderExercises(int prev, int curr);
 }
