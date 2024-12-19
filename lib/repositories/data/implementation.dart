@@ -5,11 +5,11 @@ import 'package:fpdart/fpdart.dart';
 import 'package:trainings_planner/features/edit_exercise/edit_exercise_model.dart';
 import 'package:trainings_planner/features/home/home_model.dart';
 import 'package:trainings_planner/repositories/data/interface.dart';
-import 'package:trainings_planner/services/persistance/hive.dart';
-import 'package:trainings_planner/services/persistance/interface.dart';
+import 'package:trainings_planner/services/persistence/hive.dart';
+import 'package:trainings_planner/services/persistence/interface.dart';
 
 class DataRepositoryImplementation extends DataRepository {
-  PersistenceService persistenceService = HivePersistanceService();
+  PersistenceService persistenceService = HivePersistenceService();
   HomeModel? data;
   @override
   Stream<HomeModel?> get dataStream => _stream.stream;
@@ -381,7 +381,7 @@ class DataRepositoryImplementation extends DataRepository {
 
   @override
   void deleteExercise() {
-    int exerciseLen = 0;
+    var exerciseLen = 0;
     data = data?.maybeMap(
       data: (model) => model.copyWith(
         collections: model.collections.mapWithIndex((collection, index) {

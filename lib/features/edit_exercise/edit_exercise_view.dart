@@ -73,7 +73,7 @@ class _EditExerciseViewState extends State<EditExerciseView> {
                     ],
                   ),
                 ).then((value) {
-                  if (value == true) {
+                  if (value ?? false) {
                     context.read<EditExerciseController>().setExercise(
                           name: titleTextController.text == ''
                               ? 'exercise'
