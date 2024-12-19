@@ -207,6 +207,34 @@ class ExerciseViewData extends StatelessWidget {
                           onPressed: () =>
                               context.read<HomeController>().addToTraining(),
                         ),
+                        const SizedBox(width: 8),
+                        ElevatedButton(
+                          style: ButtonStyle(
+                            backgroundColor: WidgetStateProperty.all<Color>(
+                              Theme.of(context).colorScheme.secondary,
+                            ),
+                          ),
+                          child: Padding(
+                            padding: const EdgeInsets.only(
+                              top: 8,
+                              bottom: 8,
+                              left: 16,
+                              right: 16,
+                            ),
+                            child: Text(
+                              'delete',
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .bodyLarge!
+                                  .copyWith(
+                                    color:
+                                        const Color.fromARGB(255, 40, 40, 139),
+                                  ),
+                            ),
+                          ),
+                          onPressed: () =>
+                              context.read<HomeController>().deleteExercise(),
+                        ),
                       ],
                     ),
                   ),

@@ -156,4 +156,13 @@ class HomeController extends Cubit<HomeModel> {
       orElse: () {},
     );
   }
+
+  void deleteExercise() {
+    state.maybeMap(
+      data: (data) {
+        dataRepository.deleteExercise();
+      },
+      orElse: () {},
+    );
+  }
 }

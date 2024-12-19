@@ -18,7 +18,7 @@ class _EditExerciseViewState extends State<EditExerciseView> {
   late TextEditingController descriptionTextController;
   late TextEditingController materialTextController;
   late int difficulty;
-  bool changed = true;
+  bool changed = false;
   String? image;
 
   @override
@@ -261,7 +261,10 @@ class _EditExerciseViewState extends State<EditExerciseView> {
                                       child: const Text('add image'),
                                     ),
                                     TextButton(
-                                      onPressed: () => image = null,
+                                      onPressed: () {
+                                        image = null;
+                                        changed = true;
+                                      },
                                       child: const Text('remove image'),
                                     ),
                                   ],
@@ -311,6 +314,7 @@ class _EditExerciseViewState extends State<EditExerciseView> {
                                       image: image,
                                     );
                                 changed = false;
+                                context.read<EditExerciseController>().goBack();
                               },
                               child: Padding(
                                 padding: const EdgeInsets.only(
@@ -355,7 +359,7 @@ class _EditExerciseViewState extends State<EditExerciseView> {
                                 titleTextController.dispose();
                                 descriptionTextController.dispose();
                                 materialTextController.dispose();
-                                Navigator.of(context).pop();
+                                context.read<EditExerciseController>().goBack();
                               },
                               child: Padding(
                                 padding: const EdgeInsets.only(
