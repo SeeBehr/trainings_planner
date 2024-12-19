@@ -150,6 +150,8 @@ class DataRepositoryImplementation extends DataRepository {
             return collection;
           }
         }).toList(),
+        activeExercise: model.collections[model.activeCollection]
+            .groups[model.activeGroup].exercises.length,
       ),
       orElse: () => null,
     );
@@ -374,6 +376,44 @@ class DataRepositoryImplementation extends DataRepository {
       orElse: () => data,
     );
     debugPrint('reorderExercises DataRepository end');
+    _stream.add(data);
+  }
+
+  @override
+  void deleteExercise() {
+    int exerciseLen = 0;
+    data = data?.maybeMap(
+      data: (model) => model.copyWith(
+        collections: model.collections.mapWithIndex((collection, index) {
+          if (index == model.activeCollection) {
+            return collection.copyWith(
+              groups: collection.groups.mapWithIndex((group, index) {
+                if (index == model.activeGroup) {
+                  exerciseLen = group.exercises.length;
+                  return group.copyWith(
+                    exercises: group.exercises
+                        .where(
+                          (exercise) =>
+                              model.activeExercise !=
+                              group.exercises.indexOf(exercise),
+                        )
+                        .toList(),
+                  );
+                } else {
+                  return group;
+                }
+              }).toList(),
+            );
+          } else {
+            return collection;
+          }
+        }).toList(),
+        activeExercise: (model.activeExercise == exerciseLen - 1)
+            ? model.activeExercise - 1
+            : model.activeExercise,
+      ),
+      orElse: () => data,
+    );
     _stream.add(data);
   }
 }

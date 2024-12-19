@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:trainings_planner/features/edit_exercise/edit_exercise_model.dart';
 import 'package:trainings_planner/repositories/data/interface.dart';
