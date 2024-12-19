@@ -176,6 +176,7 @@ class DataRepositoryImplementation extends DataRepository {
       ),
       orElse: () => data,
     );
+    _stream.add(data);
   }
 
   @override
@@ -204,6 +205,7 @@ class DataRepositoryImplementation extends DataRepository {
       ),
       orElse: () => data,
     );
+    _stream.add(data);
   }
 
   @override
@@ -228,6 +230,7 @@ class DataRepositoryImplementation extends DataRepository {
       ),
       orElse: () => data,
     );
+    _stream.add(data);
   }
 
   @override
@@ -243,6 +246,7 @@ class DataRepositoryImplementation extends DataRepository {
       ),
       orElse: () => data,
     );
+    _stream.add(data);
   }
 
   @override
@@ -265,6 +269,7 @@ class DataRepositoryImplementation extends DataRepository {
       ),
       orElse: () => data,
     );
+    _stream.add(data);
   }
 
   @override
@@ -308,11 +313,13 @@ class DataRepositoryImplementation extends DataRepository {
       ),
       orElse: () => data,
     );
+    _stream.add(data);
   }
 
   @override
   void reorderExercises(int prev, int curr) {
-    data?.maybeMap(
+    debugPrint('reorderExercises DataRepository');
+    data = data?.maybeMap(
       data: (data) => data.copyWith(
         collections: data.collections
             .map(
@@ -325,14 +332,16 @@ class DataRepositoryImplementation extends DataRepository {
                             if (prev <= curr) {
                               if (exercise.training.collectionIndex == prev) {
                                 return exercise.copyWith(
-                                    training: exercise.training.copyWith(
-                                  collectionIndex: curr,
-                                ));
+                                  training: exercise.training.copyWith(
+                                    collectionIndex: curr,
+                                  ),
+                                );
                               } else if (exercise.training.index > prev &&
                                   exercise.training.index <= curr) {
                                 return exercise.copyWith(
                                   training: exercise.training.copyWith(
-                                      index: exercise.training.index - 1),
+                                    index: exercise.training.index - 1,
+                                  ),
                                 );
                               } else {
                                 return exercise;
@@ -364,7 +373,9 @@ class DataRepositoryImplementation extends DataRepository {
             )
             .toList(),
       ),
-      orElse: () {},
+      orElse: () => data,
     );
+    debugPrint('reorderExercises DataRepository end');
+    _stream.add(data);
   }
 }

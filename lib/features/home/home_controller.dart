@@ -2,7 +2,6 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:fpdart/fpdart.dart';
 import 'package:trainings_planner/features/home/home_model.dart';
 import 'package:trainings_planner/repositories/data/interface.dart';
 import 'package:trainings_planner/services/navigation/interface.dart';
@@ -71,35 +70,6 @@ class HomeController extends Cubit<HomeModel> {
         if (value.activeCollection == -1 || value.activeGroup == -1) {
           return false;
         }
-        emit(
-          value.copyWith(
-            collections:
-                value.collections.mapWithIndex((collection, collectionIndex) {
-              if (collectionIndex == value.activeCollection) {
-                return collection.copyWith(
-                  groups: value.collections[value.activeCollection].groups
-                      .mapWithIndex((group, groupIndex) {
-                    if (groupIndex == value.activeGroup) {
-                      return group.copyWith(
-                        exercises: [
-                          ...group.exercises,
-                          HomeModelExercise.add(),
-                        ],
-                      );
-                    } else {
-                      return group;
-                    }
-                  }).toList(),
-                );
-              } else {
-                return collection;
-              }
-            }).toList(),
-            activeExercise: value.collections[value.activeCollection]
-                    .groups[value.activeGroup].exercises.length -
-                1,
-          ),
-        );
         dataRepository.addExercise();
         return true;
       },
@@ -112,24 +82,6 @@ class HomeController extends Cubit<HomeModel> {
     return state.maybeMap(
       data: (value) {
         if (value.activeCollection == -1) return false;
-        emit(
-          value.copyWith(
-            collections:
-                value.collections.mapWithIndex((collection, collectionIndex) {
-              if (collectionIndex == value.activeCollection) {
-                return collection.copyWith(
-                  groups: value.collections[value.activeCollection].groups
-                      .append(HomeModelGroup.add())
-                      .toList(),
-                );
-              } else {
-                return collection;
-              }
-            }).toList(),
-            activeGroup:
-                value.collections[value.activeCollection].groups.length - 1,
-          ),
-        );
         dataRepository.addGroup();
         return true;
       },
@@ -141,13 +93,6 @@ class HomeController extends Cubit<HomeModel> {
     debugPrint('addExercise');
     return state.maybeMap(
       data: (value) {
-        emit(
-          value.copyWith(
-            collections:
-                value.collections.append(HomeModelCollection.add()).toList(),
-            activeCollection: value.collections.length - 1,
-          ),
-        );
         dataRepository.addCollection();
         return true;
       },
@@ -160,17 +105,6 @@ class HomeController extends Cubit<HomeModel> {
   void renameCollection(int index, String value) {
     state.maybeMap(
       data: (data) {
-        emit(
-          data.copyWith(
-            collections: data.collections.mapWithIndex((collection, i) {
-              if (i == index) {
-                return collection.copyWith(name: value);
-              } else {
-                return collection;
-              }
-            }).toList(),
-          ),
-        );
         dataRepository.renameCollection(index, value);
       },
       orElse: () {},
@@ -180,25 +114,6 @@ class HomeController extends Cubit<HomeModel> {
   void renameGroup(int collectionIndex, int groupIndex, String value) {
     state.maybeMap(
       data: (data) {
-        emit(
-          data.copyWith(
-            collections: data.collections.mapWithIndex((collection, i) {
-              if (i == collectionIndex) {
-                return collection.copyWith(
-                  groups: collection.groups.mapWithIndex((group, j) {
-                    if (j == groupIndex) {
-                      return group.copyWith(name: value);
-                    } else {
-                      return group;
-                    }
-                  }).toList(),
-                );
-              } else {
-                return collection;
-              }
-            }).toList(),
-          ),
-        );
         dataRepository.renameGroup(collectionIndex, groupIndex, value);
       },
       orElse: () {},
@@ -208,23 +123,6 @@ class HomeController extends Cubit<HomeModel> {
   void deleteCollection(int collectionIndex) {
     state.maybeMap(
       data: (data) {
-        emit(
-          data.copyWith(
-            collections: data.collections
-                .where(
-                  (collection) =>
-                      collectionIndex != data.collections.indexOf(collection),
-                )
-                .toList(),
-            activeCollection: data.activeCollection == collectionIndex
-                ? -1
-                : data.activeCollection >= collectionIndex
-                    ? data.activeCollection - 1
-                    : data.activeCollection,
-            activeGroup: -1,
-            activeExercise: -1,
-          ),
-        );
         dataRepository.deleteCollection(collectionIndex);
       },
       orElse: () {},
@@ -234,30 +132,6 @@ class HomeController extends Cubit<HomeModel> {
   void deleteGroup(int collectionIndex, int groupIndex) {
     state.maybeMap(
       data: (data) {
-        emit(
-          data.copyWith(
-            collections: data.collections.mapWithIndex((collection, i) {
-              if (i == collectionIndex) {
-                return collection.copyWith(
-                  groups: collection.groups
-                      .where(
-                        (group) =>
-                            groupIndex != collection.groups.indexOf(group),
-                      )
-                      .toList(),
-                );
-              } else {
-                return collection;
-              }
-            }).toList(),
-            activeGroup: data.activeGroup == groupIndex
-                ? -1
-                : data.activeGroup >= groupIndex
-                    ? data.activeGroup - 1
-                    : data.activeGroup,
-            activeExercise: -1,
-          ),
-        );
         dataRepository.deleteGroup(collectionIndex, groupIndex);
       },
       orElse: () {},
@@ -267,44 +141,6 @@ class HomeController extends Cubit<HomeModel> {
   void addToTraining() {
     state.maybeMap(
       data: (data) {
-        emit(
-          data.copyWith(
-            collections: data.collections.mapWithIndex(
-              (collection, collectionIndex) {
-                if (collectionIndex != data.activeCollection) {
-                  return collection;
-                }
-                return collection.copyWith(
-                  groups: collection.groups.mapWithIndex(
-                    (group, groupIndex) {
-                      if (groupIndex != data.activeGroup) {
-                        return group;
-                      }
-                      return group.copyWith(
-                        exercises: group.exercises.mapWithIndex(
-                          (exercise, exerciseIndex) {
-                            if (exerciseIndex != data.activeExercise) {
-                              return exercise;
-                            }
-                            return exercise.copyWith(
-                              training: Training(
-                                data.trainingLength,
-                                collectionIndex,
-                                groupIndex,
-                                exerciseIndex,
-                              ),
-                            );
-                          },
-                        ).toList(),
-                      );
-                    },
-                  ).toList(),
-                );
-              },
-            ).toList(),
-            trainingLength: data.trainingLength + 1,
-          ),
-        );
         dataRepository.addToTraining();
       },
       orElse: () {},
@@ -312,66 +148,12 @@ class HomeController extends Cubit<HomeModel> {
   }
 
   void reorderExercises(int prev, int curr) {
+    debugPrint('reorderExercises HomeController');
     state.maybeMap(
       data: (data) {
-        emit(
-          data.copyWith(
-            collections: data.collections
-                .map(
-                  (collection) => collection.copyWith(
-                    groups: collection.groups
-                        .map(
-                          (group) => group.copyWith(
-                            exercises: group.exercises.map(
-                              (exercise) {
-                                if (prev <= curr) {
-                                  if (exercise.training.index == prev) {
-                                    return exercise.copyWith(
-                                      training: exercise.training.copyWith(
-                                        index: curr,
-                                      ),
-                                    );
-                                  }
-                                  if (exercise.training.index > prev &&
-                                      exercise.training.index <= curr) {
-                                    return exercise.copyWith(
-                                      training: exercise.training.copyWith(
-                                        index: exercise.training.index - 1,
-                                      ),
-                                    );
-                                  }
-                                  return exercise;
-                                } else {
-                                  if (exercise.training.index == prev) {
-                                    return exercise.copyWith(
-                                      training: exercise.training.copyWith(
-                                        index: curr,
-                                      ),
-                                    );
-                                  }
-                                  if (exercise.training.index < prev &&
-                                      exercise.training.index >= curr) {
-                                    return exercise.copyWith(
-                                      training: exercise.training.copyWith(
-                                        index: exercise.training.index + 1,
-                                      ),
-                                    );
-                                  }
-                                  return exercise;
-                                }
-                              },
-                            ).toList(),
-                          ),
-                        )
-                        .toList(),
-                  ),
-                )
-                .toList(),
-          ),
-        );
+        dataRepository.reorderExercises(prev, curr);
       },
       orElse: () {},
     );
-    dataRepository.reorderExercises(prev, curr);
   }
 }

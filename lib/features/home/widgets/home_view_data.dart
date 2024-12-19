@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:fpdart/fpdart.dart' hide State;
+import 'package:trainings_planner/features/collection_view/collection_view.dart';
 import 'package:trainings_planner/features/home/home_model.dart';
-import 'package:trainings_planner/features/home/widgets/collection_view.dart';
 import 'package:trainings_planner/features/home/widgets/exercise_view.dart';
-import 'package:trainings_planner/features/home/widgets/training_view.dart';
+import 'package:trainings_planner/features/training_view/training.dart';
 
 class HomeViewData extends StatelessWidget {
   const HomeViewData({required this.collections, super.key});
