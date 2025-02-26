@@ -161,6 +161,15 @@ class HomeController extends Cubit<HomeModel> {
     );
   }
 
+  void removeFromTraining() {
+    state.maybeMap(
+      data: (data) {
+        dataRepository.removeFromTraining();
+      },
+      orElse: () {},
+    );
+  }
+
   void reorderExercises(int prev, int curr) {
     debugPrint('reorderExercises HomeController');
     state.maybeMap(

@@ -34,6 +34,8 @@ abstract class DataRepository {
 
   void addToTraining();
 
+  void removeFromTraining();
+
   void reorderExercises(int prev, int curr);
 
   void deleteExercise();

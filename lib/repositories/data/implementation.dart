@@ -372,6 +372,46 @@ class DataRepositoryImplementation extends DataRepository {
   }
 
   @override
+  void removeFromTraining() {
+    data = data?.maybeMap(
+      data: (model) => model.copyWith(
+        collections: model.collections.mapWithIndex(
+          (collection, collectionIndex) {
+            if (collectionIndex != model.activeCollection) {
+              return collection;
+            }
+            return collection.copyWith(
+              groups: collection.groups.mapWithIndex(
+                (group, groupIndex) {
+                  if (groupIndex != model.activeGroup) {
+                    return group;
+                  }
+                  return group.copyWith(
+                    exercises: group.exercises.mapWithIndex(
+                      (exercise, exerciseIndex) {
+                        if (exerciseIndex != model.activeExercise) {
+                          return exercise;
+                        }
+                        debugPrint('Remove ${exercise.name} from training');
+                        return exercise.copyWith(
+                          training: const Training.none(),
+                        );
+                      },
+                    ).toList(),
+                  );
+                },
+              ).toList(),
+            );
+          },
+        ).toList(),
+        trainingLength: model.trainingLength - 1,
+      ),
+      orElse: () => data,
+    );
+    _stream.add(data);
+  }
+
+  @override
   void reorderExercises(int prev, int curr) {
     debugPrint('reorderExercises DataRepository start');
     debugPrint('prev: $prev, curr: $curr');
