@@ -17,6 +17,7 @@ class HomeViewData extends StatelessWidget {
         Expanded(
           child: CollectionView(
             collections: collections.collections,
+            activeCollection: collections.activeCollection,
           ),
         ),
         Expanded(

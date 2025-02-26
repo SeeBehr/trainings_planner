@@ -173,6 +173,8 @@ class DataRepositoryImplementation extends DataRepository {
             return collection;
           }
         }).toList(),
+        activeGroup: model.collections[model.activeCollection].groups.length,
+        activeExercise: -1,
       ),
       orElse: () => data,
     );
@@ -193,6 +195,7 @@ class DataRepositoryImplementation extends DataRepository {
 
   @override
   void renameCollection(int index, String value) {
+    debugPrint('renameCollection to $value');
     data = data?.maybeMap(
       data: (model) => model.copyWith(
         collections:
@@ -235,6 +238,40 @@ class DataRepositoryImplementation extends DataRepository {
   }
 
   @override
+  void renameExercise(
+      int collectionIndex, int groupIndex, int exerciseIndex, String value) {
+    data = data?.maybeMap(
+      data: (model) => model.copyWith(
+        collections: model.collections.mapWithIndex((collection, index) {
+          if (index == collectionIndex) {
+            return collection.copyWith(
+              groups: collection.groups.mapWithIndex((group, index) {
+                if (index == groupIndex) {
+                  return group.copyWith(
+                    exercises: group.exercises.mapWithIndex((exercise, index) {
+                      if (index == exerciseIndex) {
+                        return exercise.copyWith(name: value);
+                      } else {
+                        return exercise;
+                      }
+                    }).toList(),
+                  );
+                } else {
+                  return group;
+                }
+              }).toList(),
+            );
+          } else {
+            return collection;
+          }
+        }).toList(),
+      ),
+      orElse: () => data,
+    );
+    _stream.add(data);
+  }
+
+  @override
   void deleteCollection(int collectionIndex) {
     data = data?.maybeMap(
       data: (model) => model.copyWith(
@@ -244,6 +281,15 @@ class DataRepositoryImplementation extends DataRepository {
                   collectionIndex != model.collections.indexOf(collection),
             )
             .toList(),
+        activeCollection: (model.activeCollection >= collectionIndex)
+            ? model.activeCollection - 1
+            : model.activeCollection,
+        activeGroup: (model.activeCollection == collectionIndex)
+            ? -1
+            : model.activeGroup,
+        activeExercise: (model.activeCollection == collectionIndex)
+            ? -1
+            : model.activeExercise,
       ),
       orElse: () => data,
     );
@@ -267,6 +313,11 @@ class DataRepositoryImplementation extends DataRepository {
             return collection;
           }
         }).toList(),
+        activeGroup: (model.activeGroup >= groupIndex)
+            ? model.activeGroup - 1
+            : model.activeGroup,
+        activeExercise:
+            (model.activeGroup == groupIndex) ? -1 : model.activeExercise,
       ),
       orElse: () => data,
     );

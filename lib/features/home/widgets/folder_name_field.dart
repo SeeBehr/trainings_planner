@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 
 class FolderNameField extends StatefulWidget {
   const FolderNameField({
@@ -18,74 +19,51 @@ class FolderNameField extends StatefulWidget {
 
 class _FolderNameFieldState extends State<FolderNameField> {
   bool active = false;
+  Offset anchorPoint = Offset.zero;
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onSecondaryTapUp: (TapUpDetails det) async => showDialog(
-        anchorPoint: det.globalPosition,
-        builder: (context) => Padding(
-          padding: const EdgeInsets.only(
-            left: 24,
-            top: 24,
+    return MouseRegion(
+      onHover: (event) => setState(() => anchorPoint = event.position),
+      child: GestureDetector(
+        onSecondaryTap: () => showMenu(
+          context: context,
+          position: RelativeRect.fromLTRB(
+            anchorPoint.dx,
+            anchorPoint.dy,
+            anchorPoint.dx,
+            anchorPoint.dy,
           ),
-          child: SizedBox(
-            width: 80,
-            height: 60,
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Container(
-                  decoration: BoxDecoration(
-                    color: Theme.of(context).cardColor,
-                    borderRadius: const BorderRadius.only(
-                      topLeft: Radius.circular(5),
-                      topRight: Radius.circular(5),
-                    ),
-                  ),
-                  width: 80,
-                  height: 30,
-                  child: TextButton(
-                    onPressed: () {
-                      Navigator.pop(context);
-                      setState(() => active = true);
-                    },
-                    child: const Text('Rename'),
-                  ),
-                ),
-                Container(
-                  decoration: BoxDecoration(
-                    color: Theme.of(context).cardColor,
-                    borderRadius: const BorderRadius.only(
-                      bottomRight: Radius.circular(5),
-                      bottomLeft: Radius.circular(5),
-                    ),
-                  ),
-                  width: 80,
-                  height: 30,
-                  child: TextButton(
-                    onPressed: () {
-                      Navigator.pop(context);
-                      widget.delete();
-                    },
-                    child: const Text('Delete'),
-                  ),
-                ),
-              ],
+          items: [
+            PopupMenuItem(
+              child: TextButton(
+                onPressed: () {
+                  Navigator.pop(context);
+                  setState(() => active = true);
+                },
+                child: const Text('Rename'),
+              ),
             ),
-          ),
+            PopupMenuItem(
+              child: TextButton(
+                onPressed: () {
+                  Navigator.pop(context);
+                  widget.delete();
+                },
+                child: const Text('Delete'),
+              ),
+            ),
+          ],
         ),
-        context: context,
-      ),
-      child: TextFormField(
-        style: Theme.of(context).textTheme.labelLarge,
-        decoration: null,
-        initialValue: widget.name,
-        enabled: active,
-        onFieldSubmitted: (text) {
-          widget.rename(text);
-          setState(() => active = false);
-        },
+        child: TextFormField(
+          style: Theme.of(context).textTheme.labelLarge,
+          decoration: null,
+          initialValue: widget.name,
+          enabled: active,
+          onFieldSubmitted: (text) {
+            widget.rename(text);
+            setState(() => active = false);
+          },
+        ),
       ),
     );
   }

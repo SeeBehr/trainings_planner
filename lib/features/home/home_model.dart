@@ -41,7 +41,7 @@ class HomeModelGroup with _$HomeModelGroup {
   factory HomeModelGroup.add() => HomeModelGroup(
         id: 'group${DateTime.now().hashCode}',
         name: 'group',
-        exercises: [HomeModelExercise.add()],
+        exercises: [],
       );
 }
 

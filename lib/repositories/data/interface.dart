@@ -25,6 +25,9 @@ abstract class DataRepository {
 
   void renameGroup(int collectionIndex, int groupIndex, String value);
 
+  void renameExercise(
+      int collectionIndex, int groupIndex, int exerciseIndex, String value);
+
   void deleteCollection(int collectionIndex);
 
   void deleteGroup(int collectionIndex, int groupIndex);
