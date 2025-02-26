@@ -10,7 +10,8 @@ void main() async {
   Hive
     ..registerAdapter(HiveCollectionModelAdapter())
     ..registerAdapter(HiveGroupModelAdapter())
-    ..registerAdapter(HiveExerciseModelAdapter());
+    ..registerAdapter(HiveExerciseModelAdapter())
+    ..registerAdapter(HiveTrainingModelAdapter());
   runApp(const MyApp());
 }
 

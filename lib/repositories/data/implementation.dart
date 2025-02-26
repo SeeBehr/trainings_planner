@@ -187,6 +187,7 @@ class DataRepositoryImplementation extends DataRepository {
       data: (model) => model.copyWith(
         collections:
             model.collections.append(HomeModelCollection.add()).toList(),
+        activeCollection: model.collections.length,
       ),
       orElse: () => data,
     );

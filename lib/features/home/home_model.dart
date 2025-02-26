@@ -27,7 +27,7 @@ class HomeModelCollection with _$HomeModelCollection {
   factory HomeModelCollection.add() => HomeModelCollection(
         id: 'collection${DateTime.now().hashCode}',
         name: 'collection',
-        groups: [HomeModelGroup.add()],
+        groups: [],
       );
 }
 

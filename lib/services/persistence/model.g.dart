@@ -6,6 +6,43 @@ part of 'model.dart';
 // TypeAdapterGenerator
 // **************************************************************************
 
+class HiveHomeModelAdapter extends TypeAdapter<HiveHomeModel> {
+  @override
+  final int typeId = 0;
+
+  @override
+  HiveHomeModel read(BinaryReader reader) {
+    final numOfFields = reader.readByte();
+    final fields = <int, dynamic>{
+      for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
+    };
+    return HiveHomeModel(
+      collections: (fields[0] as List).cast<HiveCollectionModel>(),
+      trainingLength: fields[1] as int,
+    );
+  }
+
+  @override
+  void write(BinaryWriter writer, HiveHomeModel obj) {
+    writer
+      ..writeByte(2)
+      ..writeByte(0)
+      ..write(obj.collections)
+      ..writeByte(1)
+      ..write(obj.trainingLength);
+  }
+
+  @override
+  int get hashCode => typeId.hashCode;
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is HiveHomeModelAdapter &&
+          runtimeType == other.runtimeType &&
+          typeId == other.typeId;
+}
+
 class HiveCollectionModelAdapter extends TypeAdapter<HiveCollectionModel> {
   @override
   final int typeId = 1;
@@ -103,13 +140,14 @@ class HiveExerciseModelAdapter extends TypeAdapter<HiveExerciseModel> {
       material: (fields[3] as List).cast<String>(),
       image: fields[4] as String?,
       difficulty: fields[5] as int,
+      training: fields[6] as HiveTrainingModel,
     );
   }
 
   @override
   void write(BinaryWriter writer, HiveExerciseModel obj) {
     writer
-      ..writeByte(6)
+      ..writeByte(7)
       ..writeByte(0)
       ..write(obj.id)
       ..writeByte(1)
@@ -121,7 +159,9 @@ class HiveExerciseModelAdapter extends TypeAdapter<HiveExerciseModel> {
       ..writeByte(4)
       ..write(obj.image)
       ..writeByte(5)
-      ..write(obj.difficulty);
+      ..write(obj.difficulty)
+      ..writeByte(6)
+      ..write(obj.training);
   }
 
   @override
@@ -131,6 +171,49 @@ class HiveExerciseModelAdapter extends TypeAdapter<HiveExerciseModel> {
   bool operator ==(Object other) =>
       identical(this, other) ||
       other is HiveExerciseModelAdapter &&
+          runtimeType == other.runtimeType &&
+          typeId == other.typeId;
+}
+
+class HiveTrainingModelAdapter extends TypeAdapter<HiveTrainingModel> {
+  @override
+  final int typeId = 4;
+
+  @override
+  HiveTrainingModel read(BinaryReader reader) {
+    final numOfFields = reader.readByte();
+    final fields = <int, dynamic>{
+      for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
+    };
+    return HiveTrainingModel(
+      index: fields[0] as int,
+      collectionIndex: fields[1] as int,
+      groupIndex: fields[2] as int,
+      exerciseIndex: fields[3] as int,
+    );
+  }
+
+  @override
+  void write(BinaryWriter writer, HiveTrainingModel obj) {
+    writer
+      ..writeByte(4)
+      ..writeByte(0)
+      ..write(obj.index)
+      ..writeByte(1)
+      ..write(obj.collectionIndex)
+      ..writeByte(2)
+      ..write(obj.groupIndex)
+      ..writeByte(3)
+      ..write(obj.exerciseIndex);
+  }
+
+  @override
+  int get hashCode => typeId.hashCode;
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is HiveTrainingModelAdapter &&
           runtimeType == other.runtimeType &&
           typeId == other.typeId;
 }

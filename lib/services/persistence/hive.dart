@@ -43,6 +43,16 @@ class HivePersistenceService implements PersistenceService {
       material: data.material,
       image: data.image,
       difficulty: data.difficulty,
+      training: _toHiveTrainingModel(data.training),
+    );
+  }
+
+  HiveTrainingModel _toHiveTrainingModel(Training data) {
+    return HiveTrainingModel(
+      index: data.index,
+      collectionIndex: data.collectionIndex,
+      groupIndex: data.groupIndex,
+      exerciseIndex: data.exerciseIndex,
     );
   }
 
@@ -70,6 +80,16 @@ class HivePersistenceService implements PersistenceService {
       material: data.material,
       image: data.image,
       difficulty: data.difficulty,
+      training: _toHomeModelTraining(data.training),
+    );
+  }
+
+  Training _toHomeModelTraining(HiveTrainingModel data) {
+    return Training(
+      data.index,
+      data.collectionIndex,
+      data.groupIndex,
+      data.exerciseIndex,
     );
   }
 }

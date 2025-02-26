@@ -2,6 +2,19 @@ import 'package:hive/hive.dart';
 
 part 'model.g.dart';
 
+@HiveType(typeId: 0)
+class HiveHomeModel extends HiveObject {
+  HiveHomeModel({
+    required this.collections,
+    required this.trainingLength,
+  });
+
+  @HiveField(0)
+  List<HiveCollectionModel> collections;
+  @HiveField(1)
+  int trainingLength;
+}
+
 @HiveType(typeId: 1)
 class HiveCollectionModel extends HiveObject {
   HiveCollectionModel({
@@ -42,6 +55,7 @@ class HiveExerciseModel extends HiveObject {
     required this.material,
     required this.image,
     required this.difficulty,
+    required this.training,
   });
 
   @HiveField(0)
@@ -56,4 +70,25 @@ class HiveExerciseModel extends HiveObject {
   String? image;
   @HiveField(5)
   int difficulty;
+  @HiveField(6)
+  HiveTrainingModel training;
+}
+
+@HiveType(typeId: 4)
+class HiveTrainingModel extends HiveObject {
+  HiveTrainingModel({
+    required this.index,
+    required this.collectionIndex,
+    required this.groupIndex,
+    required this.exerciseIndex,
+  });
+
+  @HiveField(0)
+  int index;
+  @HiveField(1)
+  int collectionIndex;
+  @HiveField(2)
+  int groupIndex;
+  @HiveField(3)
+  int exerciseIndex;
 }
