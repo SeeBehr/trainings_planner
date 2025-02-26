@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:trainings_planner/features/edit_exercise/edit_exercise_model.dart';
 import 'package:trainings_planner/repositories/data/interface.dart';
@@ -37,11 +35,11 @@ class EditExerciseController extends Cubit<EditExerciseModel> {
         orElse: () => state,
       ),
     );
-    unawaited(dataRepository.saveExercise(state));
+    dataRepository.saveExercise(state);
   }
 
-  Future<void> goBack() async {
-    await dataRepository.saveExercise(state);
+  void goBack() {
+    dataRepository.saveExercise(state);
     navigationService.goBack();
   }
 }

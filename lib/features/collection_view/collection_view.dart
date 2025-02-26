@@ -3,21 +3,18 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fpdart/fpdart.dart' hide State;
 import 'package:trainings_planner/features/home/home_controller.dart';
 import 'package:trainings_planner/features/home/home_model.dart';
+import 'package:trainings_planner/features/home/widgets/folder_name_field.dart';
 
-class CollectionView extends StatefulWidget {
+class CollectionView extends StatelessWidget {
   const CollectionView({
     required this.collections,
+    required this.activeCollection,
     super.key,
   });
 
   final List<HomeModelCollection> collections;
+  final int activeCollection;
 
-  @override
-  State<CollectionView> createState() => _CollectionViewState();
-}
-
-class _CollectionViewState extends State<CollectionView> {
-  int collectionIndex = -1;
   @override
   Widget build(BuildContext context) => Stack(
         children: [
@@ -35,24 +32,28 @@ class _CollectionViewState extends State<CollectionView> {
                 color: Theme.of(context).colorScheme.onPrimary,
                 height: 2,
               ),
-              ...widget.collections.mapWithIndex(
+              ...collections.mapWithIndex(
                 (collection, index) => Row(
                   children: [
                     Expanded(
                       child: ElevatedButton(
                         style: ElevatedButton.styleFrom(
                           shape: LinearBorder.none,
-                          backgroundColor: collectionIndex == index
+                          backgroundColor: activeCollection == index
                               ? Theme.of(context).colorScheme.onSurface
                               : Theme.of(context).colorScheme.surface,
                         ),
                         child: FolderNameField(
-                          name: widget.collections[index].name,
-                          renameGroup: (name) =>
+                          key: ValueKey(collection.id),
+                          name: collections[index].name,
+                          rename: (name) =>
                               context.read<HomeController>().renameCollection(
                                     index,
                                     name,
                                   ),
+                          delete: () => context
+                              .read<HomeController>()
+                              .deleteCollection(index),
                         ),
                         onPressed: () {
                           context.read<HomeController>().setActiveExercise(
@@ -60,9 +61,6 @@ class _CollectionViewState extends State<CollectionView> {
                                 groupIndex: -1,
                                 exerciseIndex: -1,
                               );
-                          setState(() {
-                            collectionIndex = index;
-                          });
                         },
                       ),
                     ),
@@ -74,7 +72,7 @@ class _CollectionViewState extends State<CollectionView> {
                 height: 2,
               ),
               Expanded(
-                child: collectionIndex == -1
+                child: activeCollection == -1
                     ? const SizedBox.shrink()
                     : Padding(
                         padding: const EdgeInsets.fromLTRB(0, 8, 8, 4),
@@ -83,37 +81,69 @@ class _CollectionViewState extends State<CollectionView> {
                             onExpansionChanged: (value) => context
                                 .read<HomeController>()
                                 .setActiveExercise(
-                                  collectionIndex: collectionIndex,
+                                  collectionIndex: activeCollection,
                                   groupIndex: groupIndex,
                                   exerciseIndex: -1,
                                 ),
                             childrenPadding: const EdgeInsets.only(left: 16),
                             title: FolderNameField(
-                              name: widget.collections[collectionIndex]
-                                  .groups[groupIndex].name,
-                              renameGroup: (name) =>
+                              key: ValueKey(
+                                collections[activeCollection]
+                                    .groups[groupIndex]
+                                    .id,
+                              ),
+                              name: collections[activeCollection]
+                                  .groups[groupIndex]
+                                  .name,
+                              rename: (name) =>
                                   context.read<HomeController>().renameGroup(
-                                        collectionIndex,
+                                        activeCollection,
                                         groupIndex,
                                         name,
                                       ),
+                              delete: () =>
+                                  context.read<HomeController>().deleteGroup(
+                                        activeCollection,
+                                        groupIndex,
+                                      ),
                             ),
-                            children: widget.collections[collectionIndex]
-                                .groups[groupIndex].exercises
+                            children: collections[activeCollection]
+                                .groups[groupIndex]
+                                .exercises
                                 .asMap()
                                 .entries
                                 .map(
                                   (entry) => ListTile(
-                                    title: Text(
-                                      entry.value.name,
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .labelLarge,
+                                    title: FolderNameField(
+                                      key: ValueKey(
+                                        collections[activeCollection]
+                                            .groups[groupIndex]
+                                            .exercises[entry.key]
+                                            .id,
+                                      ),
+                                      delete: () => context
+                                          .read<HomeController>()
+                                          .deleteExercise(),
+                                      name: entry.value.name,
+                                      rename: (name) => context
+                                          .read<HomeController>()
+                                          .renameExercise(
+                                            activeCollection,
+                                            groupIndex,
+                                            entry.key,
+                                            name,
+                                          ),
                                     ),
+                                    // Text(
+                                    //   entry.value.name,
+                                    //   style: Theme.of(context)
+                                    //       .textTheme
+                                    //       .labelLarge,
+                                    // ),
                                     onTap: () => context
                                         .read<HomeController>()
                                         .setActiveExercise(
-                                          collectionIndex: collectionIndex,
+                                          collectionIndex: activeCollection,
                                           groupIndex: groupIndex,
                                           exerciseIndex: entry.key,
                                         ),
@@ -122,7 +152,7 @@ class _CollectionViewState extends State<CollectionView> {
                                 .toList(),
                           ),
                           itemCount:
-                              widget.collections[collectionIndex].groups.length,
+                              collections[activeCollection].groups.length,
                         ),
                       ),
               ),
@@ -195,6 +225,8 @@ class _CollectionViewState extends State<CollectionView> {
                               ),
                             ),
                           );
+                        } else {
+                          context.read<HomeController>().openExercise();
                         }
                       },
                     ),
@@ -228,38 +260,4 @@ class _CollectionViewState extends State<CollectionView> {
           ),
         ],
       );
-}
-
-class FolderNameField extends StatefulWidget {
-  const FolderNameField({
-    required this.name,
-    required this.renameGroup,
-    super.key,
-  });
-
-  final String name;
-  final void Function(String) renameGroup;
-
-  @override
-  State<FolderNameField> createState() => _FolderNameFieldState();
-}
-
-class _FolderNameFieldState extends State<FolderNameField> {
-  bool active = false;
-  @override
-  Widget build(BuildContext context) {
-    return GestureDetector(
-      onSecondaryTap: () => setState(() => active = true),
-      child: TextFormField(
-        style: Theme.of(context).textTheme.labelLarge,
-        decoration: null,
-        initialValue: widget.name,
-        enabled: active,
-        onFieldSubmitted: (text) {
-          widget.renameGroup(text);
-          setState(() => active = false);
-        },
-      ),
-    );
-  }
 }

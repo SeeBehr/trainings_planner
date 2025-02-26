@@ -2,7 +2,6 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:fpdart/fpdart.dart';
 import 'package:trainings_planner/features/home/home_model.dart';
 import 'package:trainings_planner/repositories/data/interface.dart';
 import 'package:trainings_planner/services/navigation/interface.dart';
@@ -68,38 +67,12 @@ class HomeController extends Cubit<HomeModel> {
     debugPrint('addExercise');
     return state.maybeMap(
       data: (value) {
-        if (value.activeCollection == -1 || value.activeGroup == -1) {
-          return false;
+        if (value.activeCollection == -1) {
+          dataRepository.addCollection();
         }
-        emit(
-          value.copyWith(
-            collections:
-                value.collections.mapWithIndex((collection, collectionIndex) {
-              if (collectionIndex == value.activeCollection) {
-                return collection.copyWith(
-                  groups: value.collections[value.activeCollection].groups
-                      .mapWithIndex((group, groupIndex) {
-                    if (groupIndex == value.activeGroup) {
-                      return group.copyWith(
-                        exercises: [
-                          ...group.exercises,
-                          HomeModelExercise.add(),
-                        ],
-                      );
-                    } else {
-                      return group;
-                    }
-                  }).toList(),
-                );
-              } else {
-                return collection;
-              }
-            }).toList(),
-            activeExercise: value.collections[value.activeCollection]
-                    .groups[value.activeGroup].exercises.length -
-                1,
-          ),
-        );
+        if (value.activeGroup == -1) {
+          dataRepository.addGroup();
+        }
         dataRepository.addExercise();
         return true;
       },
@@ -111,25 +84,7 @@ class HomeController extends Cubit<HomeModel> {
     debugPrint('addExercise');
     return state.maybeMap(
       data: (value) {
-        if (value.activeCollection == -1) return false;
-        emit(
-          value.copyWith(
-            collections:
-                value.collections.mapWithIndex((collection, collectionIndex) {
-              if (collectionIndex == value.activeCollection) {
-                return collection.copyWith(
-                  groups: value.collections[value.activeCollection].groups
-                      .append(HomeModelGroup.add())
-                      .toList(),
-                );
-              } else {
-                return collection;
-              }
-            }).toList(),
-            activeGroup:
-                value.collections[value.activeCollection].groups.length - 1,
-          ),
-        );
+        if (value.activeCollection == -1) dataRepository.addCollection();
         dataRepository.addGroup();
         return true;
       },
@@ -141,13 +96,6 @@ class HomeController extends Cubit<HomeModel> {
     debugPrint('addExercise');
     return state.maybeMap(
       data: (value) {
-        emit(
-          value.copyWith(
-            collections:
-                value.collections.append(HomeModelCollection.add()).toList(),
-            activeCollection: value.collections.length - 1,
-          ),
-        );
         dataRepository.addCollection();
         return true;
       },
@@ -160,17 +108,6 @@ class HomeController extends Cubit<HomeModel> {
   void renameCollection(int index, String value) {
     state.maybeMap(
       data: (data) {
-        emit(
-          data.copyWith(
-            collections: data.collections.mapWithIndex((collection, i) {
-              if (i == index) {
-                return collection.copyWith(name: value);
-              } else {
-                return collection;
-              }
-            }).toList(),
-          ),
-        );
         dataRepository.renameCollection(index, value);
       },
       orElse: () {},
@@ -180,26 +117,64 @@ class HomeController extends Cubit<HomeModel> {
   void renameGroup(int collectionIndex, int groupIndex, String value) {
     state.maybeMap(
       data: (data) {
-        emit(
-          data.copyWith(
-            collections: data.collections.mapWithIndex((collection, i) {
-              if (i == collectionIndex) {
-                return collection.copyWith(
-                  groups: collection.groups.mapWithIndex((group, j) {
-                    if (j == groupIndex) {
-                      return group.copyWith(name: value);
-                    } else {
-                      return group;
-                    }
-                  }).toList(),
-                );
-              } else {
-                return collection;
-              }
-            }).toList(),
-          ),
-        );
         dataRepository.renameGroup(collectionIndex, groupIndex, value);
+      },
+      orElse: () {},
+    );
+  }
+
+  void renameExercise(
+      int collectionIndex, int groupIndex, int exerciseIndex, String value) {
+    state.maybeMap(
+      data: (data) {
+        dataRepository.renameExercise(
+            collectionIndex, groupIndex, exerciseIndex, value);
+      },
+      orElse: () {},
+    );
+  }
+
+  void deleteCollection(int collectionIndex) {
+    state.maybeMap(
+      data: (data) {
+        dataRepository.deleteCollection(collectionIndex);
+      },
+      orElse: () {},
+    );
+  }
+
+  void deleteGroup(int collectionIndex, int groupIndex) {
+    state.maybeMap(
+      data: (data) {
+        dataRepository.deleteGroup(collectionIndex, groupIndex);
+      },
+      orElse: () {},
+    );
+  }
+
+  void addToTraining() {
+    state.maybeMap(
+      data: (data) {
+        dataRepository.addToTraining();
+      },
+      orElse: () {},
+    );
+  }
+
+  void reorderExercises(int prev, int curr) {
+    debugPrint('reorderExercises HomeController');
+    state.maybeMap(
+      data: (data) {
+        dataRepository.reorderExercises(prev, curr);
+      },
+      orElse: () {},
+    );
+  }
+
+  void deleteExercise() {
+    state.maybeMap(
+      data: (data) {
+        dataRepository.deleteExercise();
       },
       orElse: () {},
     );

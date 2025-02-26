@@ -10,6 +10,7 @@ class HomeModel with _$HomeModel {
     required int activeGroup,
     required int activeExercise,
     required List<HomeModelCollection> collections,
+    required int trainingLength,
   }) = HomeModelData;
   factory HomeModel.error({
     required String error,
@@ -26,7 +27,7 @@ class HomeModelCollection with _$HomeModelCollection {
   factory HomeModelCollection.add() => HomeModelCollection(
         id: 'collection${DateTime.now().hashCode}',
         name: 'collection',
-        groups: [],
+        groups: [HomeModelGroup.add()],
       );
 }
 
@@ -44,6 +45,37 @@ class HomeModelGroup with _$HomeModelGroup {
       );
 }
 
+class Training {
+  const Training(
+    this.index,
+    this.collectionIndex,
+    this.groupIndex,
+    this.exerciseIndex,
+  );
+  const Training.none()
+      : index = -1,
+        collectionIndex = -1,
+        groupIndex = -1,
+        exerciseIndex = -1;
+  final int index;
+  final int collectionIndex;
+  final int groupIndex;
+  final int exerciseIndex;
+
+  Training copyWith({
+    int? index,
+    int? collectionIndex,
+    int? groupIndex,
+    int? exerciseIndex,
+  }) =>
+      Training(
+        index ?? this.index,
+        collectionIndex ?? this.collectionIndex,
+        groupIndex ?? this.groupIndex,
+        exerciseIndex ?? this.exerciseIndex,
+      );
+}
+
 @freezed
 class HomeModelExercise with _$HomeModelExercise {
   factory HomeModelExercise({
@@ -53,7 +85,7 @@ class HomeModelExercise with _$HomeModelExercise {
     required List<String> material,
     required String? image,
     required int difficulty,
-    required bool inTraining,
+    @Default(Training.none()) Training training,
   }) = _HomeModelExercise;
   factory HomeModelExercise.add() => HomeModelExercise(
         id: 'exercise${DateTime.now().hashCode}',
@@ -62,6 +94,5 @@ class HomeModelExercise with _$HomeModelExercise {
         material: [],
         image: null,
         difficulty: 1,
-        inTraining: false,
       );
 }

@@ -1,9 +1,9 @@
 import 'package:hive/hive.dart';
 import 'package:trainings_planner/features/home/home_model.dart';
-import 'package:trainings_planner/services/persistance/interface.dart';
-import 'package:trainings_planner/services/persistance/model.dart';
+import 'package:trainings_planner/services/persistence/interface.dart';
+import 'package:trainings_planner/services/persistence/model.dart';
 
-class HivePersistanceService implements PersistenceService {
+class HivePersistenceService implements PersistenceService {
   final String _boxName = 'trainings_planner';
   Future<Box<HiveCollectionModel>> get _box async =>
       Hive.openBox<HiveCollectionModel>(_boxName);
@@ -43,7 +43,6 @@ class HivePersistanceService implements PersistenceService {
       material: data.material,
       image: data.image,
       difficulty: data.difficulty,
-      inTraining: data.inTraining,
     );
   }
 
@@ -71,7 +70,6 @@ class HivePersistanceService implements PersistenceService {
       material: data.material,
       image: data.image,
       difficulty: data.difficulty,
-      inTraining: data.inTraining,
     );
   }
 }

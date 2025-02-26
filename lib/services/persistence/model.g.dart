@@ -103,14 +103,13 @@ class HiveExerciseModelAdapter extends TypeAdapter<HiveExerciseModel> {
       material: (fields[3] as List).cast<String>(),
       image: fields[4] as String?,
       difficulty: fields[5] as int,
-      inTraining: fields[6] as bool,
     );
   }
 
   @override
   void write(BinaryWriter writer, HiveExerciseModel obj) {
     writer
-      ..writeByte(7)
+      ..writeByte(6)
       ..writeByte(0)
       ..write(obj.id)
       ..writeByte(1)
@@ -122,9 +121,7 @@ class HiveExerciseModelAdapter extends TypeAdapter<HiveExerciseModel> {
       ..writeByte(4)
       ..write(obj.image)
       ..writeByte(5)
-      ..write(obj.difficulty)
-      ..writeByte(6)
-      ..write(obj.inTraining);
+      ..write(obj.difficulty);
   }
 
   @override

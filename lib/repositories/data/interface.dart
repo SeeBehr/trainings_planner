@@ -5,7 +5,7 @@ abstract class DataRepository {
   Stream<HomeModel?> get dataStream;
   Future<HomeModel> loadData();
   Future<void> saveData();
-  Future<void> saveExercise(EditExerciseModel newExercise);
+  void saveExercise(EditExerciseModel newExercise);
 
   void setActiveExercise({
     required int collectionIndex,
@@ -24,4 +24,17 @@ abstract class DataRepository {
   void renameCollection(int index, String value);
 
   void renameGroup(int collectionIndex, int groupIndex, String value);
+
+  void renameExercise(
+      int collectionIndex, int groupIndex, int exerciseIndex, String value);
+
+  void deleteCollection(int collectionIndex);
+
+  void deleteGroup(int collectionIndex, int groupIndex);
+
+  void addToTraining();
+
+  void reorderExercises(int prev, int curr);
+
+  void deleteExercise();
 }
