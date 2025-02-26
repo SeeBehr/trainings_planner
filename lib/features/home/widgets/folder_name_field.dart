@@ -21,26 +21,59 @@ class _FolderNameFieldState extends State<FolderNameField> {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onSecondaryTap: () async => showDialog(
-        builder: (context) => Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            TextButton(
-              onPressed: () {
-                Navigator.pop(context);
-                setState(() => active = true);
-              },
-              child: const Text('Rename'),
+      onSecondaryTapUp: (TapUpDetails det) async => showDialog(
+        anchorPoint: det.globalPosition,
+        builder: (context) => Padding(
+          padding: const EdgeInsets.only(
+            left: 24,
+            top: 24,
+          ),
+          child: SizedBox(
+            width: 80,
+            height: 60,
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Container(
+                  decoration: BoxDecoration(
+                    color: Theme.of(context).cardColor,
+                    borderRadius: const BorderRadius.only(
+                      topLeft: Radius.circular(5),
+                      topRight: Radius.circular(5),
+                    ),
+                  ),
+                  width: 80,
+                  height: 30,
+                  child: TextButton(
+                    onPressed: () {
+                      Navigator.pop(context);
+                      setState(() => active = true);
+                    },
+                    child: const Text('Rename'),
+                  ),
+                ),
+                Container(
+                  decoration: BoxDecoration(
+                    color: Theme.of(context).cardColor,
+                    borderRadius: const BorderRadius.only(
+                      bottomRight: Radius.circular(5),
+                      bottomLeft: Radius.circular(5),
+                    ),
+                  ),
+                  width: 80,
+                  height: 30,
+                  child: TextButton(
+                    onPressed: () {
+                      Navigator.pop(context);
+                      widget.delete();
+                    },
+                    child: const Text('Delete'),
+                  ),
+                ),
+              ],
             ),
-            TextButton(
-              onPressed: () {
-                Navigator.pop(context);
-                widget.delete();
-              },
-              child: const Text('Delete'),
-            ),
-          ],
+          ),
         ),
         context: context,
       ),

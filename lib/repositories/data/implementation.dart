@@ -188,6 +188,7 @@ class DataRepositoryImplementation extends DataRepository {
       ),
       orElse: () => data,
     );
+    _stream.add(data);
   }
 
   @override
@@ -293,6 +294,8 @@ class DataRepositoryImplementation extends DataRepository {
                         if (exerciseIndex != model.activeExercise) {
                           return exercise;
                         }
+                        debugPrint('Add ${exercise.name} to training '
+                            'at ${model.trainingLength}');
                         return exercise.copyWith(
                           training: Training(
                             model.trainingLength,
@@ -318,7 +321,9 @@ class DataRepositoryImplementation extends DataRepository {
 
   @override
   void reorderExercises(int prev, int curr) {
-    debugPrint('reorderExercises DataRepository');
+    debugPrint('reorderExercises DataRepository start');
+    debugPrint('prev: $prev, curr: $curr');
+
     data = data?.maybeMap(
       data: (data) => data.copyWith(
         collections: data.collections
@@ -329,15 +334,28 @@ class DataRepositoryImplementation extends DataRepository {
                       (group) => group.copyWith(
                         exercises: group.exercises.map(
                           (exercise) {
+                            debugPrint(
+                              '${exercise.name}, '
+                              'index: ${exercise.training.index}',
+                            );
                             if (prev <= curr) {
-                              if (exercise.training.collectionIndex == prev) {
+                              int current = curr - 1;
+                              if (exercise.training.index == prev) {
+                                debugPrint(
+                                  'Moving ${exercise.name} from $prev to $current',
+                                );
                                 return exercise.copyWith(
                                   training: exercise.training.copyWith(
-                                    collectionIndex: curr,
+                                    index: current,
                                   ),
                                 );
                               } else if (exercise.training.index > prev &&
-                                  exercise.training.index <= curr) {
+                                  exercise.training.index <= current) {
+                                debugPrint(
+                                  'Shifting ${exercise.name} from '
+                                  '${exercise.training.index} to '
+                                  '${exercise.training.index - 1}',
+                                );
                                 return exercise.copyWith(
                                   training: exercise.training.copyWith(
                                     index: exercise.training.index - 1,
@@ -348,6 +366,9 @@ class DataRepositoryImplementation extends DataRepository {
                               }
                             } else {
                               if (exercise.training.index == prev) {
+                                debugPrint(
+                                  'Moving ${exercise.name} from $prev to $curr',
+                                );
                                 return exercise.copyWith(
                                   training: exercise.training.copyWith(
                                     index: curr,
@@ -355,6 +376,11 @@ class DataRepositoryImplementation extends DataRepository {
                                 );
                               } else if (exercise.training.index < prev &&
                                   exercise.training.index >= curr) {
+                                debugPrint(
+                                  'Shifting ${exercise.name} from '
+                                  '${exercise.training.index} to '
+                                  '${exercise.training.index + 1}',
+                                );
                                 return exercise.copyWith(
                                   training: exercise.training.copyWith(
                                     index: exercise.training.index + 1,
@@ -375,6 +401,7 @@ class DataRepositoryImplementation extends DataRepository {
       ),
       orElse: () => data,
     );
+
     debugPrint('reorderExercises DataRepository end');
     _stream.add(data);
   }
