@@ -194,7 +194,9 @@ class ExerciseViewData extends StatelessWidget {
                               right: 16,
                             ),
                             child: Text(
-                              'add',
+                              exercise.training == const Training.none()
+                                  ? 'add'
+                                  : 'remove',
                               style: Theme.of(context)
                                   .textTheme
                                   .bodyLarge!
@@ -204,8 +206,12 @@ class ExerciseViewData extends StatelessWidget {
                                   ),
                             ),
                           ),
-                          onPressed: () =>
-                              context.read<HomeController>().addToTraining(),
+                          onPressed: () => exercise.training ==
+                                  const Training.none()
+                              ? context.read<HomeController>().addToTraining()
+                              : context
+                                  .read<HomeController>()
+                                  .removeFromTraining(),
                         ),
                       ],
                     ),

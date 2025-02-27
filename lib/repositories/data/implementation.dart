@@ -16,12 +16,20 @@ class DataRepositoryImplementation extends DataRepository {
   final StreamController<HomeModel?> _stream = StreamController<HomeModel?>();
   @override
   Future<HomeModel> loadData() => persistenceService.loadData().then((value) {
+        final trainingLength = value
+            .flatMap((collection) => collection.groups)
+            .flatMap((group) => group.exercises)
+            .fold(
+              0,
+              (int num, exercise) =>
+                  exercise.training == const Training.none() ? num : num + 1,
+            );
         data = HomeModel.data(
           activeCollection: -1,
           activeGroup: -1,
           activeExercise: -1,
           collections: value,
-          trainingLength: 0,
+          trainingLength: trainingLength,
         );
         _stream.add(data);
         return data!;
@@ -365,6 +373,46 @@ class DataRepositoryImplementation extends DataRepository {
           },
         ).toList(),
         trainingLength: model.trainingLength + 1,
+      ),
+      orElse: () => data,
+    );
+    _stream.add(data);
+  }
+
+  @override
+  void removeFromTraining() {
+    data = data?.maybeMap(
+      data: (model) => model.copyWith(
+        collections: model.collections.mapWithIndex(
+          (collection, collectionIndex) {
+            if (collectionIndex != model.activeCollection) {
+              return collection;
+            }
+            return collection.copyWith(
+              groups: collection.groups.mapWithIndex(
+                (group, groupIndex) {
+                  if (groupIndex != model.activeGroup) {
+                    return group;
+                  }
+                  return group.copyWith(
+                    exercises: group.exercises.mapWithIndex(
+                      (exercise, exerciseIndex) {
+                        if (exerciseIndex != model.activeExercise) {
+                          return exercise;
+                        }
+                        debugPrint('Remove ${exercise.name} from training');
+                        return exercise.copyWith(
+                          training: const Training.none(),
+                        );
+                      },
+                    ).toList(),
+                  );
+                },
+              ).toList(),
+            );
+          },
+        ).toList(),
+        trainingLength: model.trainingLength - 1,
       ),
       orElse: () => data,
     );
