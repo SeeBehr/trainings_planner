@@ -124,11 +124,19 @@ class HomeController extends Cubit<HomeModel> {
   }
 
   void renameExercise(
-      int collectionIndex, int groupIndex, int exerciseIndex, String value) {
+    int collectionIndex,
+    int groupIndex,
+    int exerciseIndex,
+    String value,
+  ) {
     state.maybeMap(
       data: (data) {
         dataRepository.renameExercise(
-            collectionIndex, groupIndex, exerciseIndex, value);
+          collectionIndex,
+          groupIndex,
+          exerciseIndex,
+          value,
+        );
       },
       orElse: () {},
     );
@@ -187,5 +195,9 @@ class HomeController extends Cubit<HomeModel> {
       },
       orElse: () {},
     );
+  }
+
+  void openPdfPreview() {
+    navigationService.openPdfPreview();
   }
 }

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 
 class FolderNameField extends StatefulWidget {
   const FolderNameField({
@@ -34,7 +33,7 @@ class _FolderNameFieldState extends State<FolderNameField> {
             anchorPoint.dy,
           ),
           items: [
-            PopupMenuItem(
+            PopupMenuItem<TextButton>(
               child: TextButton(
                 onPressed: () {
                   Navigator.pop(context);
@@ -43,7 +42,7 @@ class _FolderNameFieldState extends State<FolderNameField> {
                 child: const Text('Rename'),
               ),
             ),
-            PopupMenuItem(
+            PopupMenuItem<TextButton>(
               child: TextButton(
                 onPressed: () {
                   Navigator.pop(context);

@@ -15,6 +15,8 @@ abstract class DataRepository {
 
   EditExerciseModel loadExercise();
 
+  List<HomeModelExercise> loadTraining();
+
   void addExercise();
 
   void addGroup();
@@ -26,7 +28,11 @@ abstract class DataRepository {
   void renameGroup(int collectionIndex, int groupIndex, String value);
 
   void renameExercise(
-      int collectionIndex, int groupIndex, int exerciseIndex, String value);
+    int collectionIndex,
+    int groupIndex,
+    int exerciseIndex,
+    String value,
+  );
 
   void deleteCollection(int collectionIndex);
 

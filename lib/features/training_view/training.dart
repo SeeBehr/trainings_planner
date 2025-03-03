@@ -55,6 +55,10 @@ class TrainingView extends StatelessWidget {
             context.read<HomeController>().reorderExercises(prev, curr);
           },
         ),
+        TextButton(
+          onPressed: () => context.read<HomeController>().openPdfPreview(),
+          child: const Text('Preview'),
+        ),
       ],
     );
   }
