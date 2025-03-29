@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:trainings_planner/features/home/home_model.dart';
@@ -18,7 +19,19 @@ class HomeController extends Cubit<HomeModel> {
   late StreamSubscription<HomeModel?> _dataSubscription;
 
   Future<void> _loadData() async {
-    emit(await dataRepository.loadData());
+    var data = await dataRepository.loadData().timeout(
+      const Duration(seconds: 5),
+      onTimeout: () {
+        return HomeModel.data(
+          activeCollection: -1,
+          activeGroup: -1,
+          activeExercise: -1,
+          collections: [],
+          trainingLength: -1,
+        );
+      },
+    ).then((value) => value);
+    emit(data);
     _dataSubscription = dataRepository.dataStream.listen((event) {
       if (event != null) emit(event);
     });
@@ -172,6 +185,7 @@ class HomeController extends Cubit<HomeModel> {
   void addToTraining() {
     state.maybeMap(
       data: (data) {
+        navigationService.openTrainingPopup();
         dataRepository.addToTraining();
       },
       orElse: () {},

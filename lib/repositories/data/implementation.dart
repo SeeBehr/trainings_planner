@@ -15,25 +15,27 @@ class DataRepositoryImplementation extends DataRepository {
   Stream<HomeModel?> get dataStream => _stream.stream;
   final StreamController<HomeModel?> _stream = StreamController<HomeModel?>();
   @override
-  Future<HomeModel> loadData() => persistenceService.loadData().then((value) {
-        final trainingLength = value
-            .flatMap((collection) => collection.groups)
-            .flatMap((group) => group.exercises)
-            .fold(
-              0,
-              (int num, exercise) =>
-                  exercise.training == const Training.none() ? num : num + 1,
-            );
-        data = HomeModel.data(
-          activeCollection: -1,
-          activeGroup: -1,
-          activeExercise: -1,
-          collections: value,
-          trainingLength: trainingLength,
-        );
-        _stream.add(data);
-        return data!;
-      });
+  Future<HomeModel> loadData() => persistenceService.loadData().then(
+        (value) {
+          final trainingLength = value
+              .flatMap((collection) => collection.groups)
+              .flatMap((group) => group.exercises)
+              .fold(
+                0,
+                (int num, exercise) =>
+                    exercise.training == const Training.none() ? num : num + 1,
+              );
+          data = HomeModel.data(
+            activeCollection: -1,
+            activeGroup: -1,
+            activeExercise: -1,
+            collections: value,
+            trainingLength: trainingLength,
+          );
+          _stream.add(data);
+          return data!;
+        },
+      );
 
   @override
   Future<void> saveData() async {
