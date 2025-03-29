@@ -4,6 +4,8 @@ import 'package:go_router/go_router.dart';
 import 'package:trainings_planner/features/edit_exercise/edit_exercise_controller.dart';
 import 'package:trainings_planner/features/edit_exercise/edit_exercise_view.dart';
 import 'package:trainings_planner/features/home/home_view.dart';
+import 'package:trainings_planner/features/pdf_viewer/pdf_viewer_controller.dart';
+import 'package:trainings_planner/features/pdf_viewer/pdf_viewer_view.dart';
 import 'package:trainings_planner/repositories/data/interface.dart';
 import 'package:trainings_planner/services/navigation/interface.dart';
 
@@ -16,6 +18,12 @@ class GoRouterNavigationService implements NavigationService {
   void openExercise() {
     debugPrint('openExercise');
     _router.push('/editExercise');
+  }
+
+  @override
+  void openPdfPreview() {
+    debugPrint('openPdfPreview');
+    _router.push('/pdfPreview');
   }
 }
 
@@ -36,6 +44,19 @@ final goRouter = GoRouter(
             dataRepository: context.read<DataRepository>(),
           ),
           child: const EditExerciseView(),
+        );
+      },
+    ),
+    GoRoute(
+      path: '/pdfPreview',
+      builder: (context, state) {
+        debugPrint('openPdfPreview');
+        return BlocProvider(
+          create: (_) => PdfViewerController(
+            navigationService: context.read<NavigationService>(),
+            dataRepository: context.read<DataRepository>(),
+          ),
+          child: const PdfViewerView(),
         );
       },
     ),

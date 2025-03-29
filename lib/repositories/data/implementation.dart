@@ -136,6 +136,21 @@ class DataRepositoryImplementation extends DataRepository {
   }
 
   @override
+  List<HomeModelExercise> loadTraining() {
+    if (data == null) {
+      return [];
+    }
+    return data!.maybeMap(
+      data: (model) => model.collections
+          .flatMap((collection) => collection.groups)
+          .flatMap((group) => group.exercises)
+          .filter((exercise) => exercise.training != const Training.none())
+          .toList(),
+      orElse: () => [],
+    );
+  }
+
+  @override
   void addExercise() {
     data = data?.maybeMap(
       data: (model) => model.copyWith(

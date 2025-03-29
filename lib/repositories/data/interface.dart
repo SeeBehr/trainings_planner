@@ -15,6 +15,8 @@ abstract class DataRepository {
 
   EditExerciseModel loadExercise();
 
+  List<HomeModelExercise> loadTraining();
+
   void addExercise();
 
   void addGroup();

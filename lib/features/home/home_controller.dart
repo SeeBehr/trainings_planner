@@ -205,4 +205,8 @@ class HomeController extends Cubit<HomeModel> {
       orElse: () {},
     );
   }
+
+  void openPdfPreview() {
+    navigationService.openPdfPreview();
+  }
 }
