@@ -39,12 +39,7 @@ class TrainingView extends StatelessWidget {
                       child: Row(
                         children: [
                           Text(
-                            exercises[index]
-                                    .training
-                                    .duration
-                                    .inMinutes
-                                    .toString() +
-                                ' min',
+                            '${exercises[index].training.duration.inMinutes} min',
                           ),
                           const SizedBox(width: 12),
                           Text(
