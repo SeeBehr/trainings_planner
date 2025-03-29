@@ -36,9 +36,22 @@ class TrainingView extends StatelessWidget {
                         shape: LinearBorder.none,
                         backgroundColor: Theme.of(context).colorScheme.surface,
                       ),
-                      child: Text(
-                        style: Theme.of(context).textTheme.labelLarge,
-                        exercises[index].name,
+                      child: Row(
+                        children: [
+                          Text(
+                            exercises[index]
+                                    .training
+                                    .duration
+                                    .inMinutes
+                                    .toString() +
+                                ' min',
+                          ),
+                          const SizedBox(width: 12),
+                          Text(
+                            style: Theme.of(context).textTheme.labelLarge,
+                            exercises[index].name,
+                          ),
+                        ],
                       ),
                       onPressed: () => context
                           .read<HomeController>()
@@ -57,6 +70,9 @@ class TrainingView extends StatelessWidget {
               onReorder: (prev, curr) {
                 context.read<HomeController>().reorderExercises(prev, curr);
               },
+            ),
+            Text(
+              '${exercises.fold(Duration.zero, (previousValue, element) => previousValue + element.training.duration).inMinutes} min',
             ),
           ],
         ),

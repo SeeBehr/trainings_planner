@@ -385,7 +385,7 @@ class DataRepositoryImplementation extends DataRepository {
                             collectionIndex,
                             groupIndex,
                             exerciseIndex,
-                            exercise.training.duration,
+                            duration,
                           ),
                         );
                       },

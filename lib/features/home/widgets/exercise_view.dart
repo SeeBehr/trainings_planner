@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:io';
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:trainings_planner/features/home/home_controller.dart';
@@ -211,17 +212,19 @@ class ExerciseViewData extends StatelessWidget {
                           onPressed: () {
                             if (exercise.training == const Training.none()) {
                               unawaited(
-                                showDialog<int>(
+                                showCupertinoModalPopup<int>(
                                   context: context,
                                   builder: (builder) {
                                     return TrainingPopup();
                                   },
                                 ).then(
-                                  (duration) => context
-                                      .read<HomeController>()
-                                      .addToTraining(
-                                        Duration(seconds: duration ?? 0),
-                                      ),
+                                  (duration) => duration != null
+                                      ? context
+                                          .read<HomeController>()
+                                          .addToTraining(
+                                            Duration(minutes: duration),
+                                          )
+                                      : null,
                                 ),
                               );
                             }
