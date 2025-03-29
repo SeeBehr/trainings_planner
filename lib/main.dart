@@ -1,3 +1,4 @@
+import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:trainings_planner/provider_widget.dart';
@@ -6,12 +7,13 @@ import 'package:trainings_planner/services/persistence/model.dart';
 import 'package:trainings_planner/theme/theme_data.dart';
 
 void main() async {
-  await Hive.initFlutter();
+  await Hive.initFlutter(Directory.current.path);
   Hive
     ..registerAdapter(HiveCollectionModelAdapter())
     ..registerAdapter(HiveGroupModelAdapter())
     ..registerAdapter(HiveExerciseModelAdapter())
     ..registerAdapter(HiveTrainingModelAdapter());
+  debugPrint('Hive initialized at ${Directory.current.path}');
   runApp(const MyApp());
 }
 
