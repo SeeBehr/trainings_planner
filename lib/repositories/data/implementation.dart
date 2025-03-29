@@ -196,6 +196,8 @@ class DataRepositoryImplementation extends DataRepository {
         collections:
             model.collections.append(HomeModelCollection.add()).toList(),
         activeCollection: model.collections.length,
+        activeGroup: -1,
+        activeExercise: -1,
       ),
       orElse: () => data,
     );
@@ -204,7 +206,7 @@ class DataRepositoryImplementation extends DataRepository {
 
   @override
   void renameCollection(int index, String value) {
-    debugPrint('renameCollection to $value');
+    debugPrint('rename Collection to $value');
     data = data?.maybeMap(
       data: (model) => model.copyWith(
         collections:
@@ -248,7 +250,11 @@ class DataRepositoryImplementation extends DataRepository {
 
   @override
   void renameExercise(
-      int collectionIndex, int groupIndex, int exerciseIndex, String value) {
+    int collectionIndex,
+    int groupIndex,
+    int exerciseIndex,
+    String value,
+  ) {
     data = data?.maybeMap(
       data: (model) => model.copyWith(
         collections: model.collections.mapWithIndex((collection, index) {
@@ -439,10 +445,11 @@ class DataRepositoryImplementation extends DataRepository {
                               'index: ${exercise.training.index}',
                             );
                             if (prev <= curr) {
-                              int current = curr - 1;
+                              final current = curr - 1;
                               if (exercise.training.index == prev) {
                                 debugPrint(
-                                  'Moving ${exercise.name} from $prev to $current',
+                                  'Moving ${exercise.name} from '
+                                  '$prev to $current',
                                 );
                                 return exercise.copyWith(
                                   training: exercise.training.copyWith(
