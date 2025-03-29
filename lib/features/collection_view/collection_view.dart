@@ -134,12 +134,6 @@ class CollectionView extends StatelessWidget {
                                             name,
                                           ),
                                     ),
-                                    // Text(
-                                    //   entry.value.name,
-                                    //   style: Theme.of(context)
-                                    //       .textTheme
-                                    //       .labelLarge,
-                                    // ),
                                     onTap: () => context
                                         .read<HomeController>()
                                         .setActiveExercise(

@@ -45,4 +45,6 @@ abstract class DataRepository {
   void reorderExercises(int prev, int curr);
 
   void deleteExercise();
+
+  void changeDuration(String id, Duration duration);
 }

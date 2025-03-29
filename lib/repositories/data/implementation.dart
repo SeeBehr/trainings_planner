@@ -568,4 +568,30 @@ class DataRepositoryImplementation extends DataRepository {
     );
     _stream.add(data);
   }
+
+  @override
+  void changeDuration(String id, Duration duration) {
+    data = data?.maybeMap(
+      data: (model) => model.copyWith(
+        collections: model.collections.mapWithIndex((collection, index) {
+          return collection.copyWith(
+            groups: collection.groups.mapWithIndex((group, index) {
+              return group.copyWith(
+                exercises: group.exercises.mapWithIndex((exercise, index) {
+                  if (exercise.id == id) {
+                    return exercise.copyWith(
+                      training: exercise.training.copyWith(duration: duration),
+                    );
+                  } else {
+                    return exercise;
+                  }
+                }).toList(),
+              );
+            }).toList(),
+          );
+        }).toList(),
+      ),
+      orElse: () => data,
+    );
+  }
 }

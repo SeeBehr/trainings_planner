@@ -223,4 +223,13 @@ class HomeController extends Cubit<HomeModel> {
   void openPdfPreview() {
     navigationService.openPdfPreview();
   }
+
+  void changeDuration(String id, Duration duration) {
+    state.maybeMap(
+      data: (data) {
+        dataRepository.changeDuration(id, duration);
+      },
+      orElse: () {},
+    );
+  }
 }
