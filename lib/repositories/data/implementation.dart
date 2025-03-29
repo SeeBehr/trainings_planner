@@ -211,6 +211,8 @@ class DataRepositoryImplementation extends DataRepository {
         collections:
             model.collections.append(HomeModelCollection.add()).toList(),
         activeCollection: model.collections.length,
+        activeGroup: -1,
+        activeExercise: -1,
       ),
       orElse: () => data,
     );
@@ -219,7 +221,7 @@ class DataRepositoryImplementation extends DataRepository {
 
   @override
   void renameCollection(int index, String value) {
-    debugPrint('renameCollection to $value');
+    debugPrint('rename Collection to $value');
     data = data?.maybeMap(
       data: (model) => model.copyWith(
         collections:

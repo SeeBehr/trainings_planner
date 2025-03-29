@@ -9,7 +9,7 @@ class FolderNameField extends StatefulWidget {
   });
 
   final String name;
-  final void Function(String) rename;
+  final void Function(String?) rename;
   final void Function() delete;
 
   @override
@@ -54,12 +54,17 @@ class _FolderNameFieldState extends State<FolderNameField> {
           ],
         ),
         child: TextFormField(
+          restorationId: 'folder_name_field',
           style: Theme.of(context).textTheme.labelLarge,
           decoration: null,
           initialValue: widget.name,
           enabled: active,
           onFieldSubmitted: (text) {
             widget.rename(text);
+            setState(() => active = false);
+          },
+          onTapOutside: (event) {
+            widget.rename(null);
             setState(() => active = false);
           },
         ),

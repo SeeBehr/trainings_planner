@@ -105,19 +105,26 @@ class HomeController extends Cubit<HomeModel> {
 
   Future<void> saveAll() => dataRepository.saveData();
 
-  void renameCollection(int index, String value) {
+  void renameCollection(int index, String? value) {
     state.maybeMap(
       data: (data) {
-        dataRepository.renameCollection(index, value);
+        dataRepository.renameCollection(
+          index,
+          value ?? data.collections[index].name,
+        );
       },
       orElse: () {},
     );
   }
 
-  void renameGroup(int collectionIndex, int groupIndex, String value) {
+  void renameGroup(int collectionIndex, int groupIndex, String? value) {
     state.maybeMap(
       data: (data) {
-        dataRepository.renameGroup(collectionIndex, groupIndex, value);
+        dataRepository.renameGroup(
+          collectionIndex,
+          groupIndex,
+          value ?? data.collections[collectionIndex].groups[groupIndex].name,
+        );
       },
       orElse: () {},
     );
@@ -127,7 +134,7 @@ class HomeController extends Cubit<HomeModel> {
     int collectionIndex,
     int groupIndex,
     int exerciseIndex,
-    String value,
+    String? value,
   ) {
     state.maybeMap(
       data: (data) {
@@ -135,7 +142,9 @@ class HomeController extends Cubit<HomeModel> {
           collectionIndex,
           groupIndex,
           exerciseIndex,
-          value,
+          value ??
+              data.collections[collectionIndex].groups[groupIndex]
+                  .exercises[exerciseIndex].name,
         );
       },
       orElse: () {},
