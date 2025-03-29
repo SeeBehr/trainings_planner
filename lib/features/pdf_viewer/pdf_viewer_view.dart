@@ -26,19 +26,21 @@ class PdfViewerView extends StatelessWidget {
             data: (data) => FutureBuilder(
               future: data.pdf.save(),
               builder: (context, data) => data.hasData
-                  ? // const Placeholder()
-                  Stack(
+                  ? Stack(
                       children: [
                         SfPdfViewer.memory(
+                          pageLayoutMode: PdfPageLayoutMode.single,
                           data.data!,
                         ),
-                        Positioned(
-                          bottom: 0,
-                          right: 0,
-                          child: Align(
-                            alignment: Alignment.bottomCenter,
+                        Align(
+                          alignment: Alignment.bottomRight,
+                          child: Padding(
+                            padding: const EdgeInsets.all(8),
                             child: IconButton(
-                              icon: const Icon(Icons.download),
+                              icon: Icon(
+                                color: Theme.of(context).colorScheme.primary,
+                                Icons.download,
+                              ),
                               onPressed: () => context
                                   .read<PdfViewerController>()
                                   .download(data.data!),

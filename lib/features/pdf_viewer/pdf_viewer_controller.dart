@@ -17,7 +17,6 @@ class PdfViewerController extends Cubit<PdfViewerModel> {
   }) : super(PdfViewerModel.loading()) {
     emit(PdfViewerModel.data(pdf: _generatePdf(dataRepository.loadTraining())));
   }
-
   final NavigationService navigationService;
   final DataRepository dataRepository;
 
@@ -37,7 +36,6 @@ class PdfViewerController extends Cubit<PdfViewerModel> {
                     .map(
                       (exercise) => pw.Row(
                         mainAxisSize: pw.MainAxisSize.min,
-                        mainAxisAlignment: pw.MainAxisAlignment.spaceBetween,
                         crossAxisAlignment: pw.CrossAxisAlignment.start,
                         children: [
                           pw.Column(
@@ -48,23 +46,36 @@ class PdfViewerController extends Cubit<PdfViewerModel> {
                                 exercise.name,
                                 style: const pw.TextStyle(fontSize: 14),
                               ),
-                              pw.Text(
-                                'material:',
-                                style: const pw.TextStyle(fontSize: 12),
-                              ),
-                              ...exercise.material.map(
-                                (exercise) => pw.Text(
-                                  '- $exercise',
-                                  style: const pw.TextStyle(fontSize: 10),
-                                ),
+                              pw.Row(
+                                children: [
+                                  pw.Text(
+                                    'material:',
+                                    style: const pw.TextStyle(fontSize: 12),
+                                  ),
+                                  pw.Column(
+                                    crossAxisAlignment:
+                                        pw.CrossAxisAlignment.start,
+                                    children: exercise.material
+                                        .map(
+                                          (exercise) => pw.Text(
+                                            '- $exercise',
+                                            style: const pw.TextStyle(
+                                              fontSize: 10,
+                                            ),
+                                          ),
+                                        )
+                                        .toList(),
+                                  ),
+                                ],
                               ),
                             ],
                           ),
                           if (exercise.image != null)
-                            pw.Container(
+                            pw.Padding(
                               padding: const pw.EdgeInsets.all(8),
-                              alignment: pw.Alignment.center,
                               child: pw.Image(
+                                alignment: pw.Alignment.topCenter,
+                                width: 150,
                                 pw.MemoryImage(
                                   File(exercise.image!).readAsBytesSync(),
                                 ),
