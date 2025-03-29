@@ -1,6 +1,5 @@
 abstract class NavigationService {
   void openExercise();
-  void goBack({Object? value});
+  void goBack();
   void openPdfPreview();
-  void openTrainingPopup();
 }

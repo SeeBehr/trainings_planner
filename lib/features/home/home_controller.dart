@@ -19,19 +19,20 @@ class HomeController extends Cubit<HomeModel> {
   late StreamSubscription<HomeModel?> _dataSubscription;
 
   Future<void> _loadData() async {
-    var data = await dataRepository.loadData().timeout(
-      const Duration(seconds: 5),
-      onTimeout: () {
-        return HomeModel.data(
-          activeCollection: -1,
-          activeGroup: -1,
-          activeExercise: -1,
-          collections: [],
-          trainingLength: -1,
-        );
-      },
-    ).then((value) => value);
-    emit(data);
+    emit(
+      await dataRepository.loadData().timeout(
+        const Duration(seconds: 5),
+        onTimeout: () {
+          return HomeModel.data(
+            activeCollection: -1,
+            activeGroup: -1,
+            activeExercise: -1,
+            collections: [],
+            trainingLength: -1,
+          );
+        },
+      ).then((value) => value),
+    );
     _dataSubscription = dataRepository.dataStream.listen((event) {
       if (event != null) emit(event);
     });
@@ -182,11 +183,10 @@ class HomeController extends Cubit<HomeModel> {
     );
   }
 
-  void addToTraining() {
+  void addToTraining(Duration duration) {
     state.maybeMap(
       data: (data) {
-        navigationService.openTrainingPopup();
-        dataRepository.addToTraining();
+        dataRepository.addToTraining(duration);
       },
       orElse: () {},
     );

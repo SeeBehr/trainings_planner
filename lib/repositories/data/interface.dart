@@ -38,7 +38,7 @@ abstract class DataRepository {
 
   void deleteGroup(int collectionIndex, int groupIndex);
 
-  void addToTraining();
+  void addToTraining(Duration duration);
 
   void removeFromTraining();
 

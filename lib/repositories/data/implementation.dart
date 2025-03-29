@@ -357,7 +357,7 @@ class DataRepositoryImplementation extends DataRepository {
   }
 
   @override
-  void addToTraining() {
+  void addToTraining(Duration duration) {
     data = data?.maybeMap(
       data: (model) => model.copyWith(
         collections: model.collections.mapWithIndex(

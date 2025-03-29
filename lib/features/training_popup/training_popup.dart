@@ -1,16 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:trainings_planner/services/navigation/interface.dart';
 
 class TrainingPopup extends StatelessWidget {
-  TrainingPopup({required this.navigationService, super.key});
-  final NavigationService navigationService;
+  TrainingPopup({super.key});
   final TextEditingController controller = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
-    return ColoredBox(
-      color: Colors.transparent,
-      child: Center(
+    return Scaffold(
+      body: Center(
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
@@ -27,7 +24,12 @@ class TrainingPopup extends StatelessWidget {
             const SizedBox(height: 16),
             ElevatedButton(
               onPressed: () {
-                navigationService.goBack(value: controller.text);
+                final value = int.tryParse(controller.text);
+                if (value != null) {
+                  Navigator.of(context).pop(value);
+                } else {
+                  Navigator.of(context).pop();
+                }
               },
               child: const Text('Save'),
             ),
