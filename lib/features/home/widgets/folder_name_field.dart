@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 
 class FolderNameField extends StatefulWidget {
   const FolderNameField({
@@ -10,7 +9,7 @@ class FolderNameField extends StatefulWidget {
   });
 
   final String name;
-  final void Function(String) rename;
+  final void Function(String?) rename;
   final void Function() delete;
 
   @override
@@ -34,7 +33,7 @@ class _FolderNameFieldState extends State<FolderNameField> {
             anchorPoint.dy,
           ),
           items: [
-            PopupMenuItem(
+            PopupMenuItem<Widget>(
               child: TextButton(
                 onPressed: () {
                   Navigator.pop(context);
@@ -43,7 +42,7 @@ class _FolderNameFieldState extends State<FolderNameField> {
                 child: const Text('Rename'),
               ),
             ),
-            PopupMenuItem(
+            PopupMenuItem<Widget>(
               child: TextButton(
                 onPressed: () {
                   Navigator.pop(context);
@@ -55,12 +54,17 @@ class _FolderNameFieldState extends State<FolderNameField> {
           ],
         ),
         child: TextFormField(
+          restorationId: 'folder_name_field',
           style: Theme.of(context).textTheme.labelLarge,
           decoration: null,
           initialValue: widget.name,
           enabled: active,
           onFieldSubmitted: (text) {
             widget.rename(text);
+            setState(() => active = false);
+          },
+          onTapOutside: (event) {
+            widget.rename(null);
             setState(() => active = false);
           },
         ),
