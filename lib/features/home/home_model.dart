@@ -51,28 +51,33 @@ class Training {
     this.collectionIndex,
     this.groupIndex,
     this.exerciseIndex,
+    this.duration,
   );
   const Training.none()
       : index = -1,
         collectionIndex = -1,
         groupIndex = -1,
-        exerciseIndex = -1;
+        exerciseIndex = -1,
+        duration = Duration.zero;
   final int index;
   final int collectionIndex;
   final int groupIndex;
   final int exerciseIndex;
+  final Duration duration;
 
   Training copyWith({
     int? index,
     int? collectionIndex,
     int? groupIndex,
     int? exerciseIndex,
+    Duration? duration,
   }) =>
       Training(
         index ?? this.index,
         collectionIndex ?? this.collectionIndex,
         groupIndex ?? this.groupIndex,
         exerciseIndex ?? this.exerciseIndex,
+        duration ?? this.duration,
       );
 }
 
