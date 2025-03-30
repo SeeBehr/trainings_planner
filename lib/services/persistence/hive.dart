@@ -53,6 +53,7 @@ class HivePersistenceService implements PersistenceService {
       collectionIndex: data.collectionIndex,
       groupIndex: data.groupIndex,
       exerciseIndex: data.exerciseIndex,
+      duration: data.duration.inSeconds,
     );
   }
 
@@ -90,6 +91,7 @@ class HivePersistenceService implements PersistenceService {
       data.collectionIndex,
       data.groupIndex,
       data.exerciseIndex,
+      Duration(seconds: data.duration),
     );
   }
 }

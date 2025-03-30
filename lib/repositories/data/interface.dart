@@ -38,11 +38,13 @@ abstract class DataRepository {
 
   void deleteGroup(int collectionIndex, int groupIndex);
 
-  void addToTraining();
+  void addToTraining(Duration duration);
 
   void removeFromTraining();
 
   void reorderExercises(int prev, int curr);
 
   void deleteExercise();
+
+  void changeDuration(String id, Duration duration);
 }

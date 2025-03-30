@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:trainings_planner/features/home/home_model.dart';
@@ -18,7 +19,20 @@ class HomeController extends Cubit<HomeModel> {
   late StreamSubscription<HomeModel?> _dataSubscription;
 
   Future<void> _loadData() async {
-    emit(await dataRepository.loadData());
+    emit(
+      await dataRepository.loadData().timeout(
+        const Duration(seconds: 5),
+        onTimeout: () {
+          return HomeModel.data(
+            activeCollection: -1,
+            activeGroup: -1,
+            activeExercise: -1,
+            collections: [],
+            trainingLength: -1,
+          );
+        },
+      ).then((value) => value),
+    );
     _dataSubscription = dataRepository.dataStream.listen((event) {
       if (event != null) emit(event);
     });
@@ -169,10 +183,10 @@ class HomeController extends Cubit<HomeModel> {
     );
   }
 
-  void addToTraining() {
+  void addToTraining(Duration duration) {
     state.maybeMap(
       data: (data) {
-        dataRepository.addToTraining();
+        dataRepository.addToTraining(duration);
       },
       orElse: () {},
     );
@@ -208,5 +222,14 @@ class HomeController extends Cubit<HomeModel> {
 
   void openPdfPreview() {
     navigationService.openPdfPreview();
+  }
+
+  void changeDuration(String id, Duration duration) {
+    state.maybeMap(
+      data: (data) {
+        dataRepository.changeDuration(id, duration);
+      },
+      orElse: () {},
+    );
   }
 }

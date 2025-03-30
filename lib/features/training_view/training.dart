@@ -1,12 +1,22 @@
+import 'dart:async';
+
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:trainings_planner/features/home/home_controller.dart';
 import 'package:trainings_planner/features/home/home_model.dart';
+import 'package:trainings_planner/features/training_popup/training_popup.dart';
 
-class TrainingView extends StatelessWidget {
+class TrainingView extends StatefulWidget {
   const TrainingView({required this.exercises, super.key});
   final List<HomeModelExercise> exercises;
 
+  @override
+  State<TrainingView> createState() => _TrainingViewState();
+}
+
+class _TrainingViewState extends State<TrainingView> {
+  Offset anchorPoint = Offset.zero;
   @override
   Widget build(BuildContext context) {
     return Stack(
@@ -28,36 +38,88 @@ class TrainingView extends StatelessWidget {
             ReorderableListView.builder(
               shrinkWrap: true,
               itemBuilder: (context, index) => Row(
-                key: ValueKey(exercises[index].id),
+                key: ValueKey(widget.exercises[index].id),
                 children: [
                   Expanded(
-                    child: ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                        shape: LinearBorder.none,
-                        backgroundColor: Theme.of(context).colorScheme.surface,
-                      ),
-                      child: Text(
-                        style: Theme.of(context).textTheme.labelLarge,
-                        exercises[index].name,
-                      ),
-                      onPressed: () => context
-                          .read<HomeController>()
-                          .setActiveExercise(
-                            collectionIndex:
-                                exercises[index].training.collectionIndex,
-                            groupIndex: exercises[index].training.groupIndex,
-                            exerciseIndex:
-                                exercises[index].training.exerciseIndex,
+                    child: MouseRegion(
+                      onHover: (event) =>
+                          setState(() => anchorPoint = event.position),
+                      child: GestureDetector(
+                        child: ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                            shape: LinearBorder.none,
+                            backgroundColor:
+                                Theme.of(context).colorScheme.surface,
                           ),
+                          child: Row(
+                            children: [
+                              Text(
+                                '${widget.exercises[index].training.duration.inMinutes} min',
+                              ),
+                              const SizedBox(width: 12),
+                              Text(
+                                style: Theme.of(context).textTheme.labelLarge,
+                                widget.exercises[index].name,
+                              ),
+                            ],
+                          ),
+                          onPressed: () =>
+                              context.read<HomeController>().setActiveExercise(
+                                    collectionIndex: widget.exercises[index]
+                                        .training.collectionIndex,
+                                    groupIndex: widget
+                                        .exercises[index].training.groupIndex,
+                                    exerciseIndex: widget.exercises[index]
+                                        .training.exerciseIndex,
+                                  ),
+                        ),
+                        onSecondaryTap: () => showMenu(
+                          context: context,
+                          position: RelativeRect.fromLTRB(
+                            anchorPoint.dx,
+                            anchorPoint.dy,
+                            anchorPoint.dx,
+                            anchorPoint.dy,
+                          ),
+                          items: [
+                            PopupMenuItem<TextButton>(
+                              child: TextButton(
+                                onPressed: () => unawaited(
+                                  showCupertinoModalPopup<int>(
+                                    context: context,
+                                    builder: (builder) {
+                                      return TrainingPopup();
+                                    },
+                                  ).then(
+                                    (duration) => duration != null
+                                        ? context
+                                            .read<HomeController>()
+                                            .changeDuration(
+                                              widget.exercises[index].id,
+                                              Duration(minutes: duration),
+                                            )
+                                        : null,
+                                  ),
+                                ),
+                                child: const Text('change duration'),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
                     ),
                   ),
                 ],
               ),
-              itemCount: exercises.length,
+              itemCount: widget.exercises.length,
               onReorder: (prev, curr) {
                 context.read<HomeController>().reorderExercises(prev, curr);
               },
             ),
+            if (widget.exercises.isNotEmpty)
+              Text(
+                '${widget.exercises.fold(Duration.zero, (previousValue, element) => previousValue + element.training.duration).inMinutes} min',
+              ),
           ],
         ),
         Align(

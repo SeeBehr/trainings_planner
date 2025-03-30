@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
@@ -11,8 +12,9 @@ import 'package:trainings_planner/services/navigation/interface.dart';
 
 class GoRouterNavigationService implements NavigationService {
   final GoRouter _router = goRouter;
+  Object? result;
   @override
-  void goBack() => _router.canPop() ? _router.pop() : null;
+  void goBack({Object? value}) => _router.canPop() ? _router.pop(value) : null;
 
   @override
   void openExercise() {

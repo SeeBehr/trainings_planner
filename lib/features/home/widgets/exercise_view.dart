@@ -1,9 +1,12 @@
+import 'dart:async';
 import 'dart:io';
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:trainings_planner/features/home/home_controller.dart';
 import 'package:trainings_planner/features/home/home_model.dart';
+import 'package:trainings_planner/features/training_popup/training_popup.dart';
 
 class ExerciseView extends StatelessWidget {
   const ExerciseView({required this.exercise, super.key});
@@ -206,12 +209,27 @@ class ExerciseViewData extends StatelessWidget {
                                   ),
                             ),
                           ),
-                          onPressed: () => exercise.training ==
-                                  const Training.none()
-                              ? context.read<HomeController>().addToTraining()
-                              : context
-                                  .read<HomeController>()
-                                  .removeFromTraining(),
+                          onPressed: () {
+                            if (exercise.training == const Training.none()) {
+                              unawaited(
+                                showCupertinoModalPopup<int>(
+                                  context: context,
+                                  builder: (builder) {
+                                    return TrainingPopup();
+                                  },
+                                ).then(
+                                  (duration) => duration != null
+                                      ? context
+                                          .read<HomeController>()
+                                          .addToTraining(
+                                            Duration(minutes: duration),
+                                          )
+                                      : null,
+                                ),
+                              );
+                            }
+                            context.read<HomeController>().removeFromTraining();
+                          },
                         ),
                       ],
                     ),
