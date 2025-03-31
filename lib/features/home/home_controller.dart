@@ -28,7 +28,7 @@ class HomeController extends Cubit<HomeModel> {
             activeGroup: -1,
             activeExercise: -1,
             collections: [],
-            trainingLength: -1,
+            trainingLength: 0,
           );
         },
       ).then((value) => value),

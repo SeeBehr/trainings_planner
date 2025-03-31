@@ -227,8 +227,11 @@ class ExerciseViewData extends StatelessWidget {
                                       : null,
                                 ),
                               );
+                            } else {
+                              context
+                                  .read<HomeController>()
+                                  .removeFromTraining();
                             }
-                            context.read<HomeController>().removeFromTraining();
                           },
                         ),
                       ],
