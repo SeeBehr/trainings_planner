@@ -191,13 +191,14 @@ class HiveTrainingModelAdapter extends TypeAdapter<HiveTrainingModel> {
       groupIndex: fields[2] as int,
       exerciseIndex: fields[3] as int,
       duration: fields[4] as int,
+      notes: fields[5] as String,
     );
   }
 
   @override
   void write(BinaryWriter writer, HiveTrainingModel obj) {
     writer
-      ..writeByte(5)
+      ..writeByte(6)
       ..writeByte(0)
       ..write(obj.index)
       ..writeByte(1)
@@ -207,7 +208,9 @@ class HiveTrainingModelAdapter extends TypeAdapter<HiveTrainingModel> {
       ..writeByte(3)
       ..write(obj.exerciseIndex)
       ..writeByte(4)
-      ..write(obj.duration);
+      ..write(obj.duration)
+      ..writeByte(5)
+      ..write(obj.notes);
   }
 
   @override

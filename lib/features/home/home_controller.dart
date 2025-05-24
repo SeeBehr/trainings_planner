@@ -183,10 +183,10 @@ class HomeController extends Cubit<HomeModel> {
     );
   }
 
-  void addToTraining(Duration duration) {
+  void addToTraining(Duration duration, String notes) {
     state.maybeMap(
       data: (data) {
-        dataRepository.addToTraining(duration);
+        dataRepository.addToTraining(duration, notes);
       },
       orElse: () {},
     );

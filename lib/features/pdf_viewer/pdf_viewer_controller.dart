@@ -68,6 +68,20 @@ class PdfViewerController extends Cubit<PdfViewerModel> {
                                   ),
                                 ],
                               ),
+                              pw.Row(
+                                children: [
+                                  pw.Text(
+                                    'notes:',
+                                    style: const pw.TextStyle(fontSize: 12),
+                                  ),
+                                  pw.Text(
+                                    exercise.training.notes,
+                                    style: const pw.TextStyle(
+                                      fontSize: 10,
+                                    ),
+                                  ),
+                                ],
+                              ),
                             ],
                           ),
                           if (exercise.image != null)

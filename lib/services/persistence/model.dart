@@ -82,6 +82,7 @@ class HiveTrainingModel extends HiveObject {
     required this.groupIndex,
     required this.exerciseIndex,
     required this.duration,
+    required this.notes,
   });
 
   @HiveField(0)
@@ -94,4 +95,6 @@ class HiveTrainingModel extends HiveObject {
   int exerciseIndex;
   @HiveField(4)
   int duration;
+  @HiveField(5)
+  String notes;
 }

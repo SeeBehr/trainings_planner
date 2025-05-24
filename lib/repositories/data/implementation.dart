@@ -357,7 +357,7 @@ class DataRepositoryImplementation extends DataRepository {
   }
 
   @override
-  void addToTraining(Duration duration) {
+  void addToTraining(Duration duration, String notes) {
     data = data?.maybeMap(
       data: (model) => model.copyWith(
         collections: model.collections.mapWithIndex(
@@ -386,6 +386,7 @@ class DataRepositoryImplementation extends DataRepository {
                             groupIndex,
                             exerciseIndex,
                             duration,
+                            notes,
                           ),
                         );
                       },

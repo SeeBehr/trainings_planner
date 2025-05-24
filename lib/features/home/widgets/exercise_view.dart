@@ -212,17 +212,18 @@ class ExerciseViewData extends StatelessWidget {
                           onPressed: () {
                             if (exercise.training == const Training.none()) {
                               unawaited(
-                                showCupertinoModalPopup<int>(
+                                showCupertinoModalPopup<(int, String)>(
                                   context: context,
                                   builder: (builder) {
                                     return TrainingPopup();
                                   },
                                 ).then(
-                                  (duration) => duration != null
+                                  (ret) => ret != null
                                       ? context
                                           .read<HomeController>()
                                           .addToTraining(
-                                            Duration(minutes: duration),
+                                            Duration(minutes: ret.$1),
+                                            ret.$2,
                                           )
                                       : null,
                                 ),
