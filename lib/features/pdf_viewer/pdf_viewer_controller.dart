@@ -68,6 +68,21 @@ class PdfViewerController extends Cubit<PdfViewerModel> {
                                   ),
                                 ],
                               ),
+                              pw.Column(
+                                crossAxisAlignment: pw.CrossAxisAlignment.start,
+                                children: [
+                                  pw.Text(
+                                    'notes:',
+                                    style: const pw.TextStyle(fontSize: 12),
+                                  ),
+                                  pw.Paragraph(
+                                    text: exercise.training.notes,
+                                    style: const pw.TextStyle(
+                                      fontSize: 10,
+                                    ),
+                                  ),
+                                ],
+                              ),
                             ],
                           ),
                           if (exercise.image != null)
