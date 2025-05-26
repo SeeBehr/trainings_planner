@@ -4,6 +4,7 @@ import 'dart:typed_data';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fpdart/fpdart.dart';
+import 'package:intl/intl.dart';
 import 'package:pdf/widgets.dart' as pw;
 import 'package:trainings_planner/features/home/home_model.dart';
 import 'package:trainings_planner/features/pdf_viewer/pdf_viewer_model.dart';
@@ -47,6 +48,7 @@ class PdfViewerController extends Cubit<PdfViewerModel> {
                                 style: const pw.TextStyle(fontSize: 14),
                               ),
                               pw.Row(
+                                crossAxisAlignment: pw.CrossAxisAlignment.start,
                                 children: [
                                   pw.Text(
                                     'material:',
@@ -116,7 +118,8 @@ class PdfViewerController extends Cubit<PdfViewerModel> {
         dialogTitle: 'Save PDF',
         initialDirectory: '/',
         allowedExtensions: ['pdf'],
-        fileName: 'trainings_plan.pdf',
+        fileName:
+            '${DateFormat('yyyy-MM-dd').format(DateTime.now())}_trainings_plan.pdf',
       )
       .then(
         (file) => file == null
