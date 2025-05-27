@@ -67,16 +67,9 @@ class ExerciseViewData extends StatelessWidget {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.end,
                         children: [
-                          Text(
-                            'difficulty',
-                            style: Theme.of(context).textTheme.bodyLarge,
-                          ),
-                          const SizedBox(width: 8),
-                          for (int i = 5; i > 0; i--)
-                            Icon(
-                              exercise.difficulty < i
-                                  ? Icons.star_border
-                                  : Icons.star,
+                          for (int i = 1; i <= exercise.difficulty; i++)
+                            const Icon(
+                              Icons.star,
                               color: Colors.yellowAccent,
                             ),
                         ],
