@@ -153,14 +153,14 @@ class _EditExerciseViewState extends State<EditExerciseView> {
                                     child: Text('difficulty'),
                                   ),
                                   const SizedBox(width: 8),
-                                  for (int i = 5; i > 0; i--)
+                                  for (int i = 1; i <= 5; i++)
                                     IconButton(
                                       hoverColor: Colors.transparent,
                                       highlightColor: Colors.transparent,
                                       icon: Icon(
-                                        difficulty < i
-                                            ? Icons.star_border
-                                            : Icons.star,
+                                        difficulty >= i
+                                            ? Icons.star
+                                            : Icons.star_border,
                                         color: Colors.yellowAccent,
                                       ),
                                       onPressed: () => setState(() {
