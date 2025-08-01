@@ -27,6 +27,13 @@ class _FolderNameFieldState extends State<FolderNameField> {
   bool active = false;
   Offset anchorPoint = Offset.zero;
   TextEditingController controller = TextEditingController();
+
+  @override
+  void dispose() {
+    super.dispose();
+    controller.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<HomeController, HomeModel>(
