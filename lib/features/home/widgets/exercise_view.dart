@@ -9,12 +9,31 @@ import 'package:trainings_planner/features/home/home_model.dart';
 import 'package:trainings_planner/features/training_popup/training_popup.dart';
 
 class ExerciseView extends StatelessWidget {
-  const ExerciseView({required this.exercise, super.key});
-  final HomeModelExercise? exercise;
+  const ExerciseView({super.key});
+
   @override
-  Widget build(BuildContext context) => exercise == null
-      ? const EmptyExerciseView()
-      : ExerciseViewData(exercise: exercise!);
+  Widget build(BuildContext context) {
+    return BlocBuilder<HomeController, HomeModel>(
+      builder: (context, state) => state.map(
+        loading: (_) => const Center(
+          child: CircularProgressIndicator(),
+        ),
+        data: (data) {
+          try {
+            final exercise = data.collections[data.activeCollection]
+                .groups[data.activeGroup].exercises[data.activeExercise];
+            return ExerciseViewData(exercise: exercise);
+          } catch (e) {
+            debugPrint('Error in ExerciseView: $e');
+            return const EmptyExerciseView();
+          }
+        },
+        error: (error) => Center(
+          child: Text(error.toString()),
+        ),
+      ),
+    );
+  }
 }
 
 class EmptyExerciseView extends StatelessWidget {

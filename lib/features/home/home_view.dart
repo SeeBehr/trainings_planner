@@ -1,24 +1,32 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:trainings_planner/features/home/home_controller.dart';
-import 'package:trainings_planner/features/home/home_model.dart';
-import 'package:trainings_planner/features/home/widgets/home_view_data.dart';
+import 'package:trainings_planner/features/collection_view/collection_view.dart';
+import 'package:trainings_planner/features/home/widgets/exercise_view.dart';
+import 'package:trainings_planner/features/training_view/training.dart';
 
 class HomeView extends StatelessWidget {
   const HomeView({super.key});
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: BlocBuilder<HomeController, HomeModel>(
-        builder: (context, state) => state.map(
-          loading: (_) => const Center(
-            child: CircularProgressIndicator(),
+    return const Scaffold(
+      body: Row(
+        children: [
+          Expanded(
+            child: CollectionView(),
           ),
-          data: (collections) => HomeViewData(collections: collections),
-          error: (error) => Center(
-            child: Text(error.toString()),
+          Expanded(
+            flex: 4,
+            child: DecoratedBox(
+              decoration: BoxDecoration(
+                border: Border.symmetric(vertical: BorderSide()),
+              ),
+              child: ExerciseView(),
+            ),
           ),
-        ),
+          Expanded(
+            child: TrainingView(),
+          ),
+        ],
       ),
     );
   }

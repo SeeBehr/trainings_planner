@@ -44,47 +44,51 @@ class PdfViewerController extends Cubit<PdfViewerModel> {
                             crossAxisAlignment: pw.CrossAxisAlignment.start,
                             children: [
                               pw.Text(
-                                exercise.name,
+                                '${exercise.name} - ${exercise.training.duration.inMinutes} min',
                                 style: const pw.TextStyle(fontSize: 14),
                               ),
-                              pw.Row(
-                                crossAxisAlignment: pw.CrossAxisAlignment.start,
-                                children: [
-                                  pw.Text(
-                                    'material:',
-                                    style: const pw.TextStyle(fontSize: 12),
-                                  ),
-                                  pw.Column(
-                                    crossAxisAlignment:
-                                        pw.CrossAxisAlignment.start,
-                                    children: exercise.material
-                                        .map(
-                                          (exercise) => pw.Text(
-                                            '- $exercise',
-                                            style: const pw.TextStyle(
-                                              fontSize: 10,
-                                            ),
-                                          ),
-                                        )
-                                        .toList(),
-                                  ),
-                                ],
-                              ),
-                              pw.Column(
-                                crossAxisAlignment: pw.CrossAxisAlignment.start,
-                                children: [
-                                  pw.Text(
-                                    'notes:',
-                                    style: const pw.TextStyle(fontSize: 12),
-                                  ),
-                                  pw.Paragraph(
-                                    text: exercise.training.notes,
-                                    style: const pw.TextStyle(
-                                      fontSize: 10,
+                              if (exercise.material.isNotEmpty)
+                                pw.Row(
+                                  crossAxisAlignment:
+                                      pw.CrossAxisAlignment.start,
+                                  children: [
+                                    pw.Text(
+                                      'material:',
+                                      style: const pw.TextStyle(fontSize: 12),
                                     ),
-                                  ),
-                                ],
-                              ),
+                                    pw.Column(
+                                      crossAxisAlignment:
+                                          pw.CrossAxisAlignment.start,
+                                      children: exercise.material
+                                          .map(
+                                            (exercise) => pw.Text(
+                                              '- $exercise',
+                                              style: const pw.TextStyle(
+                                                fontSize: 10,
+                                              ),
+                                            ),
+                                          )
+                                          .toList(),
+                                    ),
+                                  ],
+                                ),
+                              if (exercise.training.notes.isNotEmpty)
+                                pw.Column(
+                                  crossAxisAlignment:
+                                      pw.CrossAxisAlignment.start,
+                                  children: [
+                                    pw.Text(
+                                      'notes:',
+                                      style: const pw.TextStyle(fontSize: 12),
+                                    ),
+                                    pw.Paragraph(
+                                      text: exercise.training.notes,
+                                      style: const pw.TextStyle(
+                                        fontSize: 10,
+                                      ),
+                                    ),
+                                  ],
+                                ),
                             ],
                           ),
                           if (exercise.image != null)

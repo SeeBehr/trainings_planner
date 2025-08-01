@@ -45,13 +45,6 @@ class HomeController extends Cubit<HomeModel> {
   }) {
     state.maybeMap(
       data: (value) {
-        emit(
-          value.copyWith(
-            activeCollection: collectionIndex,
-            activeGroup: groupIndex,
-            activeExercise: exerciseIndex,
-          ),
-        );
         dataRepository.setActiveExercise(
           collectionIndex: collectionIndex,
           groupIndex: groupIndex,
@@ -95,7 +88,7 @@ class HomeController extends Cubit<HomeModel> {
   }
 
   bool addGroup() {
-    debugPrint('addExercise');
+    debugPrint('addGroup');
     return state.maybeMap(
       data: (value) {
         if (value.activeCollection == -1) dataRepository.addCollection();
@@ -107,7 +100,7 @@ class HomeController extends Cubit<HomeModel> {
   }
 
   bool addCollection() {
-    debugPrint('addExercise');
+    debugPrint('addCollection');
     return state.maybeMap(
       data: (value) {
         dataRepository.addCollection();

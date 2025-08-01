@@ -63,7 +63,7 @@ class _EditExerciseViewState extends State<EditExerciseView> {
                     ),
                     actions: [
                       TextButton(
-                        onPressed: () => Navigator.of(context).pop(true),
+                        onPressed: () => Navigator.of(context).pop(false),
                         child: const Text('no'),
                       ),
                       TextButton(
