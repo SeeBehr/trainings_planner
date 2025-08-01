@@ -26,6 +26,7 @@ class FolderNameField extends StatefulWidget {
 class _FolderNameFieldState extends State<FolderNameField> {
   bool active = false;
   Offset anchorPoint = Offset.zero;
+  TextEditingController controller = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<HomeController, HomeModel>(
@@ -50,54 +51,59 @@ class _FolderNameFieldState extends State<FolderNameField> {
   Widget _buildFolderNameField(
     BuildContext context,
     String name,
-  ) =>
-      MouseRegion(
-        onHover: (event) => setState(() => anchorPoint = event.position),
-        child: GestureDetector(
-          onSecondaryTap: () => showMenu(
-            context: context,
-            position: RelativeRect.fromLTRB(
-              anchorPoint.dx,
-              anchorPoint.dy,
-              anchorPoint.dx,
-              anchorPoint.dy,
+  ) {
+    controller.text = name;
+    return MouseRegion(
+      onHover: (event) => setState(() => anchorPoint = event.position),
+      child: GestureDetector(
+        onSecondaryTap: () => showMenu(
+          context: context,
+          position: RelativeRect.fromLTRB(
+            anchorPoint.dx,
+            anchorPoint.dy,
+            anchorPoint.dx,
+            anchorPoint.dy,
+          ),
+          items: [
+            PopupMenuItem<TextButton>(
+              child: TextButton(
+                onPressed: () {
+                  Navigator.pop(context);
+                  setState(() => active = true);
+                },
+                child: const Text('Rename'),
+              ),
             ),
-            items: [
-              PopupMenuItem<TextButton>(
-                child: TextButton(
-                  onPressed: () {
-                    Navigator.pop(context);
-                    setState(() => active = true);
-                  },
-                  child: const Text('Rename'),
-                ),
+            PopupMenuItem<TextButton>(
+              child: TextButton(
+                onPressed: () {
+                  Navigator.pop(context);
+                  widget.delete();
+                },
+                child: const Text('Delete'),
               ),
-              PopupMenuItem<TextButton>(
-                child: TextButton(
-                  onPressed: () {
-                    Navigator.pop(context);
-                    widget.delete();
-                  },
-                  child: const Text('Delete'),
-                ),
-              ),
-            ],
-          ),
-          child: TextFormField(
-            restorationId: 'folder_name_field',
-            style: Theme.of(context).textTheme.labelLarge,
-            decoration: null,
-            initialValue: name,
-            enabled: active,
-            onFieldSubmitted: (text) {
-              widget.rename(text);
-              setState(() => active = false);
-            },
-            onTapOutside: (event) {
-              widget.rename(null);
-              setState(() => active = false);
-            },
-          ),
+            ),
+          ],
         ),
-      );
+        child: TextFormField(
+          key: ValueKey(
+            'folderNameField${widget.collectionIndex}_${widget.groupIndex}_${widget.exerciseIndex}',
+          ),
+          restorationId: 'folder_name_field',
+          style: Theme.of(context).textTheme.labelLarge,
+          decoration: null,
+          controller: controller,
+          enabled: active,
+          onFieldSubmitted: (text) {
+            widget.rename(text);
+            setState(() => active = false);
+          },
+          onTapOutside: (event) {
+            widget.rename(null);
+            setState(() => active = false);
+          },
+        ),
+      ),
+    );
+  }
 }
