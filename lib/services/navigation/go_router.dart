@@ -39,7 +39,7 @@ final goRouter = GoRouter(
     GoRoute(
       path: '/editExercise',
       builder: (context, state) {
-        debugPrint('openExercise: id');
+        debugPrint('open /editExercise');
         return BlocProvider<EditExerciseController>(
           create: (_) => EditExerciseController(
             navigationService: context.read<NavigationService>(),
@@ -52,7 +52,7 @@ final goRouter = GoRouter(
     GoRoute(
       path: '/pdfPreview',
       builder: (context, state) {
-        debugPrint('openPdfPreview');
+        debugPrint('open /PdfPreview');
         return BlocProvider(
           create: (_) => PdfViewerController(
             navigationService: context.read<NavigationService>(),

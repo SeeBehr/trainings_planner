@@ -23,7 +23,7 @@ class EditExerciseController extends Cubit<EditExerciseModel> {
     required int difficulty,
     required String? image,
   }) {
-    emit(
+    dataRepository.saveExercise(
       state.maybeMap(
         data: (exercise) => exercise.copyWith(
           name: name,
@@ -35,11 +35,9 @@ class EditExerciseController extends Cubit<EditExerciseModel> {
         orElse: () => state,
       ),
     );
-    dataRepository.saveExercise(state);
   }
 
   void goBack() {
-    dataRepository.saveExercise(state);
     navigationService.goBack();
   }
 }
