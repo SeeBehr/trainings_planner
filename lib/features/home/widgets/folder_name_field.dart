@@ -86,16 +86,13 @@ class _FolderNameFieldState extends State<FolderNameField> {
                   Navigator.pop(context);
                   setState(() {
                     active = true;
-                    Future.delayed(
-                      const Duration(milliseconds: 100),
-                      () {
-                        controller.selection = TextSelection(
-                          baseOffset: 0,
-                          extentOffset: controller.text.length,
-                        );
-                        focusNode.requestFocus();
-                      },
-                    );
+                    WidgetsBinding.instance.addPostFrameCallback((_) {
+                      controller.selection = TextSelection(
+                        baseOffset: 0,
+                        extentOffset: controller.text.length,
+                      );
+                      focusNode.requestFocus();
+                    });
                   });
                 },
                 child: const Text('Rename'),
