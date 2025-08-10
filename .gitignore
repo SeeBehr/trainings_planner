@@ -33,3 +33,5 @@ doc/api/
 # Hive
 *.hive
 *.lock
+
+.vscode/

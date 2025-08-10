@@ -27,11 +27,19 @@ class _FolderNameFieldState extends State<FolderNameField> {
   bool active = false;
   Offset anchorPoint = Offset.zero;
   TextEditingController controller = TextEditingController();
+  late FocusNode focusNode;
+
+  @override
+  void initState() {
+    super.initState();
+    focusNode = FocusNode();
+  }
 
   @override
   void dispose() {
     super.dispose();
     controller.dispose();
+    focusNode.dispose();
   }
 
   @override
@@ -76,7 +84,16 @@ class _FolderNameFieldState extends State<FolderNameField> {
               child: TextButton(
                 onPressed: () {
                   Navigator.pop(context);
-                  setState(() => active = true);
+                  setState(() {
+                    active = true;
+                    WidgetsBinding.instance.addPostFrameCallback((_) {
+                      controller.selection = TextSelection(
+                        baseOffset: 0,
+                        extentOffset: controller.text.length,
+                      );
+                      focusNode.requestFocus();
+                    });
+                  });
                 },
                 child: const Text('Rename'),
               ),
@@ -98,9 +115,9 @@ class _FolderNameFieldState extends State<FolderNameField> {
           ),
           restorationId: 'folder_name_field',
           style: Theme.of(context).textTheme.labelLarge,
-          decoration: null,
           controller: controller,
           enabled: active,
+          focusNode: focusNode,
           onFieldSubmitted: (text) {
             widget.rename(text);
             setState(() => active = false);
