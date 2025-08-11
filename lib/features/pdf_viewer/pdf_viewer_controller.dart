@@ -22,7 +22,7 @@ class PdfViewerController extends Cubit<PdfViewerModel> {
   final DataRepository dataRepository;
 
   pw.Document _generatePdf(List<HomeModelExercise> exercises) {
-    final pdf = pw.Document()
+    final pdf = pw.Document(theme: pw.ThemeData.withFont(base: pw.Font.times()))
       ..addPage(
         pw.Page(
           build: (context) {
