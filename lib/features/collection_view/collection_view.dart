@@ -88,14 +88,14 @@ class CollectionView extends StatelessWidget {
                                     child: ListView.builder(
                                       itemBuilder: (_, groupIndex) =>
                                           ExpansionTile(
-                                        onExpansionChanged: (value) => context
-                                            .read<HomeController>()
-                                            .setActiveExercise(
-                                              collectionIndex:
-                                                  data.activeCollection,
-                                              groupIndex: groupIndex,
-                                              exerciseIndex: -1,
-                                            ),
+                                        // onExpansionChanged: (value) => context
+                                        //     .read<HomeController>()
+                                        //     .setActiveExercise(
+                                        //       collectionIndex:
+                                        //           data.activeCollection,
+                                        //       groupIndex: groupIndex,
+                                        //       exerciseIndex: -1,
+                                        //     ),
                                         childrenPadding:
                                             const EdgeInsets.only(left: 16),
                                         title: FolderNameField(
