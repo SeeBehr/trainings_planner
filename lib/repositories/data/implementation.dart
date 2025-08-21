@@ -343,7 +343,7 @@ class DataRepositoryImplementation extends DataRepository {
             )
             .toList(),
         activeIndex: model.activeIndex.copyWith(
-          collection: (model.activeIndex.collection > collectionIndex)
+          collection: (model.activeIndex.collection >= collectionIndex)
               ? model.activeIndex.collection - 1
               : model.activeIndex.collection,
           group: (model.activeIndex.collection == collectionIndex)
