@@ -38,7 +38,7 @@ class CollectionView extends StatelessWidget {
                                     style: ElevatedButton.styleFrom(
                                       shape: LinearBorder.none,
                                       backgroundColor:
-                                          data.activeCollection == index
+                                          data.activeIndex.collection == index
                                               ? Theme.of(context)
                                                   .colorScheme
                                                   .onSurface
@@ -80,7 +80,7 @@ class CollectionView extends StatelessWidget {
                             height: 2,
                           ),
                           Expanded(
-                            child: data.activeCollection == -1
+                            child: data.activeIndex.collection == -1
                                 ? const SizedBox.shrink()
                                 : Padding(
                                     padding:
@@ -92,9 +92,8 @@ class CollectionView extends StatelessWidget {
                                             .read<HomeController>()
                                             .setActiveExercise(
                                               collectionIndex:
-                                                  data.activeCollection,
+                                                  data.activeIndex.collection,
                                               groupIndex: groupIndex,
-                                              exerciseIndex: -1,
                                             ),
                                         childrenPadding:
                                             const EdgeInsets.only(left: 16),
@@ -102,30 +101,31 @@ class CollectionView extends StatelessWidget {
                                           key: ValueKey(
                                             data
                                                 .collections[
-                                                    data.activeCollection]
+                                                    data.activeIndex.collection]
                                                 .groups[groupIndex]
                                                 .id,
                                           ),
                                           collectionIndex:
-                                              data.activeCollection,
+                                              data.activeIndex.collection,
                                           groupIndex: groupIndex,
                                           exerciseIndex: -1,
                                           rename: (name) => context
                                               .read<HomeController>()
                                               .renameGroup(
-                                                data.activeCollection,
+                                                data.activeIndex.collection,
                                                 groupIndex,
                                                 name,
                                               ),
                                           delete: () => context
                                               .read<HomeController>()
                                               .deleteGroup(
-                                                data.activeCollection,
+                                                data.activeIndex.collection,
                                                 groupIndex,
                                               ),
                                         ),
                                         children: data
-                                            .collections[data.activeCollection]
+                                            .collections[
+                                                data.activeIndex.collection]
                                             .groups[groupIndex]
                                             .exercises
                                             .asMap()
@@ -136,7 +136,8 @@ class CollectionView extends StatelessWidget {
                                                   key: ValueKey(
                                                     data
                                                         .collections[data
-                                                            .activeCollection]
+                                                            .activeIndex
+                                                            .collection]
                                                         .groups[groupIndex]
                                                         .exercises[entry.key]
                                                         .id,
@@ -144,14 +145,15 @@ class CollectionView extends StatelessWidget {
                                                   delete: () => context
                                                       .read<HomeController>()
                                                       .deleteExercise(),
-                                                  collectionIndex:
-                                                      data.activeCollection,
+                                                  collectionIndex: data
+                                                      .activeIndex.collection,
                                                   groupIndex: groupIndex,
                                                   exerciseIndex: entry.key,
                                                   rename: (name) => context
                                                       .read<HomeController>()
                                                       .renameExercise(
-                                                        data.activeCollection,
+                                                        data.activeIndex
+                                                            .collection,
                                                         groupIndex,
                                                         entry.key,
                                                         name,
@@ -160,8 +162,9 @@ class CollectionView extends StatelessWidget {
                                                 onTap: () => context
                                                     .read<HomeController>()
                                                     .setActiveExercise(
-                                                      collectionIndex:
-                                                          data.activeCollection,
+                                                      collectionIndex: data
+                                                          .activeIndex
+                                                          .collection,
                                                       groupIndex: groupIndex,
                                                       exerciseIndex: entry.key,
                                                     ),
@@ -170,7 +173,8 @@ class CollectionView extends StatelessWidget {
                                             .toList(),
                                       ),
                                       itemCount: data
-                                          .collections[data.activeCollection]
+                                          .collections[
+                                              data.activeIndex.collection]
                                           .groups
                                           .length,
                                     ),

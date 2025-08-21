@@ -10,7 +10,7 @@ abstract class DataRepository {
   void setActiveExercise({
     required int collectionIndex,
     required int groupIndex,
-    required int exerciseIndex,
+    int? exerciseIndex,
   });
 
   EditExerciseModel loadExercise();
