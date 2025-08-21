@@ -15,14 +15,169 @@ final _privateConstructorUsedError = UnsupportedError(
     'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
 /// @nodoc
+mixin _$HomeModelIndex {
+  int get collection => throw _privateConstructorUsedError;
+  int get group => throw _privateConstructorUsedError;
+  int get exercise => throw _privateConstructorUsedError;
+
+  @JsonKey(ignore: true)
+  $HomeModelIndexCopyWith<HomeModelIndex> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $HomeModelIndexCopyWith<$Res> {
+  factory $HomeModelIndexCopyWith(
+          HomeModelIndex value, $Res Function(HomeModelIndex) then) =
+      _$HomeModelIndexCopyWithImpl<$Res, HomeModelIndex>;
+  @useResult
+  $Res call({int collection, int group, int exercise});
+}
+
+/// @nodoc
+class _$HomeModelIndexCopyWithImpl<$Res, $Val extends HomeModelIndex>
+    implements $HomeModelIndexCopyWith<$Res> {
+  _$HomeModelIndexCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? collection = null,
+    Object? group = null,
+    Object? exercise = null,
+  }) {
+    return _then(_value.copyWith(
+      collection: null == collection
+          ? _value.collection
+          : collection // ignore: cast_nullable_to_non_nullable
+              as int,
+      group: null == group
+          ? _value.group
+          : group // ignore: cast_nullable_to_non_nullable
+              as int,
+      exercise: null == exercise
+          ? _value.exercise
+          : exercise // ignore: cast_nullable_to_non_nullable
+              as int,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$HomeModelIndexImplCopyWith<$Res>
+    implements $HomeModelIndexCopyWith<$Res> {
+  factory _$$HomeModelIndexImplCopyWith(_$HomeModelIndexImpl value,
+          $Res Function(_$HomeModelIndexImpl) then) =
+      __$$HomeModelIndexImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call({int collection, int group, int exercise});
+}
+
+/// @nodoc
+class __$$HomeModelIndexImplCopyWithImpl<$Res>
+    extends _$HomeModelIndexCopyWithImpl<$Res, _$HomeModelIndexImpl>
+    implements _$$HomeModelIndexImplCopyWith<$Res> {
+  __$$HomeModelIndexImplCopyWithImpl(
+      _$HomeModelIndexImpl _value, $Res Function(_$HomeModelIndexImpl) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? collection = null,
+    Object? group = null,
+    Object? exercise = null,
+  }) {
+    return _then(_$HomeModelIndexImpl(
+      collection: null == collection
+          ? _value.collection
+          : collection // ignore: cast_nullable_to_non_nullable
+              as int,
+      group: null == group
+          ? _value.group
+          : group // ignore: cast_nullable_to_non_nullable
+              as int,
+      exercise: null == exercise
+          ? _value.exercise
+          : exercise // ignore: cast_nullable_to_non_nullable
+              as int,
+    ));
+  }
+}
+
+/// @nodoc
+
+class _$HomeModelIndexImpl implements _HomeModelIndex {
+  _$HomeModelIndexImpl(
+      {required this.collection, required this.group, required this.exercise});
+
+  @override
+  final int collection;
+  @override
+  final int group;
+  @override
+  final int exercise;
+
+  @override
+  String toString() {
+    return 'HomeModelIndex(collection: $collection, group: $group, exercise: $exercise)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$HomeModelIndexImpl &&
+            (identical(other.collection, collection) ||
+                other.collection == collection) &&
+            (identical(other.group, group) || other.group == group) &&
+            (identical(other.exercise, exercise) ||
+                other.exercise == exercise));
+  }
+
+  @override
+  int get hashCode => Object.hash(runtimeType, collection, group, exercise);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$HomeModelIndexImplCopyWith<_$HomeModelIndexImpl> get copyWith =>
+      __$$HomeModelIndexImplCopyWithImpl<_$HomeModelIndexImpl>(
+          this, _$identity);
+}
+
+abstract class _HomeModelIndex implements HomeModelIndex {
+  factory _HomeModelIndex(
+      {required final int collection,
+      required final int group,
+      required final int exercise}) = _$HomeModelIndexImpl;
+
+  @override
+  int get collection;
+  @override
+  int get group;
+  @override
+  int get exercise;
+  @override
+  @JsonKey(ignore: true)
+  _$$HomeModelIndexImplCopyWith<_$HomeModelIndexImpl> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
 mixin _$HomeModel {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() loading,
     required TResult Function(
-            int activeCollection,
-            int activeGroup,
-            int activeExercise,
+            HomeModelIndex activeIndex,
+            HomeModelIndex displayedIndex,
             List<HomeModelCollection> collections,
             int trainingLength)
         data,
@@ -32,7 +187,7 @@ mixin _$HomeModel {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? loading,
-    TResult? Function(int activeCollection, int activeGroup, int activeExercise,
+    TResult? Function(HomeModelIndex activeIndex, HomeModelIndex displayedIndex,
             List<HomeModelCollection> collections, int trainingLength)?
         data,
     TResult? Function(String error)? error,
@@ -41,7 +196,7 @@ mixin _$HomeModel {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? loading,
-    TResult Function(int activeCollection, int activeGroup, int activeExercise,
+    TResult Function(HomeModelIndex activeIndex, HomeModelIndex displayedIndex,
             List<HomeModelCollection> collections, int trainingLength)?
         data,
     TResult Function(String error)? error,
@@ -129,9 +284,8 @@ class _$HomeModelLoadingImpl implements HomeModelLoading {
   TResult when<TResult extends Object?>({
     required TResult Function() loading,
     required TResult Function(
-            int activeCollection,
-            int activeGroup,
-            int activeExercise,
+            HomeModelIndex activeIndex,
+            HomeModelIndex displayedIndex,
             List<HomeModelCollection> collections,
             int trainingLength)
         data,
@@ -144,7 +298,7 @@ class _$HomeModelLoadingImpl implements HomeModelLoading {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? loading,
-    TResult? Function(int activeCollection, int activeGroup, int activeExercise,
+    TResult? Function(HomeModelIndex activeIndex, HomeModelIndex displayedIndex,
             List<HomeModelCollection> collections, int trainingLength)?
         data,
     TResult? Function(String error)? error,
@@ -156,7 +310,7 @@ class _$HomeModelLoadingImpl implements HomeModelLoading {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? loading,
-    TResult Function(int activeCollection, int activeGroup, int activeExercise,
+    TResult Function(HomeModelIndex activeIndex, HomeModelIndex displayedIndex,
             List<HomeModelCollection> collections, int trainingLength)?
         data,
     TResult Function(String error)? error,
@@ -214,11 +368,13 @@ abstract class _$$HomeModelDataImplCopyWith<$Res> {
       __$$HomeModelDataImplCopyWithImpl<$Res>;
   @useResult
   $Res call(
-      {int activeCollection,
-      int activeGroup,
-      int activeExercise,
+      {HomeModelIndex activeIndex,
+      HomeModelIndex displayedIndex,
       List<HomeModelCollection> collections,
       int trainingLength});
+
+  $HomeModelIndexCopyWith<$Res> get activeIndex;
+  $HomeModelIndexCopyWith<$Res> get displayedIndex;
 }
 
 /// @nodoc
@@ -232,25 +388,20 @@ class __$$HomeModelDataImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? activeCollection = null,
-    Object? activeGroup = null,
-    Object? activeExercise = null,
+    Object? activeIndex = null,
+    Object? displayedIndex = null,
     Object? collections = null,
     Object? trainingLength = null,
   }) {
     return _then(_$HomeModelDataImpl(
-      activeCollection: null == activeCollection
-          ? _value.activeCollection
-          : activeCollection // ignore: cast_nullable_to_non_nullable
-              as int,
-      activeGroup: null == activeGroup
-          ? _value.activeGroup
-          : activeGroup // ignore: cast_nullable_to_non_nullable
-              as int,
-      activeExercise: null == activeExercise
-          ? _value.activeExercise
-          : activeExercise // ignore: cast_nullable_to_non_nullable
-              as int,
+      activeIndex: null == activeIndex
+          ? _value.activeIndex
+          : activeIndex // ignore: cast_nullable_to_non_nullable
+              as HomeModelIndex,
+      displayedIndex: null == displayedIndex
+          ? _value.displayedIndex
+          : displayedIndex // ignore: cast_nullable_to_non_nullable
+              as HomeModelIndex,
       collections: null == collections
           ? _value._collections
           : collections // ignore: cast_nullable_to_non_nullable
@@ -261,25 +412,38 @@ class __$$HomeModelDataImplCopyWithImpl<$Res>
               as int,
     ));
   }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $HomeModelIndexCopyWith<$Res> get activeIndex {
+    return $HomeModelIndexCopyWith<$Res>(_value.activeIndex, (value) {
+      return _then(_value.copyWith(activeIndex: value));
+    });
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $HomeModelIndexCopyWith<$Res> get displayedIndex {
+    return $HomeModelIndexCopyWith<$Res>(_value.displayedIndex, (value) {
+      return _then(_value.copyWith(displayedIndex: value));
+    });
+  }
 }
 
 /// @nodoc
 
 class _$HomeModelDataImpl implements HomeModelData {
   _$HomeModelDataImpl(
-      {required this.activeCollection,
-      required this.activeGroup,
-      required this.activeExercise,
+      {required this.activeIndex,
+      required this.displayedIndex,
       required final List<HomeModelCollection> collections,
       required this.trainingLength})
       : _collections = collections;
 
   @override
-  final int activeCollection;
+  final HomeModelIndex activeIndex;
   @override
-  final int activeGroup;
-  @override
-  final int activeExercise;
+  final HomeModelIndex displayedIndex;
   final List<HomeModelCollection> _collections;
   @override
   List<HomeModelCollection> get collections {
@@ -293,7 +457,7 @@ class _$HomeModelDataImpl implements HomeModelData {
 
   @override
   String toString() {
-    return 'HomeModel.data(activeCollection: $activeCollection, activeGroup: $activeGroup, activeExercise: $activeExercise, collections: $collections, trainingLength: $trainingLength)';
+    return 'HomeModel.data(activeIndex: $activeIndex, displayedIndex: $displayedIndex, collections: $collections, trainingLength: $trainingLength)';
   }
 
   @override
@@ -301,12 +465,10 @@ class _$HomeModelDataImpl implements HomeModelData {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$HomeModelDataImpl &&
-            (identical(other.activeCollection, activeCollection) ||
-                other.activeCollection == activeCollection) &&
-            (identical(other.activeGroup, activeGroup) ||
-                other.activeGroup == activeGroup) &&
-            (identical(other.activeExercise, activeExercise) ||
-                other.activeExercise == activeExercise) &&
+            (identical(other.activeIndex, activeIndex) ||
+                other.activeIndex == activeIndex) &&
+            (identical(other.displayedIndex, displayedIndex) ||
+                other.displayedIndex == displayedIndex) &&
             const DeepCollectionEquality()
                 .equals(other._collections, _collections) &&
             (identical(other.trainingLength, trainingLength) ||
@@ -314,13 +476,8 @@ class _$HomeModelDataImpl implements HomeModelData {
   }
 
   @override
-  int get hashCode => Object.hash(
-      runtimeType,
-      activeCollection,
-      activeGroup,
-      activeExercise,
-      const DeepCollectionEquality().hash(_collections),
-      trainingLength);
+  int get hashCode => Object.hash(runtimeType, activeIndex, displayedIndex,
+      const DeepCollectionEquality().hash(_collections), trainingLength);
 
   @JsonKey(ignore: true)
   @override
@@ -333,44 +490,40 @@ class _$HomeModelDataImpl implements HomeModelData {
   TResult when<TResult extends Object?>({
     required TResult Function() loading,
     required TResult Function(
-            int activeCollection,
-            int activeGroup,
-            int activeExercise,
+            HomeModelIndex activeIndex,
+            HomeModelIndex displayedIndex,
             List<HomeModelCollection> collections,
             int trainingLength)
         data,
     required TResult Function(String error) error,
   }) {
-    return data(activeCollection, activeGroup, activeExercise, collections,
-        trainingLength);
+    return data(activeIndex, displayedIndex, collections, trainingLength);
   }
 
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? loading,
-    TResult? Function(int activeCollection, int activeGroup, int activeExercise,
+    TResult? Function(HomeModelIndex activeIndex, HomeModelIndex displayedIndex,
             List<HomeModelCollection> collections, int trainingLength)?
         data,
     TResult? Function(String error)? error,
   }) {
-    return data?.call(activeCollection, activeGroup, activeExercise,
-        collections, trainingLength);
+    return data?.call(activeIndex, displayedIndex, collections, trainingLength);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? loading,
-    TResult Function(int activeCollection, int activeGroup, int activeExercise,
+    TResult Function(HomeModelIndex activeIndex, HomeModelIndex displayedIndex,
             List<HomeModelCollection> collections, int trainingLength)?
         data,
     TResult Function(String error)? error,
     required TResult orElse(),
   }) {
     if (data != null) {
-      return data(activeCollection, activeGroup, activeExercise, collections,
-          trainingLength);
+      return data(activeIndex, displayedIndex, collections, trainingLength);
     }
     return orElse();
   }
@@ -412,15 +565,13 @@ class _$HomeModelDataImpl implements HomeModelData {
 
 abstract class HomeModelData implements HomeModel {
   factory HomeModelData(
-      {required final int activeCollection,
-      required final int activeGroup,
-      required final int activeExercise,
+      {required final HomeModelIndex activeIndex,
+      required final HomeModelIndex displayedIndex,
       required final List<HomeModelCollection> collections,
       required final int trainingLength}) = _$HomeModelDataImpl;
 
-  int get activeCollection;
-  int get activeGroup;
-  int get activeExercise;
+  HomeModelIndex get activeIndex;
+  HomeModelIndex get displayedIndex;
   List<HomeModelCollection> get collections;
   int get trainingLength;
   @JsonKey(ignore: true)
@@ -495,9 +646,8 @@ class _$HomeModelErrorImpl implements HomeModelError {
   TResult when<TResult extends Object?>({
     required TResult Function() loading,
     required TResult Function(
-            int activeCollection,
-            int activeGroup,
-            int activeExercise,
+            HomeModelIndex activeIndex,
+            HomeModelIndex displayedIndex,
             List<HomeModelCollection> collections,
             int trainingLength)
         data,
@@ -510,7 +660,7 @@ class _$HomeModelErrorImpl implements HomeModelError {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? loading,
-    TResult? Function(int activeCollection, int activeGroup, int activeExercise,
+    TResult? Function(HomeModelIndex activeIndex, HomeModelIndex displayedIndex,
             List<HomeModelCollection> collections, int trainingLength)?
         data,
     TResult? Function(String error)? error,
@@ -522,7 +672,7 @@ class _$HomeModelErrorImpl implements HomeModelError {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? loading,
-    TResult Function(int activeCollection, int activeGroup, int activeExercise,
+    TResult Function(HomeModelIndex activeIndex, HomeModelIndex displayedIndex,
             List<HomeModelCollection> collections, int trainingLength)?
         data,
     TResult Function(String error)? error,
