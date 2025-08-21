@@ -377,7 +377,7 @@ class DataRepositoryImplementation extends DataRepository {
           }
         }).toList(),
         activeIndex: model.activeIndex.copyWith(
-          group: (model.activeIndex.group > groupIndex)
+          group: (model.activeIndex.group >= groupIndex)
               ? model.activeIndex.group - 1
               : model.activeIndex.group,
           exercise: (model.activeIndex.group == groupIndex)
@@ -596,7 +596,7 @@ class DataRepositoryImplementation extends DataRepository {
           }
         }).toList(),
         activeIndex: model.activeIndex.copyWith(
-          exercise: (model.activeIndex.exercise >= exerciseLen - 1)
+          exercise: (model.activeIndex.exercise == exerciseLen - 1)
               ? model.activeIndex.exercise - 1
               : model.activeIndex.exercise,
         ),
