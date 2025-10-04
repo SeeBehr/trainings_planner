@@ -1,11 +1,12 @@
 import 'dart:io';
-import 'dart:typed_data';
 
 import 'package:file_picker/file_picker.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fpdart/fpdart.dart';
 import 'package:intl/intl.dart';
 import 'package:pdf/widgets.dart' as pw;
+import 'package:pdf/widgets.dart';
 import 'package:trainings_planner/features/home/home_model.dart';
 import 'package:trainings_planner/features/pdf_viewer/pdf_viewer_model.dart';
 import 'package:trainings_planner/repositories/data/interface.dart';
@@ -16,14 +17,23 @@ class PdfViewerController extends Cubit<PdfViewerModel> {
     required this.navigationService,
     required this.dataRepository,
   }) : super(PdfViewerModel.loading()) {
-    emit(PdfViewerModel.data(pdf: _generatePdf(dataRepository.loadTraining())));
+    _init();
   }
+
+  Future<void> _init() async {
+    final pdf = await _generatePdf(dataRepository.loadTraining());
+    emit(PdfViewerModel.data(pdf: pdf));
+  }
+
   final NavigationService navigationService;
   final DataRepository dataRepository;
 
-  pw.Document _generatePdf(List<HomeModelExercise> exercises) {
-    final pdf = pw.Document(theme: pw.ThemeData.withFont(base: pw.Font.times()))
-      ..addPage(
+  Future<pw.Document> _generatePdf(List<HomeModelExercise> exercises) async {
+    final pdf = pw.Document(
+      theme: pw.ThemeData.withFont(
+        base: Font.ttf(await rootBundle.load('assets/timesnewroman.ttf')),
+      ),
+    )..addPage(
         pw.Page(
           build: (context) {
             return pw.GridView(
