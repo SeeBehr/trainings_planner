@@ -72,6 +72,12 @@ class _FolderNameFieldState extends State<FolderNameField> {
       onHover: (event) => setState(() => anchorPoint = event.position),
       child: GestureDetector(
         onSecondaryTap: () => showMenu(
+          shadowColor: Colors.black,
+          elevation: 8,
+          color: Theme.of(context).colorScheme.primary,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(4),
+          ),
           context: context,
           position: RelativeRect.fromLTRB(
             anchorPoint.dx,
@@ -82,6 +88,7 @@ class _FolderNameFieldState extends State<FolderNameField> {
           items: [
             PopupMenuItem<TextButton>(
               child: TextButton(
+                style: TextButton.styleFrom(),
                 onPressed: () {
                   Navigator.pop(context);
                   setState(() {
@@ -95,7 +102,10 @@ class _FolderNameFieldState extends State<FolderNameField> {
                     });
                   });
                 },
-                child: const Text('Rename'),
+                child: Text(
+                  'Rename',
+                  style: Theme.of(context).textTheme.bodySmall,
+                ),
               ),
             ),
             PopupMenuItem<TextButton>(
@@ -104,7 +114,10 @@ class _FolderNameFieldState extends State<FolderNameField> {
                   Navigator.pop(context);
                   widget.delete();
                 },
-                child: const Text('Delete'),
+                child: Text(
+                  'Delete',
+                  style: Theme.of(context).textTheme.bodySmall,
+                ),
               ),
             ),
           ],

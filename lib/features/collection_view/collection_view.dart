@@ -26,151 +26,195 @@ class CollectionView extends StatelessWidget {
                               style: Theme.of(context).textTheme.titleLarge,
                             ),
                           ),
-                          Divider(
-                            color: Theme.of(context).colorScheme.onPrimary,
-                            height: 2,
-                          ),
                           ...data.collections.mapWithIndex(
-                            (collection, index) => Row(
-                              children: [
-                                Expanded(
-                                  child: ElevatedButton(
-                                    style: ElevatedButton.styleFrom(
-                                      shape: LinearBorder.none,
-                                      backgroundColor:
-                                          data.activeIndex.collection == index
-                                              ? Theme.of(context)
-                                                  .colorScheme
-                                                  .onSurface
-                                              : Theme.of(context)
-                                                  .colorScheme
-                                                  .surface,
-                                    ),
-                                    child: FolderNameField(
-                                      key: ValueKey(collection.id),
-                                      collectionIndex: index,
-                                      groupIndex: -1,
-                                      exerciseIndex: -1,
-                                      rename: (name) => context
-                                          .read<HomeController>()
-                                          .renameCollection(
-                                            index,
-                                            name,
-                                          ),
-                                      delete: () => context
-                                          .read<HomeController>()
-                                          .deleteCollection(index),
-                                    ),
-                                    onPressed: () {
-                                      context
-                                          .read<HomeController>()
-                                          .setActiveExercise(
-                                            collectionIndex: index,
-                                            groupIndex: -1,
-                                            exerciseIndex: -1,
-                                          );
-                                    },
+                            (collection, index) => Container(
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(8),
+                              ),
+                              child: ElevatedButton(
+                                style: ElevatedButton.styleFrom(
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(16),
                                   ),
+                                  backgroundColor: data
+                                              .activeIndex.collection ==
+                                          index
+                                      ? Theme.of(context).colorScheme.primary
+                                      : Theme.of(context).colorScheme.onSurface,
                                 ),
-                              ],
+                                child: FolderNameField(
+                                  key: ValueKey(collection.id),
+                                  collectionIndex: index,
+                                  groupIndex: -1,
+                                  exerciseIndex: -1,
+                                  rename: (name) => context
+                                      .read<HomeController>()
+                                      .renameCollection(
+                                        index,
+                                        name,
+                                      ),
+                                  delete: () => context
+                                      .read<HomeController>()
+                                      .deleteCollection(index),
+                                ),
+                                onPressed: () {
+                                  context
+                                      .read<HomeController>()
+                                      .setActiveExercise(
+                                        collectionIndex: index,
+                                        groupIndex: -1,
+                                        exerciseIndex: -1,
+                                      );
+                                },
+                              ),
                             ),
-                          ),
-                          Divider(
-                            color: Theme.of(context).colorScheme.onPrimary,
-                            height: 2,
                           ),
                           Expanded(
                             child: data.activeIndex.collection == -1
                                 ? const SizedBox.shrink()
                                 : Padding(
-                                    padding:
-                                        const EdgeInsets.fromLTRB(0, 8, 8, 4),
+                                    padding: const EdgeInsets.all(4),
                                     child: ListView.builder(
-                                      itemBuilder: (_, groupIndex) =>
-                                          ExpansionTile(
-                                        onExpansionChanged: (value) => context
-                                            .read<HomeController>()
-                                            .setActiveExercise(
-                                              collectionIndex:
-                                                  data.activeIndex.collection,
-                                              groupIndex: groupIndex,
-                                            ),
-                                        childrenPadding:
-                                            const EdgeInsets.only(left: 16),
-                                        title: FolderNameField(
-                                          key: ValueKey(
-                                            data
-                                                .collections[
-                                                    data.activeIndex.collection]
-                                                .groups[groupIndex]
-                                                .id,
-                                          ),
-                                          collectionIndex:
-                                              data.activeIndex.collection,
-                                          groupIndex: groupIndex,
-                                          exerciseIndex: -1,
-                                          rename: (name) => context
-                                              .read<HomeController>()
-                                              .renameGroup(
-                                                data.activeIndex.collection,
-                                                groupIndex,
-                                                name,
+                                      itemBuilder: (_, groupIndex) => Column(
+                                        children: [
+                                          Container(
+                                            decoration: const BoxDecoration(
+                                              borderRadius: BorderRadius.all(
+                                                Radius.circular(16),
                                               ),
-                                          delete: () => context
-                                              .read<HomeController>()
-                                              .deleteGroup(
-                                                data.activeIndex.collection,
-                                                groupIndex,
-                                              ),
-                                        ),
-                                        children: data
-                                            .collections[
-                                                data.activeIndex.collection]
-                                            .groups[groupIndex]
-                                            .exercises
-                                            .asMap()
-                                            .entries
-                                            .map(
-                                              (entry) => ListTile(
-                                                title: FolderNameField(
-                                                  key: ValueKey(
-                                                    data
-                                                        .collections[data
-                                                            .activeIndex
-                                                            .collection]
-                                                        .groups[groupIndex]
-                                                        .exercises[entry.key]
-                                                        .id,
-                                                  ),
-                                                  delete: () => context
-                                                      .read<HomeController>()
-                                                      .deleteExercise(),
-                                                  collectionIndex: data
-                                                      .activeIndex.collection,
-                                                  groupIndex: groupIndex,
-                                                  exerciseIndex: entry.key,
-                                                  rename: (name) => context
-                                                      .read<HomeController>()
-                                                      .renameExercise(
-                                                        data.activeIndex
-                                                            .collection,
-                                                        groupIndex,
-                                                        entry.key,
-                                                        name,
-                                                      ),
+                                              boxShadow: [
+                                                BoxShadow(
+                                                  blurRadius: 4,
+                                                  blurStyle: BlurStyle.outer,
                                                 ),
-                                                onTap: () => context
-                                                    .read<HomeController>()
-                                                    .setActiveExercise(
-                                                      collectionIndex: data
+                                              ],
+                                            ),
+                                            child: ExpansionTile(
+                                              shape: RoundedRectangleBorder(
+                                                borderRadius:
+                                                    BorderRadius.circular(16),
+                                              ),
+                                              collapsedShape:
+                                                  RoundedRectangleBorder(
+                                                borderRadius:
+                                                    BorderRadius.circular(16),
+                                              ),
+                                              backgroundColor: Theme.of(context)
+                                                  .colorScheme
+                                                  .primary,
+                                              collapsedBackgroundColor:
+                                                  Theme.of(context)
+                                                      .colorScheme
+                                                      .onSurface,
+                                              iconColor: Theme.of(context)
+                                                  .colorScheme
+                                                  .onSurface,
+                                              collapsedIconColor:
+                                                  Theme.of(context)
+                                                      .colorScheme
+                                                      .primary,
+                                              onExpansionChanged: (value) =>
+                                                  context
+                                                      .read<HomeController>()
+                                                      .setActiveExercise(
+                                                        collectionIndex: data
+                                                            .activeIndex
+                                                            .collection,
+                                                        groupIndex: groupIndex,
+                                                      ),
+                                              childrenPadding:
+                                                  const EdgeInsets.only(
+                                                      left: 16),
+                                              title: FolderNameField(
+                                                key: ValueKey(
+                                                  data
+                                                      .collections[data
                                                           .activeIndex
+                                                          .collection]
+                                                      .groups[groupIndex]
+                                                      .id,
+                                                ),
+                                                collectionIndex:
+                                                    data.activeIndex.collection,
+                                                groupIndex: groupIndex,
+                                                exerciseIndex: -1,
+                                                rename: (name) => context
+                                                    .read<HomeController>()
+                                                    .renameGroup(
+                                                      data.activeIndex
                                                           .collection,
-                                                      groupIndex: groupIndex,
-                                                      exerciseIndex: entry.key,
+                                                      groupIndex,
+                                                      name,
+                                                    ),
+                                                delete: () => context
+                                                    .read<HomeController>()
+                                                    .deleteGroup(
+                                                      data.activeIndex
+                                                          .collection,
+                                                      groupIndex,
                                                     ),
                                               ),
-                                            )
-                                            .toList(),
+                                              children: data
+                                                  .collections[data
+                                                      .activeIndex.collection]
+                                                  .groups[groupIndex]
+                                                  .exercises
+                                                  .asMap()
+                                                  .entries
+                                                  .map(
+                                                    (entry) => ListTile(
+                                                      title: FolderNameField(
+                                                        key: ValueKey(
+                                                          data
+                                                              .collections[data
+                                                                  .activeIndex
+                                                                  .collection]
+                                                              .groups[
+                                                                  groupIndex]
+                                                              .exercises[
+                                                                  entry.key]
+                                                              .id,
+                                                        ),
+                                                        delete: () => context
+                                                            .read<
+                                                                HomeController>()
+                                                            .deleteExercise(),
+                                                        collectionIndex: data
+                                                            .activeIndex
+                                                            .collection,
+                                                        groupIndex: groupIndex,
+                                                        exerciseIndex:
+                                                            entry.key,
+                                                        rename: (name) => context
+                                                            .read<
+                                                                HomeController>()
+                                                            .renameExercise(
+                                                              data.activeIndex
+                                                                  .collection,
+                                                              groupIndex,
+                                                              entry.key,
+                                                              name,
+                                                            ),
+                                                      ),
+                                                      onTap: () => context
+                                                          .read<
+                                                              HomeController>()
+                                                          .setActiveExercise(
+                                                            collectionIndex:
+                                                                data.activeIndex
+                                                                    .collection,
+                                                            groupIndex:
+                                                                groupIndex,
+                                                            exerciseIndex:
+                                                                entry.key,
+                                                          ),
+                                                    ),
+                                                  )
+                                                  .toList(),
+                                            ),
+                                          ),
+                                          const SizedBox(height: 4),
+                                        ],
                                       ),
                                       itemCount: data
                                           .collections[
@@ -187,7 +231,6 @@ class CollectionView extends StatelessWidget {
                         child: Align(
                           alignment: Alignment.bottomLeft,
                           child: PopupMenuButton(
-                            color: Theme.of(context).colorScheme.secondary,
                             shape: Border.all(),
                             itemBuilder: (context) => [
                               PopupMenuItem(
@@ -269,9 +312,7 @@ class CollectionView extends StatelessWidget {
                                 value: 3,
                                 child: const Text(
                                   'Save all',
-                                  style: TextStyle(
-                                    color: Color.fromARGB(255, 40, 40, 139),
-                                  ),
+                                  style: TextStyle(),
                                 ),
                                 onTap: () {
                                   context.read<HomeController>().saveAll();
@@ -281,12 +322,12 @@ class CollectionView extends StatelessWidget {
                             child: DecoratedBox(
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(32),
-                                color: Theme.of(context).colorScheme.secondary,
+                                color: Theme.of(context).colorScheme.primary,
                               ),
-                              child: const Icon(
+                              child: Icon(
                                 Icons.add,
+                                color: Theme.of(context).colorScheme.onPrimary,
                                 size: 32,
-                                color: Color.fromARGB(255, 40, 40, 139),
                               ),
                             ),
                           ),

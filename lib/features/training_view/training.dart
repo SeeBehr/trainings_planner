@@ -47,10 +47,7 @@ class _TrainingViewState extends State<TrainingView> {
                         style: Theme.of(context).textTheme.titleLarge,
                       ),
                     ),
-                    Divider(
-                      color: Theme.of(context).colorScheme.onPrimary,
-                      height: 2,
-                    ),
+                    const Divider(height: 2),
                     ReorderableListView.builder(
                       shrinkWrap: true,
                       itemBuilder: (context, index) => Row(
@@ -64,8 +61,6 @@ class _TrainingViewState extends State<TrainingView> {
                                 child: ElevatedButton(
                                   style: ElevatedButton.styleFrom(
                                     shape: LinearBorder.none,
-                                    backgroundColor:
-                                        Theme.of(context).colorScheme.surface,
                                   ),
                                   child: Row(
                                     children: [
@@ -153,10 +148,8 @@ class _TrainingViewState extends State<TrainingView> {
                   child: Padding(
                     padding: const EdgeInsets.all(8),
                     child: TextButton(
-                      style: ButtonStyle(
-                        backgroundColor: WidgetStateProperty.all<Color>(
-                          Theme.of(context).colorScheme.secondary,
-                        ),
+                      style: TextButton.styleFrom(
+                        backgroundColor: Theme.of(context).colorScheme.primary,
                       ),
                       onPressed: () =>
                           context.read<HomeController>().openPdfPreview(),

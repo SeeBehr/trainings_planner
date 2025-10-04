@@ -8,23 +8,48 @@ class HomeView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
+    return Scaffold(
       body: Row(
         children: [
           Expanded(
-            child: CollectionView(),
-          ),
-          Expanded(
-            flex: 4,
-            child: DecoratedBox(
+            child: Container(
               decoration: BoxDecoration(
-                border: Border.symmetric(vertical: BorderSide()),
+                borderRadius: const BorderRadius.only(
+                  topRight: Radius.circular(16),
+                  bottomRight: Radius.circular(16),
+                ),
+                color: Theme.of(context).colorScheme.onSurface,
+                boxShadow: const [
+                  BoxShadow(
+                    blurRadius: 16,
+                    blurStyle: BlurStyle.outer,
+                  ),
+                ],
               ),
-              child: ExerciseView(),
+              child: const CollectionView(),
             ),
           ),
+          const Expanded(
+            flex: 4,
+            child: ExerciseView(),
+          ),
           Expanded(
-            child: TrainingView(),
+            child: Container(
+              decoration: BoxDecoration(
+                borderRadius: const BorderRadius.only(
+                  topLeft: Radius.circular(16),
+                  bottomLeft: Radius.circular(16),
+                ),
+                color: Theme.of(context).colorScheme.onSurface,
+                boxShadow: const [
+                  BoxShadow(
+                    blurRadius: 16,
+                    blurStyle: BlurStyle.outer,
+                  ),
+                ],
+              ),
+              child: const TrainingView(),
+            ),
           ),
         ],
       ),

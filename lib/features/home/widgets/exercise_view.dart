@@ -3,6 +3,7 @@ import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:trainings_planner/features/home/home_controller.dart';
 import 'package:trainings_planner/features/home/home_model.dart';
@@ -41,20 +42,10 @@ class ExerciseView extends StatelessWidget {
 class EmptyExerciseView extends StatelessWidget {
   const EmptyExerciseView({super.key});
   @override
-  Widget build(BuildContext context) => DecoratedBox(
-        decoration: BoxDecoration(
-          border: Border.symmetric(
-            vertical: BorderSide(
-              color: Theme.of(context).colorScheme.onPrimary,
-              width: 2,
-            ),
-          ),
-        ),
-        child: Center(
-          child: Text(
-            'no exercise selected',
-            style: Theme.of(context).textTheme.bodyLarge,
-          ),
+  Widget build(BuildContext context) => Center(
+        child: Text(
+          'no exercise selected',
+          style: Theme.of(context).textTheme.bodyLarge,
         ),
       );
 }
@@ -72,10 +63,6 @@ class ExerciseViewData extends StatelessWidget {
               exercise.name,
               style: Theme.of(context).textTheme.titleLarge,
             ),
-          ),
-          Divider(
-            color: Theme.of(context).colorScheme.onPrimary,
-            height: 2,
           ),
           Expanded(
             child: Padding(
@@ -107,7 +94,7 @@ class ExerciseViewData extends StatelessWidget {
                       DecoratedBox(
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(16),
-                          border: Border.all(color: Colors.blue.shade300),
+                          border: Border.all(),
                         ),
                         child: Container(
                           padding: const EdgeInsets.all(8),
@@ -130,7 +117,7 @@ class ExerciseViewData extends StatelessWidget {
                       DecoratedBox(
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(16),
-                          border: Border.all(color: Colors.blue.shade300),
+                          border: Border.all(),
                         ),
                         child: Container(
                           padding: const EdgeInsets.all(8),
@@ -167,87 +154,95 @@ class ExerciseViewData extends StatelessWidget {
                     child: Row(
                       mainAxisSize: MainAxisSize.min,
                       children: <Widget>[
-                        ElevatedButton(
-                          style: ButtonStyle(
-                            backgroundColor: WidgetStateProperty.all<Color>(
-                              Theme.of(context).colorScheme.secondary,
+                        Container(
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(32),
+                            boxShadow: const [
+                              BoxShadow(
+                                blurRadius: 16,
+                                blurStyle: BlurStyle.outer,
+                              ),
+                            ],
+                          ),
+                          child: ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor:
+                                  Theme.of(context).colorScheme.onSurface,
+                            ),
+                            onPressed: () {
+                              debugPrint('openExercise: ${exercise.id}');
+                              context.read<HomeController>().openExercise();
+                            },
+                            child: Padding(
+                              padding: const EdgeInsets.only(
+                                top: 8,
+                                bottom: 8,
+                                left: 16,
+                                right: 16,
+                              ),
+                              child: Text(
+                                'edit',
+                                style: Theme.of(context).textTheme.labelLarge,
+                              ),
                             ),
                           ),
-                          child: Padding(
-                            padding: const EdgeInsets.only(
-                              top: 8,
-                              bottom: 8,
-                              left: 16,
-                              right: 16,
-                            ),
-                            child: Text(
-                              'edit',
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .bodyLarge!
-                                  .copyWith(
-                                    color:
-                                        const Color.fromARGB(255, 40, 40, 139),
-                                  ),
-                            ),
-                          ),
-                          onPressed: () {
-                            debugPrint('openExercise: ${exercise.id}');
-                            context.read<HomeController>().openExercise();
-                          },
                         ),
                         const SizedBox(width: 8),
-                        ElevatedButton(
-                          style: ButtonStyle(
-                            backgroundColor: WidgetStateProperty.all<Color>(
-                              Theme.of(context).colorScheme.secondary,
-                            ),
+                        Container(
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(32),
+                            boxShadow: const [
+                              BoxShadow(
+                                blurRadius: 16,
+                                blurStyle: BlurStyle.outer,
+                              ),
+                            ],
                           ),
-                          child: Padding(
-                            padding: const EdgeInsets.only(
-                              top: 8,
-                              bottom: 8,
-                              left: 16,
-                              right: 16,
+                          child: ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor:
+                                  Theme.of(context).colorScheme.onSurface,
                             ),
-                            child: Text(
-                              exercise.training == const Training.none()
-                                  ? 'add'
-                                  : 'remove',
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .bodyLarge!
-                                  .copyWith(
-                                    color:
-                                        const Color.fromARGB(255, 40, 40, 139),
+                            child: Padding(
+                              padding: const EdgeInsets.only(
+                                top: 8,
+                                bottom: 8,
+                                left: 16,
+                                right: 16,
+                              ),
+                              child: Text(
+                                exercise.training == const Training.none()
+                                    ? 'add'
+                                    : 'remove',
+                                style: Theme.of(context).textTheme.labelLarge,
+                              ),
+                            ),
+                            onPressed: () {
+                              if (exercise.training == const Training.none()) {
+                                unawaited(
+                                  showCupertinoModalPopup<(int, String)>(
+                                    context: context,
+                                    builder: (builder) {
+                                      return TrainingPopup();
+                                    },
+                                  ).then(
+                                    (ret) => ret != null
+                                        ? context
+                                            .read<HomeController>()
+                                            .addToTraining(
+                                              Duration(minutes: ret.$1),
+                                              ret.$2,
+                                            )
+                                        : null,
                                   ),
-                            ),
+                                );
+                              } else {
+                                context
+                                    .read<HomeController>()
+                                    .removeFromTraining();
+                              }
+                            },
                           ),
-                          onPressed: () {
-                            if (exercise.training == const Training.none()) {
-                              unawaited(
-                                showCupertinoModalPopup<(int, String)>(
-                                  context: context,
-                                  builder: (builder) {
-                                    return TrainingPopup();
-                                  },
-                                ).then(
-                                  (ret) => ret != null
-                                      ? context
-                                          .read<HomeController>()
-                                          .addToTraining(
-                                            Duration(minutes: ret.$1),
-                                            ret.$2,
-                                          )
-                                      : null,
-                                ),
-                              );
-                            } else {
-                              context
-                                  .read<HomeController>()
-                                  .removeFromTraining();
-                            }
-                          },
                         ),
                       ],
                     ),

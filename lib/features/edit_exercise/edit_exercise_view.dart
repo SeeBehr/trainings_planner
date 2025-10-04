@@ -115,10 +115,7 @@ class _EditExerciseViewState extends State<EditExerciseView> {
                         Expanded(
                           child: ListView(
                             children: <Widget>[
-                              Container(
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(16),
-                                ),
+                              Padding(
                                 padding: const EdgeInsets.all(8),
                                 child: Row(
                                   children: <Widget>[
@@ -137,6 +134,9 @@ class _EditExerciseViewState extends State<EditExerciseView> {
                                           ),
                                           contentPadding: EdgeInsets.all(8),
                                           hintText: 'title',
+                                          hintStyle: TextStyle(
+                                            color: Colors.black38,
+                                          ),
                                         ),
                                         controller: titleTextController,
                                         maxLines: null,
@@ -146,35 +146,36 @@ class _EditExerciseViewState extends State<EditExerciseView> {
                                 ),
                               ),
                               const Divider(),
-                              Row(
-                                children: <Widget>[
-                                  const SizedBox(
-                                    width: 150,
-                                    child: Text('difficulty'),
-                                  ),
-                                  const SizedBox(width: 8),
-                                  for (int i = 1; i <= 5; i++)
-                                    IconButton(
-                                      hoverColor: Colors.transparent,
-                                      highlightColor: Colors.transparent,
-                                      icon: Icon(
-                                        difficulty >= i
-                                            ? Icons.star
-                                            : Icons.star_border,
-                                        color: Colors.yellowAccent,
-                                      ),
-                                      onPressed: () => setState(() {
-                                        difficulty = i;
-                                        changed = true;
-                                      }),
+                              Padding(
+                                padding: const EdgeInsets.all(8),
+                                child: Row(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: <Widget>[
+                                    const SizedBox(
+                                      width: 150,
+                                      child: Text('difficulty'),
                                     ),
-                                ],
+                                    const SizedBox(width: 8),
+                                    for (int i = 1; i <= 5; i++)
+                                      IconButton(
+                                        hoverColor: Colors.transparent,
+                                        highlightColor: Colors.transparent,
+                                        icon: Icon(
+                                          difficulty >= i
+                                              ? Icons.star
+                                              : Icons.star_border,
+                                          color: Colors.yellowAccent,
+                                        ),
+                                        onPressed: () => setState(() {
+                                          difficulty = i;
+                                          changed = true;
+                                        }),
+                                      ),
+                                  ],
+                                ),
                               ),
                               const Divider(),
-                              Container(
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(16),
-                                ),
+                              Padding(
                                 padding: const EdgeInsets.all(8),
                                 child: Row(
                                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -190,6 +191,10 @@ class _EditExerciseViewState extends State<EditExerciseView> {
                                           border: OutlineInputBorder(),
                                           contentPadding: EdgeInsets.all(8),
                                           hintText: 'add your description',
+                                          hintStyle: TextStyle(
+                                            color: Colors.black38,
+                                            fontStyle: FontStyle.italic,
+                                          ),
                                         ),
                                         controller: descriptionTextController,
                                         maxLines: null,
@@ -199,10 +204,7 @@ class _EditExerciseViewState extends State<EditExerciseView> {
                                 ),
                               ),
                               const Divider(),
-                              Container(
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(16),
-                                ),
+                              Padding(
                                 padding: const EdgeInsets.all(8),
                                 child: Row(
                                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -218,6 +220,10 @@ class _EditExerciseViewState extends State<EditExerciseView> {
                                           border: OutlineInputBorder(),
                                           contentPadding: EdgeInsets.all(8),
                                           hintText: 'separate with linebreaks',
+                                          hintStyle: TextStyle(
+                                            color: Colors.black38,
+                                            fontStyle: FontStyle.italic,
+                                          ),
                                         ),
                                         controller: materialTextController,
                                         maxLines: null,
@@ -227,10 +233,7 @@ class _EditExerciseViewState extends State<EditExerciseView> {
                                 ),
                               ),
                               const Divider(),
-                              Container(
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(16),
-                                ),
+                              Padding(
                                 padding: const EdgeInsets.all(8),
                                 child: Row(
                                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -258,14 +261,24 @@ class _EditExerciseViewState extends State<EditExerciseView> {
                                         image = result.files.firstOrNull!.path;
                                         changed = true;
                                       },
-                                      child: const Text('add image'),
+                                      child: Text(
+                                        'add image',
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .labelLarge,
+                                      ),
                                     ),
                                     TextButton(
                                       onPressed: () {
                                         image = null;
                                         changed = true;
                                       },
-                                      child: const Text('remove image'),
+                                      child: Text(
+                                        'remove image',
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .labelLarge,
+                                      ),
                                     ),
                                   ],
                                 ),
@@ -282,105 +295,93 @@ class _EditExerciseViewState extends State<EditExerciseView> {
                         Row(
                           mainAxisSize: MainAxisSize.min,
                           children: <Widget>[
-                            ElevatedButton(
-                              style: ButtonStyle(
-                                backgroundColor: WidgetStateProperty.all<Color>(
-                                  Theme.of(context).colorScheme.secondary,
-                                ),
-                                alignment: Alignment.center,
-                                overlayColor:
-                                    const WidgetStatePropertyAll<Color>(
-                                  Colors.transparent,
-                                ),
-                                shadowColor:
-                                    const WidgetStatePropertyAll<Color>(
-                                  Colors.transparent,
-                                ),
+                            Container(
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(32),
+                                boxShadow: const [
+                                  BoxShadow(
+                                    blurRadius: 16,
+                                    blurStyle: BlurStyle.outer,
+                                  ),
+                                ],
                               ),
-                              onPressed: () {
-                                context
-                                    .read<EditExerciseController>()
-                                    .setExercise(
-                                      name: titleTextController.text,
-                                      description:
-                                          descriptionTextController.text,
-                                      material: materialTextController.text
-                                          .split('\n')
-                                          .where(
-                                            (element) => element.isNotEmpty,
-                                          )
-                                          .toList(),
-                                      difficulty: difficulty,
-                                      image: image,
-                                    );
-                                changed = false;
-                                context.read<EditExerciseController>().goBack();
-                              },
-                              child: Padding(
-                                padding: const EdgeInsets.only(
-                                  top: 8,
-                                  bottom: 8,
-                                  left: 16,
-                                  right: 16,
+                              child: ElevatedButton(
+                                style: ElevatedButton.styleFrom(
+                                  backgroundColor:
+                                      Theme.of(context).colorScheme.onSurface,
                                 ),
-                                child: Text(
-                                  'save',
-                                  style: Theme.of(context)
-                                      .textTheme
-                                      .bodyLarge!
-                                      .copyWith(
-                                        color: const Color.fromARGB(
-                                          255,
-                                          40,
-                                          40,
-                                          139,
-                                        ),
-                                      ),
+                                onPressed: () {
+                                  context
+                                      .read<EditExerciseController>()
+                                      .setExercise(
+                                        name: titleTextController.text,
+                                        description:
+                                            descriptionTextController.text,
+                                        material: materialTextController.text
+                                            .split('\n')
+                                            .where(
+                                              (element) => element.isNotEmpty,
+                                            )
+                                            .toList(),
+                                        difficulty: difficulty,
+                                        image: image,
+                                      );
+                                  changed = false;
+                                  context
+                                      .read<EditExerciseController>()
+                                      .goBack();
+                                },
+                                child: Padding(
+                                  padding: const EdgeInsets.only(
+                                    top: 8,
+                                    bottom: 8,
+                                    left: 16,
+                                    right: 16,
+                                  ),
+                                  child: Text(
+                                    'save',
+                                    style:
+                                        Theme.of(context).textTheme.labelLarge,
+                                  ),
                                 ),
                               ),
                             ),
                             const SizedBox(width: 8),
-                            ElevatedButton(
-                              style: ButtonStyle(
-                                backgroundColor: WidgetStateProperty.all<Color>(
-                                  Theme.of(context).colorScheme.secondary,
-                                ),
-                                alignment: Alignment.center,
-                                overlayColor:
-                                    const WidgetStatePropertyAll<Color>(
-                                  Colors.transparent,
-                                ),
-                                shadowColor:
-                                    const WidgetStatePropertyAll<Color>(
-                                  Colors.transparent,
-                                ),
+                            Container(
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(32),
+                                boxShadow: const [
+                                  BoxShadow(
+                                    blurRadius: 16,
+                                    blurStyle: BlurStyle.outer,
+                                  ),
+                                ],
                               ),
-                              onPressed: () {
-                                titleTextController.dispose();
-                                descriptionTextController.dispose();
-                                materialTextController.dispose();
-                                context.read<EditExerciseController>().goBack();
-                              },
-                              child: Padding(
-                                padding: const EdgeInsets.only(
-                                  top: 8,
-                                  bottom: 8,
-                                  left: 16,
-                                  right: 16,
+                              child: ElevatedButton(
+                                style: ElevatedButton.styleFrom(
+                                  backgroundColor:
+                                      Theme.of(context).colorScheme.onSurface,
                                 ),
-                                child: Text(
-                                  'cancel',
-                                  style: Theme.of(context)
-                                      .textTheme
-                                      .bodyLarge!
-                                      .copyWith(
-                                        color: const Color.fromARGB(
-                                          255,
-                                          40,
-                                          40,
-                                          139,
-                                        ),
-                                      ),
+                                onPressed: () {
+                                  context
+                                      .read<EditExerciseController>()
+                                      .goBack();
+                                  titleTextController.dispose();
+                                  descriptionTextController.dispose();
+                                  materialTextController.dispose();
+                                },
+                                child: Padding(
+                                  padding: const EdgeInsets.only(
+                                    top: 8,
+                                    bottom: 8,
+                                    left: 16,
+                                    right: 16,
+                                  ),
+                                  child: Text(
+                                    'cancel',
+                                    style:
+                                        Theme.of(context).textTheme.labelLarge,
+                                  ),
                                 ),
                               ),
                             ),

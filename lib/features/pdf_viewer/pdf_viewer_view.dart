@@ -13,12 +13,19 @@ class PdfViewerView extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
-          icon: const Icon(Icons.arrow_back),
+          icon: const Icon(
+            Icons.arrow_back,
+            color: Colors.black,
+            size: 32,
+          ),
           onPressed: () {
             context.read<PdfViewerController>().goBack();
           },
         ),
-        title: const Text('Pdf Preview'),
+        title: Text(
+          'Pdf Preview',
+          style: Theme.of(context).textTheme.titleLarge,
+        ),
       ),
       body: BlocBuilder<PdfViewerController, PdfViewerModel>(
         builder: (context, state) {
@@ -51,8 +58,8 @@ class PdfViewerView extends StatelessWidget {
                     )
                   : const CircularProgressIndicator(),
             ),
-            loading: (_) => const CircularProgressIndicator(),
-            empty: (_) => const CircularProgressIndicator(),
+            loading: (_) => const Center(child: CircularProgressIndicator()),
+            empty: (_) => const Center(child: CircularProgressIndicator()),
           );
         },
       ),

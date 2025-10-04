@@ -46,16 +46,12 @@ class TrainingPopup extends StatelessWidget {
               ),
               const SizedBox(height: 16),
               ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Theme.of(context).colorScheme.primary,
-                ),
                 onPressed: () {
                   final value = int.tryParse(durationController.text) ?? 0;
                   final notes = notesController.text;
                   Navigator.of(context).pop((value, notes));
                 },
                 child: const Text(
-                  style: TextStyle(color: Color.fromARGB(255, 40, 40, 139)),
                   'Save',
                 ),
               ),
