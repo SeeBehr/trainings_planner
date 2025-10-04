@@ -6,7 +6,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fpdart/fpdart.dart';
 import 'package:intl/intl.dart';
 import 'package:pdf/widgets.dart' as pw;
-import 'package:pdf/widgets.dart';
 import 'package:trainings_planner/features/home/home_model.dart';
 import 'package:trainings_planner/features/pdf_viewer/pdf_viewer_model.dart';
 import 'package:trainings_planner/repositories/data/interface.dart';
