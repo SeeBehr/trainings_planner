@@ -20,8 +20,10 @@ class ExerciseView extends StatelessWidget {
         ),
         data: (data) {
           try {
-            final exercise = data.collections[data.activeCollection]
-                .groups[data.activeGroup].exercises[data.activeExercise];
+            final exercise = data
+                .collections[data.displayedIndex.collection]
+                .groups[data.displayedIndex.group]
+                .exercises[data.displayedIndex.exercise];
             return ExerciseViewData(exercise: exercise);
           } catch (e) {
             debugPrint('Error in ExerciseView: $e');

@@ -3,12 +3,20 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 part 'home_model.freezed.dart';
 
 @freezed
+class HomeModelIndex with _$HomeModelIndex {
+  factory HomeModelIndex({
+    required int collection,
+    required int group,
+    required int exercise,
+  }) = _HomeModelIndex;
+}
+
+@freezed
 class HomeModel with _$HomeModel {
   factory HomeModel.loading() = HomeModelLoading;
   factory HomeModel.data({
-    required int activeCollection,
-    required int activeGroup,
-    required int activeExercise,
+    required HomeModelIndex activeIndex,
+    required HomeModelIndex displayedIndex,
     required List<HomeModelCollection> collections,
     required int trainingLength,
   }) = HomeModelData;

@@ -24,9 +24,16 @@ class HomeController extends Cubit<HomeModel> {
         const Duration(seconds: 5),
         onTimeout: () {
           return HomeModel.data(
-            activeCollection: -1,
-            activeGroup: -1,
-            activeExercise: -1,
+            displayedIndex: HomeModelIndex(
+              collection: -1,
+              group: -1,
+              exercise: -1,
+            ),
+            activeIndex: HomeModelIndex(
+              collection: -1,
+              group: -1,
+              exercise: -1,
+            ),
             collections: [],
             trainingLength: 0,
           );
@@ -41,7 +48,7 @@ class HomeController extends Cubit<HomeModel> {
   void setActiveExercise({
     required int collectionIndex,
     required int groupIndex,
-    required int exerciseIndex,
+    int? exerciseIndex,
   }) {
     state.maybeMap(
       data: (value) {
@@ -74,10 +81,10 @@ class HomeController extends Cubit<HomeModel> {
     debugPrint('addExercise');
     return state.maybeMap(
       data: (value) {
-        if (value.activeCollection == -1) {
+        if (value.activeIndex.collection == -1) {
           dataRepository.addCollection();
         }
-        if (value.activeGroup == -1) {
+        if (value.activeIndex.group == -1) {
           dataRepository.addGroup();
         }
         dataRepository.addExercise();
@@ -91,7 +98,7 @@ class HomeController extends Cubit<HomeModel> {
     debugPrint('addGroup');
     return state.maybeMap(
       data: (value) {
-        if (value.activeCollection == -1) dataRepository.addCollection();
+        if (value.activeIndex.collection == -1) dataRepository.addCollection();
         dataRepository.addGroup();
         return true;
       },
