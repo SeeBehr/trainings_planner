@@ -51,8 +51,9 @@ class TrainingPopup extends StatelessWidget {
                   final notes = notesController.text;
                   Navigator.of(context).pop((value, notes));
                 },
-                child: const Text(
+                child: Text(
                   'Save',
+                  style: Theme.of(context).textTheme.bodyMedium,
                 ),
               ),
             ],

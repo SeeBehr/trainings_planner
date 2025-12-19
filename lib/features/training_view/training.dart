@@ -50,85 +50,99 @@ class _TrainingViewState extends State<TrainingView> {
                     const Divider(height: 2),
                     ReorderableListView.builder(
                       shrinkWrap: true,
-                      itemBuilder: (context, index) => Row(
+                      itemBuilder: (context, index) => Padding(
                         key: ValueKey(exercises[index].id),
-                        children: [
-                          Expanded(
-                            child: MouseRegion(
-                              onHover: (event) =>
-                                  setState(() => anchorPoint = event.position),
-                              child: GestureDetector(
-                                child: ElevatedButton(
-                                  style: ElevatedButton.styleFrom(
-                                    shape: LinearBorder.none,
-                                  ),
-                                  child: Row(
-                                    children: [
-                                      Text(
-                                        '${exercises[index].training.duration.inMinutes} min',
+                        padding:
+                            const EdgeInsets.only(bottom: 4, left: 4, right: 4),
+                        child: Row(
+                          children: [
+                            Expanded(
+                              child: MouseRegion(
+                                onHover: (event) => setState(
+                                    () => anchorPoint = event.position),
+                                child: GestureDetector(
+                                  child: ElevatedButton(
+                                    style: ElevatedButton.styleFrom(
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(8),
                                       ),
-                                      const SizedBox(width: 12),
-                                      Text(
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .labelLarge,
-                                        exercises[index].name,
+                                    ),
+                                    child: Row(
+                                      children: [
+                                        Text(
+                                          '${exercises[index].training.duration.inMinutes} min',
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .labelLarge,
+                                        ),
+                                        const SizedBox(width: 12),
+                                        Text(
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .labelLarge,
+                                          exercises[index].name,
+                                        ),
+                                      ],
+                                    ),
+                                    onPressed: () => context
+                                        .read<HomeController>()
+                                        .setActiveExercise(
+                                          collectionIndex: exercises[index]
+                                              .training
+                                              .collectionIndex,
+                                          groupIndex: exercises[index]
+                                              .training
+                                              .groupIndex,
+                                          exerciseIndex: exercises[index]
+                                              .training
+                                              .exerciseIndex,
+                                        ),
+                                  ),
+                                  onSecondaryTap: () => showMenu(
+                                    context: context,
+                                    position: RelativeRect.fromLTRB(
+                                      anchorPoint.dx,
+                                      anchorPoint.dy,
+                                      anchorPoint.dx,
+                                      anchorPoint.dy,
+                                    ),
+                                    items: [
+                                      PopupMenuItem<TextButton>(
+                                        child: TextButton(
+                                          onPressed: () => unawaited(
+                                            showCupertinoModalPopup<int>(
+                                              context: context,
+                                              builder: (builder) {
+                                                return TrainingPopup();
+                                              },
+                                            ).then(
+                                              (duration) => duration != null
+                                                  ? context
+                                                      .read<HomeController>()
+                                                      .changeDuration(
+                                                        exercises[index].id,
+                                                        Duration(
+                                                          minutes: duration,
+                                                        ),
+                                                      )
+                                                  : null,
+                                            ),
+                                          ),
+                                          child: Text(
+                                            'change duration',
+                                            style: Theme.of(context)
+                                                .textTheme
+                                                .bodySmall,
+                                          ),
+                                        ),
                                       ),
                                     ],
                                   ),
-                                  onPressed: () => context
-                                      .read<HomeController>()
-                                      .setActiveExercise(
-                                        collectionIndex: exercises[index]
-                                            .training
-                                            .collectionIndex,
-                                        groupIndex: exercises[index]
-                                            .training
-                                            .groupIndex,
-                                        exerciseIndex: exercises[index]
-                                            .training
-                                            .exerciseIndex,
-                                      ),
-                                ),
-                                onSecondaryTap: () => showMenu(
-                                  context: context,
-                                  position: RelativeRect.fromLTRB(
-                                    anchorPoint.dx,
-                                    anchorPoint.dy,
-                                    anchorPoint.dx,
-                                    anchorPoint.dy,
-                                  ),
-                                  items: [
-                                    PopupMenuItem<TextButton>(
-                                      child: TextButton(
-                                        onPressed: () => unawaited(
-                                          showCupertinoModalPopup<int>(
-                                            context: context,
-                                            builder: (builder) {
-                                              return TrainingPopup();
-                                            },
-                                          ).then(
-                                            (duration) => duration != null
-                                                ? context
-                                                    .read<HomeController>()
-                                                    .changeDuration(
-                                                      exercises[index].id,
-                                                      Duration(
-                                                        minutes: duration,
-                                                      ),
-                                                    )
-                                                : null,
-                                          ),
-                                        ),
-                                        child: const Text('change duration'),
-                                      ),
-                                    ),
-                                  ],
                                 ),
                               ),
                             ),
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
                       itemCount: exercises.length,
                       onReorder: (prev, curr) {
