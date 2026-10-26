@@ -4,6 +4,7 @@ import 'package:trainings_planner/features/home/home_model.dart';
 abstract class DataRepository {
   Stream<HomeModel?> get dataStream;
   Future<HomeModel> loadData();
+  Future<HomeModel> loadFromPath(String path);
   Future<void> saveData();
   void saveExercise(EditExerciseModel newExercise);
 

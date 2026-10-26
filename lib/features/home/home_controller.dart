@@ -45,6 +45,33 @@ class HomeController extends Cubit<HomeModel> {
     });
   }
 
+  Future<void> loadData(String path) async {
+    emit(
+      await dataRepository.loadFromPath(path).timeout(
+        const Duration(seconds: 5),
+        onTimeout: () {
+          return HomeModel.data(
+            displayedIndex: HomeModelIndex(
+              collection: -1,
+              group: -1,
+              exercise: -1,
+            ),
+            activeIndex: HomeModelIndex(
+              collection: -1,
+              group: -1,
+              exercise: -1,
+            ),
+            collections: [],
+            trainingLength: 0,
+          );
+        },
+      ).then((value) => value),
+    );
+    _dataSubscription = dataRepository.dataStream.listen((event) {
+      if (event != null) emit(event);
+    });
+  }
+
   void setActiveExercise({
     required int collectionIndex,
     required int groupIndex,

@@ -631,4 +631,36 @@ class DataRepositoryImplementation extends DataRepository {
       orElse: () => data,
     );
   }
+
+  @override
+  Future<HomeModel> loadFromPath(String path) {
+    return persistenceService.loadFromFile(path).then(
+      (value) {
+        final trainingLength = value
+            .flatMap((collection) => collection.groups)
+            .flatMap((group) => group.exercises)
+            .fold(
+              0,
+              (int num, exercise) =>
+                  exercise.training == const Training.none() ? num : num + 1,
+            );
+        data = HomeModel.data(
+          displayedIndex: HomeModelIndex(
+            collection: -1,
+            group: -1,
+            exercise: -1,
+          ),
+          activeIndex: HomeModelIndex(
+            collection: -1,
+            group: -1,
+            exercise: -1,
+          ),
+          collections: value,
+          trainingLength: trainingLength,
+        );
+        _stream.add(data);
+        return data!;
+      },
+    );
+  }
 }

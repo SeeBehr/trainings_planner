@@ -19,6 +19,11 @@ class HivePersistenceService implements PersistenceService {
     return (await _box).values.map(_toHomeModelCollection).toList();
   }
 
+  @override
+  Future<List<HomeModelCollection>> loadFromFile(String path) async {
+    return (await _box).values.map(_toHomeModelCollection).toList();
+  }
+
   HiveCollectionModel _toHiveModelCollection(HomeModelCollection data) {
     return HiveCollectionModel(
       id: data.id,

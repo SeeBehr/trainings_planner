@@ -30,7 +30,7 @@ class PdfViewerController extends Cubit<PdfViewerModel> {
   Future<pw.Document> _generatePdf(List<HomeModelExercise> exercises) async {
     final pdf = pw.Document(
       theme: pw.ThemeData.withFont(
-        base: Font.ttf(await rootBundle.load('assets/timesnewroman.ttf')),
+        base: pw.Font.ttf(await rootBundle.load('assets/timesnewroman.ttf')),
       ),
     )..addPage(
         pw.Page(
